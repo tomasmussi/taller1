@@ -1,0 +1,7 @@
+  CC  p2.o
+p2.c: In function 'main':
+p2.c:10: error: implicit declaration of function 'ztrcpy'
+p2.c:14: error: implicit declaration of function 'malloc'
+cc1: warnings being treated as errors
+p2.c:14: error: incompatible implicit declaration of built-in function 'malloc'
+make: *** [p2.o] Error 1

@@ -1,0 +1,13 @@
+./p3.c:5:  Extra space after ( in function call  [whitespace/parens] [4]
+./p3.c:11:  Extra space after ( in function call  [whitespace/parens] [4]
+./p3.c:11:  Extra space before )  [whitespace/parens] [2]
+./p3.c:11:  Almost always, snprintf is better than strcpy  [runtime/printf] [4]
+./p3.c:12:  Extra space after ( in function call  [whitespace/parens] [4]
+./p3.c:12:  Extra space before )  [whitespace/parens] [2]
+./p3.c:13:  Missing space before ( in if(  [whitespace/parens] [5]
+./p3.c:17:  Missing space before ( in while(  [whitespace/parens] [5]
+./p3.c:20:  Missing space before ( in if(  [whitespace/parens] [5]
+./p3.c:21:  Extra space after ( in function call  [whitespace/parens] [4]
+./p3.c:21:  Extra space before )  [whitespace/parens] [2]
+Done processing ./p3.c
+Total errors found: 11

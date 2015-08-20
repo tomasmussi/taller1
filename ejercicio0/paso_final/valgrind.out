@@ -1,0 +1,34 @@
+==00:00:00:00.000 9092== Memcheck, a memory error detector
+==00:00:00:00.000 9092== Copyright (C) 2002-2011, and GNU GPL'd, by Julian Seward et al.
+==00:00:00:00.000 9092== Using Valgrind-3.7.0 and LibVEX; rerun with -h for copyright info
+==00:00:00:00.000 9092== Command: ./tp
+==00:00:00:00.000 9092== Parent PID: 9091
+==00:00:00:00.000 9092== 
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== FILE DESCRIPTORS: 4 open at exit.
+==00:00:00:00.357 9092== Open file descriptor 3: /home/tomas/repos/taller1/ejercicio0/paso_final/valgrind.out
+==00:00:00:00.357 9092==    <inherited from parent>
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== Open file descriptor 2: /dev/pts/0
+==00:00:00:00.357 9092==    <inherited from parent>
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== Open file descriptor 1: /dev/pts/0
+==00:00:00:00.357 9092==    <inherited from parent>
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== Open file descriptor 0: /home/tomas/repos/taller1/ejercicio0/paso_final/tp.c
+==00:00:00:00.357 9092==    <inherited from parent>
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== HEAP SUMMARY:
+==00:00:00:00.357 9092==     in use at exit: 0 bytes in 0 blocks
+==00:00:00:00.357 9092==   total heap usage: 1 allocs, 1 frees, 4 bytes allocated
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== All heap blocks were freed -- no leaks are possible
+==00:00:00:00.357 9092== 
+==00:00:00:00.357 9092== For counts of detected and suppressed errors, rerun with: -v
+==00:00:00:00.357 9092== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 2 from 2)
+[SERCOM] Summary
+[SERCOM] Command Line: /usr/bin/valgrind --tool=memcheck --trace-children=yes --track-fds=yes --time-stamp=yes --num-callers=20 --error-exitcode=42 --db-attach=no --leak-check=full --leak-resolution=med --log-file=valgrind.out ./tp
+[SERCOM] Error code configured for Valgrind: 42.
+[SERCOM] Valgrind execution result: 0.
+[SERCOM] Valgrind result: Success.
