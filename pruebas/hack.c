@@ -20,6 +20,8 @@ int main(void){
 	}
 	/*printf("Comienzo c:\t %p\n", e.buffer);
 	printf("Siguiente: \t %p\n", e.buffer + 1);
+	printf("Siguiente: \t %p\n", e.buffer + 2);
+	printf("Siguiente: \t %p\n", e.buffer + 3);
 	printf("Comeinzo cookie: %p\n", (void*)& (e.cookie));
 
 	printf("Que pasa si quiero ver que tiene e.buffer: %s\n", e.buffer);
