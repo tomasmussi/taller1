@@ -58,3 +58,23 @@ bool leer_archivo(recorrido_t *recorrido){
 void destruir_recorrido(recorrido_t *recorrido){
 	destruir_lista(&(recorrido->lista));
 }
+
+void computar_distancias(recorrido_t *recorrido, grafo_t *grafo){
+	recorrido->distancia_total = 0;
+	iter_t iterador_anterior_reservado;
+	iter_t iterador_actual_reservado;
+	iter_t *it_anterior = &iterador_anterior_reservado;
+	iter_t *it_actual = &iterador_actual_reservado;
+	crear_iterador(&(recorrido->lista), it_anterior);
+	crear_iterador(&(recorrido->lista), it_actual);
+	bool avanzo = iterador_avanzar(it_actual);
+	if (!avanzo){
+		return;
+	}
+	while (!iterador_al_final(it_actual)){
+		recorrido->distancia_total += obtener_distancia_nodos(grafo, it_nombre(it_anterior), it_nombre(it_actual));
+		iterador_avanzar(it_anterior);
+		iterador_avanzar(it_actual);
+	}
+	printf("dist: %zd\n", recorrido->distancia_total);
+}

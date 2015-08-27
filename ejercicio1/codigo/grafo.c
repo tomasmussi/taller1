@@ -2,10 +2,8 @@
 #include "grafo.h"
 #include <stdlib.h>
 
-
 #define GRAFO_TAMANIO_INICIAL 10
 #define FACTOR_REDIMENSION 2
-
 
 bool redimensionar(grafo_t *grafo);
 lista_t* alocar_lista();
@@ -141,3 +139,19 @@ bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo){
 	return cierre == 0;
 }
 
+size_t obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b){
+	bool encontrado = false;
+	size_t posicion = 0;
+	while (!encontrado && (posicion < grafo->cantidad)){
+		if (strcmp(nodo_a, grafo->vector[posicion]->nombre) == 0){
+			encontrado = true;
+		} else {
+			posicion++;
+		}
+	}
+	size_t distancia = 0;
+	if (encontrado){
+		distancia = buscar_en_lista(grafo->vector[posicion], nodo_b);
+	}
+	return distancia;
+}

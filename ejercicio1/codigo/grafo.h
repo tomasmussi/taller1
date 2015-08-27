@@ -42,4 +42,6 @@ bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, si
 
 bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo);
 
+size_t obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b);
+
 #endif // GRAFO_H

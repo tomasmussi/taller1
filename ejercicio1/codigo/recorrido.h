@@ -2,6 +2,7 @@
 
 #define RECORRIDO_H
 #include "lista.h"
+#include "grafo.h"
 #include <stdlib.h>
 #define MAX_CARACTERES_ARCHIVO 51
 #define MAX_CARACTERES_NODO 21
@@ -29,8 +30,13 @@ void crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo);
  * */
 void destruir_recorrido(recorrido_t *recorrido);
 
-
-
+/**
+ * Recibe el grafo con todas las tuberias para poder pedirle las distancias
+ * del recorrido de los nodos.
+ * PRE: el grafo y el recorrido fueron creados
+ * POST: el recorrido ahora tiene la distancia total del recorrido
+ * */
+void computar_distancias(recorrido_t *recorrido, grafo_t *grafo);
 
 
 #endif // RECORRIDO_H
