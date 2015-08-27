@@ -34,9 +34,9 @@ void destruir_grafo(grafo_t *grafo){
  * Hay que agregar las relaciones a->b y b->a que son iguales, lo separo en otra funcion
  * */
 bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, size_t metros){
-	agregar_relacion_dirigida(grafo, nodo_a, nodo_b, metros);
-	agregar_relacion_dirigida(grafo, nodo_b, nodo_a, metros);
-	return true;
+	bool r1 = agregar_relacion_dirigida(grafo, nodo_a, nodo_b, metros);
+	bool r2 = agregar_relacion_dirigida(grafo, nodo_b, nodo_a, metros);
+	return r1 && r2;
 }
 
 
@@ -89,5 +89,55 @@ lista_t* alocar_lista(){
 
 void desalocar_lista(lista_t *lista){
 	free(lista);
+}
+
+static void leer_elemento(FILE *fp, char *elemento){
+	int c = fgetc(fp);
+	int posicion = 0;
+	while (c != ',' && c != '\n' && c != EOF && posicion < MAX_CARACTERES_NODO){
+		elemento[posicion] = c;
+		posicion++;
+		c = fgetc(fp);
+	}
+	if (posicion == MAX_CARACTERES_NODO){
+		while (c != ',' && c != '\n' && c != EOF){
+			c = fgetc(fp);
+		}
+		elemento[posicion - 1] = '\0';
+	}
+	elemento[posicion] = '\0';
+}
+
+bool valores_validos(const char *elemento1, const char *elemento2, const char *elemento3){
+	return strlen(elemento1) > 0 && strlen(elemento2) > 0 && strlen(elemento3) > 0;
+}
+
+bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo){
+	FILE *fp = fopen(nombre_archivo, "r");
+	if (fp == NULL){
+		fprintf(stderr, "Archivo invalido\n");
+		return false;
+	}
+	char nombre_a[MAX_CARACTERES_NODO];
+	char nombre_b[MAX_CARACTERES_NODO];
+	char distancia[MAX_CARACTERES_NODO];
+	nombre_a[0] = '\0';
+	nombre_b[0] = '\0';
+	distancia[0] = '\0';
+	while(! feof(fp)){
+		leer_elemento(fp, nombre_a);
+		leer_elemento(fp, distancia);
+		leer_elemento(fp, nombre_b);
+		size_t distancia_entero = atoi(distancia);
+		if (valores_validos(nombre_a, nombre_b, distancia)){
+			printf("%s <-> %s. Distancia: %zd\n", nombre_a, nombre_b, distancia_entero);
+			agregar_relacion(grafo, nombre_a, nombre_b, distancia_entero);
+		}
+	}
+	int cierre = fclose(fp);
+	if (cierre){
+		fprintf(stderr, "ERROR AL CERRAR ARCHIVO DE RECORRIDO\n");
+	}
+	return cierre == 0;
 }
 

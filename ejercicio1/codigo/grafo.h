@@ -32,13 +32,14 @@ void destruir_grafo(grafo_t *grafo);
 
 /**
  * Agrega un conexion entre 2 nodos
+ * TODO: TAL VEZ DEBERIA SER PRIVADO, TOTAL LO QUE IMPORTA ES QUE SE LEA EL ARCHIVO
+ * Y EL GRAFO SE ARME INTERNAMENTE USANDO ESTA FUNCION
  * PRE: el grafo fue creado
  * POST: relacion agregada entre a->b y b->a con la cantidad de metros especificada
  * */
 bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, size_t metros);
 
 
-
-
+bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo);
 
 #endif // GRAFO_H
