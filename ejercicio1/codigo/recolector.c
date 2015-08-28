@@ -7,6 +7,8 @@
 
 #define BYTES_VELOCIDAD 4
 #define BYTES_MEDICION 2
+#define SEGUNDOS_EN_MINUTO 60
+#define MASCARA_EOF 0xFFFF
 
 bool procesar_archivo(recolector_t *recolector, const char *nombre_archivo);
 
@@ -34,14 +36,18 @@ bool procesar_archivo(recolector_t *recolector, const char *nombre_archivo){
 	recolector->velocidad_sensado = parsear_numero(fp, BYTES_VELOCIDAD);
 	recolector->cantidad_sensores = parsear_numero(fp, BYTES_VELOCIDAD);
 	generar_sensores(recolector);
-	size_t cantidad = 0;
+	uint32_t cantidad = 0;
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
-		tomar_medicion(recolector->sensores[cantidad % recolector->cantidad_sensores], medicion);
-		if (medicion != EOF){
+		if (medicion != MASCARA_EOF){
+			if (tomar_medicion(recolector->sensores[cantidad % recolector->cantidad_sensores], medicion)){
+				double punto = ((cantidad - 5) * (double)recolector->velocidad_fluido) / (recolector->velocidad_sensado * SEGUNDOS_EN_MINUTO);
+				printf("En el punto: %.2f hay algo\n", punto);
+			}
 			cantidad++;
 		}
 	}
+	printf("Total: %d\n", cantidad);
 	return fclose(fp) == 0;
 }
 

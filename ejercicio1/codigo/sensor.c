@@ -4,10 +4,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-//#define TOPE_CORROSION 0x00A0
-//#define TOPE_RUPTURA 0x00FF
-#define TOPE_CORROSION 160
-#define TOPE_RUPTURA 255
+#define TOPE_CORROSION 0x00A0
+#define TOPE_RUPTURA 0x00FF
 
 sensor_t* crear_sensor(size_t umbral_muestras){
 	sensor_t *sensor = malloc(sizeof(sensor_t));
@@ -25,16 +23,21 @@ void destruir_sensor(sensor_t *sensor){
 }
 
 
-void tomar_medicion(sensor_t *sensor, uint32_t medicion){
-	if (medicion >= TOPE_CORROSION){
+bool tomar_medicion(sensor_t *sensor, uint32_t medicion){
+	if (medicion >= TOPE_CORROSION && medicion <= TOPE_RUPTURA){
 		sensor->contador_corrosion++;
+		return false;
 	} else if (medicion > TOPE_RUPTURA){
 		printf("RUPTURA\n");
+		return true;
 	} else {
+		bool problema = false;
 		if (sensor->contador_corrosion >= sensor->muestras_corrosion){
 			printf("CORROSION\n");
+			problema = true;
 		}
 		sensor->contador_corrosion = 0;
+		return problema;
 	}
 }
 

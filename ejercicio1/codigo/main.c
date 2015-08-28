@@ -65,10 +65,9 @@ void ejecutar(const char *mediciones, const char *tuberias, const char *recorrid
 
 	crear_recorrido(recorrido, recorrido_archivo);
 	crear_grafo(grafo, tuberias);
-	armar_grafo_archivo(grafo, tuberias);
-
 	crear_recolector(recolector, mediciones);
-
+	computar_distancias(recorrido, grafo);
+	printf("Recorrido segun archivo: %zd\n", recorrido->distancia_total);
 
 	destruir_recorrido(recorrido);
 	destruir_grafo(grafo);
