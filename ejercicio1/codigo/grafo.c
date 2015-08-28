@@ -128,7 +128,6 @@ bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo){
 		leer_elemento(fp, nombre_b);
 		size_t distancia_entero = atoi(distancia);
 		if (valores_validos(nombre_a, nombre_b, distancia)){
-			printf("%s <-> %s. Distancia: %zd\n", nombre_a, nombre_b, distancia_entero);
 			agregar_relacion(grafo, nombre_a, nombre_b, distancia_entero);
 		}
 	}

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "grafo.h"
 #include "recorrido.h"
+#include "recolector.h"
 
 #define CANTIDAD_ARCHIVOS 4
 
@@ -47,16 +48,25 @@ void prueba_grafo_recorrido(const char *tuberias, const char *recorrido_archivo)
 	destruir_grafo(grafo);
 }
 
+void prueba_recolector(const char *datos_recolectados){
+	recolector_t recolector_reservado;
+	recolector_t *recolector = &recolector_reservado;
+	crear_recolector(recolector, datos_recolectados);
+
+	destruir_recolector(recolector);
+}
+
 int main(int argc, char *argv[]){
-	/*if (argc != CANTIDAD_ARCHIVOS){
-		printf("Error, cantidad de archivos invalida\n");
+	if (argc != CANTIDAD_ARCHIVOS){
+		fprintf(stderr, "Error, cantidad de archivos invalida\n");
 		return 1;
 	}
-	*/
+
 	prueba_grafo();
 	prueba_grafo_archivo(argv[2]);
 	prueba_recorrido(argv[3]);
 	prueba_grafo_recorrido(argv[2], argv[3]);
+	prueba_recolector(argv[1]);
 	return 0;
 }
 

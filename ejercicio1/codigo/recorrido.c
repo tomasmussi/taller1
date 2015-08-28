@@ -43,7 +43,6 @@ bool leer_archivo(recorrido_t *recorrido){
 	while(! feof(fp)){
 		leer_elemento(fp, nombre_nodo);
 		if (strlen(nombre_nodo) > 0){
-			printf("NODO: %s\n", nombre_nodo);
 			agregar_relacion_lista(&(recorrido->lista), nombre_nodo, 0);
 		}
 	}
@@ -76,5 +75,4 @@ void computar_distancias(recorrido_t *recorrido, grafo_t *grafo){
 		iterador_avanzar(it_anterior);
 		iterador_avanzar(it_actual);
 	}
-	printf("dist: %zd\n", recorrido->distancia_total);
 }
