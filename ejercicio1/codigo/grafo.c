@@ -10,7 +10,7 @@ lista_t* alocar_lista();
 void desalocar_lista(lista_t *lista);
 bool agregar_relacion_dirigida();
 
-void crear_grafo(grafo_t *grafo){
+void crear_grafo(grafo_t *grafo, const char *tuberias){
 	grafo->vector = calloc(GRAFO_TAMANIO_INICIAL, sizeof(lista_t));
 	if (grafo->vector == NULL){
 		fprintf(stderr, "SIN MEMORIA EN CREAR GRAFO\n");
@@ -18,6 +18,7 @@ void crear_grafo(grafo_t *grafo){
 	}
 	grafo->cantidad = 0;
 	grafo->tamanio = GRAFO_TAMANIO_INICIAL;
+	armar_grafo_archivo(grafo, tuberias);
 }
 
 void destruir_grafo(grafo_t *grafo){
@@ -110,8 +111,8 @@ bool valores_validos(const char *elemento1, const char *elemento2, const char *e
 	return strlen(elemento1) > 0 && strlen(elemento2) > 0 && strlen(elemento3) > 0;
 }
 
-bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo){
-	FILE *fp = fopen(nombre_archivo, "r");
+bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
+	FILE *fp = fopen(tuberias, "r");
 	if (fp == NULL){
 		fprintf(stderr, "Archivo invalido\n");
 		return false;

@@ -21,7 +21,7 @@ typedef struct grafo {
  * PRE: grafo es una direccion de memoria valida
  * POST: grafo inicializado y listo para agregar nodos
  * */
-void crear_grafo(grafo_t *grafo);
+void crear_grafo(grafo_t *grafo, const char *tuberias);
 
 /**
  * Destruye el grafo
@@ -38,7 +38,6 @@ void destruir_grafo(grafo_t *grafo);
  * POST: relacion agregada entre a->b y b->a con la cantidad de metros especificada
  * */
 bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, size_t metros);
-
 
 bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo);
 
