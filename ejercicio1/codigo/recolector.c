@@ -49,10 +49,20 @@ bool procesar_archivo(recolector_t *recolector){
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
 		if (medicion != MASCARA_EOF){
-			if (tomar_medicion(recolector->sensores[cantidad % recolector->cantidad_sensores], medicion, cantidad)){
+			/*if (cantidad % recolector->cantidad_sensores == 0){
+				printf("Sensor[%d], muestra: %x, medicion numero: %d\n",cantidad % recolector->cantidad_sensores, medicion, (cantidad / recolector->cantidad_sensores) + 1);
+			}*/
+			if (tomar_medicion(recolector->sensores[cantidad % recolector->cantidad_sensores], medicion, (cantidad / recolector->cantidad_sensores) + 1)){
 				falla_t *falla = obtener_falla(recolector->sensores[cantidad % recolector->cantidad_sensores]);
-				double punto = ((cantidad - falla->mediciones + 1) * (double)recolector->velocidad_fluido) / (recolector->velocidad_sensado * SEGUNDOS_EN_MINUTO);
+				double punto = (falla->mediciones * (double)recolector->velocidad_fluido) / (recolector->velocidad_sensado * SEGUNDOS_EN_MINUTO);
 				falla->punto_recorrido = punto;
+				/*if (cantidad % recolector->cantidad_sensores == 0){
+					printf("Cantidad: %d\n", cantidad);
+					printf("Falla mediciones: %zd\n", falla->mediciones);
+					printf("Div: %d\n", (cantidad / recolector->cantidad_sensores));
+					printf("CUENTA: (%zd  * %d)   /  (%d * %d)\n", (cantidad - falla->mediciones + 1), recolector->velocidad_fluido, recolector->velocidad_sensado, SEGUNDOS_EN_MINUTO);
+					printf("El punto del recorrido que se origina la falla es: %.2f\n", punto);
+				}*/
 				cola_encolar(recolector->fallas, falla);
 			}
 			cantidad++;
