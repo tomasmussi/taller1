@@ -20,7 +20,8 @@ typedef struct recolector {
 	cola_t *fallas;
 } recolector_t;
 
-void crear_recolector(recolector_t *recolector, const char *nombre_archivo, size_t recorrido_distancia);
+void crear_recolector(recolector_t *recolector, const char *nombre_archivo, 
+		size_t recorrido_distancia);
 
 void destruir_recolector(recolector_t *recolector);
 

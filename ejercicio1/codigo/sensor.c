@@ -31,8 +31,11 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 	} else {
 		bool problema = false;
 		if (sensor->contador_corrosion >= sensor->muestras_corrosion){
-			//printf("Finaliza en numero muestra: %zd habiendo comenzado hace %zd muestras\n", numero_muestra,sensor->contador_corrosion);
-			sensor->ultima_falla = crear_falla("CORROSION", numero_muestra - sensor->contador_corrosion);
+			/*printf("Finaliza en numero muestra: %zd habiendo comenzado
+			 hace %zd muestras\n", 
+			 numero_muestra,sensor->contador_corrosion);*/
+			 size_t origen = numero_muestra - sensor->contador_corrosion;
+			sensor->ultima_falla = crear_falla("CORROSION", origen);
 			problema = true;
 		}
 		sensor->contador_corrosion = 0;

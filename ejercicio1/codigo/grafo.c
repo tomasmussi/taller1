@@ -32,14 +32,16 @@ void destruir_grafo(grafo_t *grafo){
 /**
  * Hay que agregar las relaciones a->b y b->a que son iguales, lo separo en otra funcion
  * */
-bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, double metros){
+bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, 
+		double metros){
 	bool r1 = agregar_relacion_dirigida(grafo, nodo_a, nodo_b, metros);
 	bool r2 = agregar_relacion_dirigida(grafo, nodo_b, nodo_a, metros);
 	return r1 && r2;
 }
 
 
-bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, const char *destino, double metros){
+bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, 
+		const char *destino, double metros){
 	// Busco el origen en el vector de listas
 	bool encontrado = false;
 	size_t posicion = 0;
@@ -67,7 +69,8 @@ bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, const char *d
 }
 
 bool redimensionar(grafo_t *grafo){
-	lista_t **nuevo_vector = realloc(grafo->vector, FACTOR_REDIMENSION * grafo->tamanio);
+	lista_t **nuevo_vector = realloc(grafo->vector, 
+			FACTOR_REDIMENSION * grafo->tamanio);
 	if (nuevo_vector == NULL){
 		fprintf(stderr, "NO SE PUDO REDIMENSIONAR EL GRAFO\n");
 		return false;
@@ -107,8 +110,10 @@ static void leer_elemento(FILE *fp, char *elemento){
 	elemento[posicion] = '\0';
 }
 
-bool valores_validos(const char *elemento1, const char *elemento2, const char *elemento3){
-	return strlen(elemento1) > 0 && strlen(elemento2) > 0 && strlen(elemento3) > 0;
+bool valores_validos(const char *elemento1, const char *elemento2, 
+		const char *elemento3){
+	return strlen(elemento1) > 0 && strlen(elemento2) > 0 && 
+		strlen(elemento3) > 0;
 }
 
 bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
@@ -139,7 +144,8 @@ bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
 	return cierre == 0;
 }
 
-double obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b){
+double obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, 
+		const char *nodo_b){
 	bool encontrado = false;
 	size_t posicion = 0;
 	while (!encontrado && (posicion < grafo->cantidad)){

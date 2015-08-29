@@ -1,5 +1,3 @@
-
-
 #include "recorrido.h"
 
 #include <stdio.h>
@@ -72,7 +70,8 @@ void computar_distancias(recorrido_t *recorrido, grafo_t *grafo){
 		return;
 	}
 	while (!iterador_al_final(it_actual)){
-		recorrido->distancia_total += obtener_distancia_nodos(grafo, it_nombre(it_anterior), it_nombre(it_actual));
+		recorrido->distancia_total += obtener_distancia_nodos(grafo, 
+				it_nombre(it_anterior), it_nombre(it_actual));
 		iterador_avanzar(it_anterior);
 		iterador_avanzar(it_actual);
 	}
@@ -92,7 +91,8 @@ void reportar_falla(recorrido_t *recorrido, grafo_t *grafo, falla_t *falla){
 	}
 	bool reportado = false;
 	while (!iterador_al_final(it_actual) && !reportado){
-		double tramo = obtener_distancia_nodos(grafo, it_nombre(it_anterior), it_nombre(it_actual));
+		double tramo = obtener_distancia_nodos(grafo, 
+				it_nombre(it_anterior), it_nombre(it_actual));
 		if (tramo > punto){
 			printf("%s %s->%s (%.2fm)\n", falla->tipo, 
 										it_nombre(it_anterior), 

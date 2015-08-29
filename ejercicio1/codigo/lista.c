@@ -47,7 +47,8 @@ void destruir_lista(lista_t *lista){
 	}
 }
 
-bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo, double metros){
+bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo, 
+		double metros){
 	nodo_t *nodo = origen->primero;
 	if (nodo == NULL){
 		nodo = crear_nodo(otro_nodo, metros);

@@ -34,7 +34,8 @@ void prueba_recorrido(const char *archivo){
 	destruir_recorrido(recorrido);
 }
 
-void prueba_grafo_recorrido(const char *tuberias, const char *recorrido_archivo){
+void prueba_grafo_recorrido(const char *tuberias, 
+		const char *recorrido_archivo){
 	grafo_t grafo_reservado;
 	grafo_t *grafo = &grafo_reservado;
 	recorrido_t recorrido_reservado;
@@ -56,7 +57,8 @@ void prueba_recolector(const char *datos_recolectados){
 	destruir_recolector(recolector);
 }
 
-bool ejecutar(const char *mediciones, const char *tuberias, const char *recorrido_archivo){
+bool ejecutar(const char *mediciones, const char *tuberias, 
+		const char *recorrido_archivo){
 	recolector_t recolector_reservado;
 	recolector_t *recolector = &recolector_reservado;
 	grafo_t grafo_reservado;
