@@ -39,7 +39,7 @@ void destruir_lista(lista_t *lista);
  * PRE: lista es un puntero a una estructura valida
  * POST: nodos desde origen a destino conectados (Recordar hacer la otra conexion)
  */
-bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo, size_t metros);
+bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo, double metros);
 
 size_t buscar_en_lista(lista_t *lista, const char *nodo_destino);
 

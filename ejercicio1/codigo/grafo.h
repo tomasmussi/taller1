@@ -37,10 +37,10 @@ void destruir_grafo(grafo_t *grafo);
  * PRE: el grafo fue creado
  * POST: relacion agregada entre a->b y b->a con la cantidad de metros especificada
  * */
-bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, size_t metros);
+bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, double metros);
 
 bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo);
 
-size_t obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b);
+double obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b);
 
 #endif // GRAFO_H

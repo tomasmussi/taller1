@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include "sensor.h"
+#include "cola.h"
 
 #define MAX_CARACTERES_ARCHIVO 51
 
@@ -14,12 +15,15 @@ typedef struct recolector {
 	uint32_t velocidad_fluido;
 	uint32_t velocidad_sensado;
 	uint32_t cantidad_sensores;
+	size_t mediciones_esperadas;
+	size_t recorrido_distancia;
+	cola_t *fallas;
 } recolector_t;
 
-void crear_recolector(recolector_t *recolector, const char *nombre_archivo);
+void crear_recolector(recolector_t *recolector, const char *nombre_archivo, size_t recorrido_distancia);
 
 void destruir_recolector(recolector_t *recolector);
 
-
+bool procesar_archivo(recolector_t *recolector);
 
 #endif //RECOLECTOR_H

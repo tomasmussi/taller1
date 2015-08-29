@@ -32,14 +32,14 @@ void destruir_grafo(grafo_t *grafo){
 /**
  * Hay que agregar las relaciones a->b y b->a que son iguales, lo separo en otra funcion
  * */
-bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, size_t metros){
+bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, double metros){
 	bool r1 = agregar_relacion_dirigida(grafo, nodo_a, nodo_b, metros);
 	bool r2 = agregar_relacion_dirigida(grafo, nodo_b, nodo_a, metros);
 	return r1 && r2;
 }
 
 
-bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, const char *destino, size_t metros){
+bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, const char *destino, double metros){
 	// Busco el origen en el vector de listas
 	bool encontrado = false;
 	size_t posicion = 0;
@@ -127,9 +127,9 @@ bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
 		leer_elemento(fp, nombre_a);
 		leer_elemento(fp, distancia);
 		leer_elemento(fp, nombre_b);
-		size_t distancia_entero = atoi(distancia);
+		double distancia_real = atof(distancia);
 		if (valores_validos(nombre_a, nombre_b, distancia)){
-			agregar_relacion(grafo, nombre_a, nombre_b, distancia_entero);
+			agregar_relacion(grafo, nombre_a, nombre_b, distancia_real);
 		}
 	}
 	int cierre = fclose(fp);
@@ -139,7 +139,7 @@ bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
 	return cierre == 0;
 }
 
-size_t obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b){
+double obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, const char *nodo_b){
 	bool encontrado = false;
 	size_t posicion = 0;
 	while (!encontrado && (posicion < grafo->cantidad)){

@@ -1,6 +1,7 @@
 
 
 #include "recorrido.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -76,3 +77,41 @@ void computar_distancias(recorrido_t *recorrido, grafo_t *grafo){
 		iterador_avanzar(it_actual);
 	}
 }
+
+void reportar_falla(recorrido_t *recorrido, grafo_t *grafo, falla_t *falla){
+	double punto = falla->punto_recorrido;
+	iter_t iterador_anterior_reservado;
+	iter_t iterador_actual_reservado;
+	iter_t *it_anterior = &iterador_anterior_reservado;
+	iter_t *it_actual = &iterador_actual_reservado;
+	crear_iterador(&(recorrido->lista), it_anterior);
+	crear_iterador(&(recorrido->lista), it_actual);
+	bool avanzo = iterador_avanzar(it_actual);
+	if (!avanzo){
+		return;
+	}
+	bool reportado = false;
+	while (!iterador_al_final(it_actual) && !reportado){
+		double tramo = obtener_distancia_nodos(grafo, it_nombre(it_anterior), it_nombre(it_actual));
+		if (tramo > punto){
+			printf("%s %s->%s (%.2fm)\n", falla->tipo, 
+										it_nombre(it_anterior), 
+										it_nombre(it_actual),
+										punto);
+			reportado = true;
+		} else {
+			punto -= tramo;
+		}
+		iterador_avanzar(it_anterior);
+		iterador_avanzar(it_actual);
+	}
+}
+
+void informar_fallas(recorrido_t *recorrido, grafo_t *grafo, cola_t *cola){
+	while(! cola_esta_vacia(cola)){
+		falla_t *falla = cola_desencolar(cola);
+		reportar_falla(recorrido, grafo, falla);
+		destruir_falla(falla);
+	}
+}
+

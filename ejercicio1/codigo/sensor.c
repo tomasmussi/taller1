@@ -1,8 +1,7 @@
 
 #include "sensor.h"
+
 #include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
 
 #define TOPE_CORROSION 0x00A0
 #define TOPE_RUPTURA 0x00FF
@@ -22,18 +21,17 @@ void destruir_sensor(sensor_t *sensor){
 	free(sensor);
 }
 
-
-bool tomar_medicion(sensor_t *sensor, uint32_t medicion){
+bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 	if (medicion >= TOPE_CORROSION && medicion <= TOPE_RUPTURA){
 		sensor->contador_corrosion++;
 		return false;
 	} else if (medicion > TOPE_RUPTURA){
-		printf("RUPTURA\n");
+		sensor->ultima_falla = crear_falla("RUPTURA", 0);
 		return true;
 	} else {
 		bool problema = false;
 		if (sensor->contador_corrosion >= sensor->muestras_corrosion){
-			printf("CORROSION\n");
+			sensor->ultima_falla = crear_falla("CORROSION", numero_muestra - sensor->contador_corrosion);
 			problema = true;
 		}
 		sensor->contador_corrosion = 0;
@@ -41,3 +39,8 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion){
 	}
 }
 
+falla_t* obtener_falla(sensor_t *sensor){
+	falla_t *falla = sensor->ultima_falla;
+	sensor->ultima_falla = NULL;
+	return falla;
+}

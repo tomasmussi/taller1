@@ -7,12 +7,12 @@
 struct nodo {
 	char nombre[MAX_CARACTERES_NODO];
 	struct nodo *siguiente;
-	size_t metros;
+	double metros;
 };
 
-nodo_t* crear_nodo(const char *nombre, size_t metros);
+nodo_t* crear_nodo(const char *nombre, double metros);
 
-nodo_t* crear_nodo(const char *nombre, size_t metros){
+nodo_t* crear_nodo(const char *nombre, double metros){
 	nodo_t *nodo = malloc(sizeof(nodo_t));
 	if (nodo == NULL){
 		fprintf(stderr, "SIN MEMORIA EN CREAR NODO\n");
@@ -47,7 +47,7 @@ void destruir_lista(lista_t *lista){
 	}
 }
 
-bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo, size_t metros){
+bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo, double metros){
 	nodo_t *nodo = origen->primero;
 	if (nodo == NULL){
 		nodo = crear_nodo(otro_nodo, metros);

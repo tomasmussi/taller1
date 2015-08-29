@@ -48,14 +48,15 @@ void prueba_grafo_recorrido(const char *tuberias, const char *recorrido_archivo)
 	destruir_grafo(grafo);
 }
 
+
 void prueba_recolector(const char *datos_recolectados){
 	recolector_t recolector_reservado;
 	recolector_t *recolector = &recolector_reservado;
-	crear_recolector(recolector, datos_recolectados);
+	crear_recolector(recolector, datos_recolectados, 4);
 	destruir_recolector(recolector);
 }
 
-void ejecutar(const char *mediciones, const char *tuberias, const char *recorrido_archivo){
+bool ejecutar(const char *mediciones, const char *tuberias, const char *recorrido_archivo){
 	recolector_t recolector_reservado;
 	recolector_t *recolector = &recolector_reservado;
 	grafo_t grafo_reservado;
@@ -65,13 +66,15 @@ void ejecutar(const char *mediciones, const char *tuberias, const char *recorrid
 
 	crear_recorrido(recorrido, recorrido_archivo);
 	crear_grafo(grafo, tuberias);
-	crear_recolector(recolector, mediciones);
 	computar_distancias(recorrido, grafo);
-	printf("Recorrido segun archivo: %zd\n", recorrido->distancia_total);
+	crear_recolector(recolector, mediciones, recorrido->distancia_total);
+	bool error = procesar_archivo(recolector);	
+	informar_fallas(recorrido, grafo, recolector->fallas);
 
 	destruir_recorrido(recorrido);
 	destruir_grafo(grafo);
 	destruir_recolector(recolector);
+	return error;
 }
 
 int main(int argc, char *argv[]){
@@ -85,7 +88,7 @@ int main(int argc, char *argv[]){
 	prueba_recorrido(argv[3]);
 	prueba_grafo_recorrido(argv[2], argv[3]);
 	prueba_recolector(argv[1]);*/
-	ejecutar(argv[1], argv[2], argv[3]);
-	return 0;
+	bool resultado = ejecutar(argv[1], argv[2], argv[3]);
+	return resultado ? 1 : 0;
 }
 
