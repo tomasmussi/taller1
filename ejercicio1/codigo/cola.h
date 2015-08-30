@@ -27,7 +27,7 @@ cola_t* cola_crear();
  * destruir los datos de la cola, o NULL en caso de que no se la utilice
  * Post: se eliminaron todos los elementos de la cola.
  **/
-void cola_destruir(cola_t *cola, void destruir_dato(void*));
+void cola_destruir(cola_t *cola);
 
 /**
  * Devuelve verdadero o false, segun si la cola tiene o no elementos

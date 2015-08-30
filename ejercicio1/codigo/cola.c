@@ -48,13 +48,10 @@ cola_t* cola_crear(){
 	return cola;
 }
 
-void cola_destruir(cola_t *cola, void destruir_dato(void*)){
+void cola_destruir(cola_t *cola){
 	if (!cola_esta_vacia(cola)){
 		nodo_t *nodo = cola->primero;
 		while (nodo != NULL){
-			if (destruir_dato != NULL){
-				destruir_dato(nodo->dato);
-			}
 			void *siguiente = nodo->siguiente;
 			nodo_destruir(nodo);
 			nodo = siguiente;

@@ -121,7 +121,7 @@ void destruir_recolector(recolector_t *recolector){
 		 destruir_sensor(recolector->sensores[posicion]);
 	}
 	free(recolector->sensores);
-	cola_destruir(recolector->fallas, NULL);
+	cola_destruir(recolector->fallas);
 }
 
 
