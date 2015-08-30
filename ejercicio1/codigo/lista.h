@@ -5,9 +5,7 @@
 #include <stdlib.h>
 
 // Caracteres del nombre del nodo de una tuberia
-//#ifndef MAX_CARACTERES_NODO
-	#define MAX_CARACTERES_NODO 21
-//#endif
+#define MAX_CARACTERES_NODO 21
 
 typedef struct nodo nodo_t;
 
@@ -44,17 +42,32 @@ bool agregar_relacion_lista(lista_t *origen, const char *otro_nodo,
 
 size_t buscar_en_lista(lista_t *lista, const char *nodo_destino);
 
+/** Primitivas del iterador de lista para buscar elementos */
 
+/**
+ * Crea un iterador que apunta al primer elemento de la lista
+ * */
 void crear_iterador(lista_t *lista, iter_t *it);
 
+/**
+ * Informa si el iterador esta al final de la lista
+ * */
 bool iterador_al_final(const iter_t *it);
 
-char* iterador_ver_actual(const iter_t *it);
-
+/**
+ * Avanza hacia el siguiente elemento. Si avanzo al siguiente devuelve true.
+ * Si ya estaba al final de la lista, devuelve false.
+ * */
 bool iterador_avanzar(iter_t *it);
 
+/**
+ * Destruye el iterador para que no se pueda utilizar mas.
+ * */
 void destruir_iterador(iter_t *it);
 
+/**
+ * Devuelve el nombre del nodo actual de la lista
+ * */
 const char* it_nombre(iter_t *it);
 
 #endif // LISTA_H

@@ -14,7 +14,6 @@ typedef struct grafo {
 	size_t tamanio;
 } grafo_t;
 
-
 /**
  * Crea el grafo. Es un grafo no dirigido y pesado (con las distancias
  * que separan nodos como pesos)
@@ -31,17 +30,20 @@ void crear_grafo(grafo_t *grafo, const char *tuberias);
 void destruir_grafo(grafo_t *grafo);
 
 /**
- * Agrega un conexion entre 2 nodos
- * TODO: TAL VEZ DEBERIA SER PRIVADO, TOTAL LO QUE IMPORTA ES QUE SE LEA EL ARCHIVO
- * Y EL GRAFO SE ARME INTERNAMENTE USANDO ESTA FUNCION
- * PRE: el grafo fue creado
- * POST: relacion agregada entre a->b y b->a con la cantidad de metros especificada
+ * Lee el archivo "nombre_archivo" y crea el grafo desde ahi.
+ * El archivo tiene el formato: nodo1,distancia,nodo2.
+ * Ej: A,400,B
+ * PRE: grafo apunta a una estructura valida
+ * POST: el grafo tiene cargadas todas las direcciones
  * */
-bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, 
-		double metros);
-
 bool armar_grafo_archivo(grafo_t *grafo, const char *nombre_archivo);
 
+/**
+ * Obtiene la distancia que separa dos nodos.
+ * PRE: grafo apunta a una estructura valida
+ * POST: devuelve la distancia que separa a los nodos. Si no existe la relacion
+ * devuelve 0.
+ * */
 double obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, 
 		const char *nodo_b);
 

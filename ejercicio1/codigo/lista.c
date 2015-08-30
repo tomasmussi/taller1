@@ -85,10 +85,6 @@ bool iterador_al_final(const iter_t *it){
 	return (it->actual == NULL);
 }
 
-char* iterador_ver_actual(const iter_t *it){
-	return iterador_al_final(it) ? NULL : it->actual->nombre;
-}
-
 bool iterador_avanzar(iter_t *it){
 	if (!iterador_al_final(it)) {
 		it->anterior = it->actual;

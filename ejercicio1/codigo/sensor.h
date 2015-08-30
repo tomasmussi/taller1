@@ -8,8 +8,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define TRAMO_INFORME_METROS 5
-
 typedef struct sensor {
 	size_t muestras_corrosion;
 	size_t contador_corrosion;

@@ -38,7 +38,7 @@ void nodo_destruir(nodo_t *nodo){
 	free((void*)nodo);
 }
 
-cola_t* cola_crear(){
+cola_t* crear_cola(){
 	cola_t *cola = malloc(sizeof(cola_t));
 	if (cola == NULL){
 		return NULL;
@@ -48,7 +48,7 @@ cola_t* cola_crear(){
 	return cola;
 }
 
-void cola_destruir(cola_t *cola){
+void destruir_cola(cola_t *cola){
 	if (!cola_esta_vacia(cola)){
 		nodo_t *nodo = cola->primero;
 		while (nodo != NULL){
@@ -78,10 +78,6 @@ bool cola_encolar(cola_t *cola, void* valor){
 		cola->ultimo = nodo;
 	}
 	return true;
-}
-
-void* cola_ver_primero(const cola_t *cola){
-	return !cola_esta_vacia(cola) ? cola->primero->dato : NULL;
 }
 
 void* cola_desencolar(cola_t *cola){

@@ -4,30 +4,20 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-/* ******************************************************************
- *                DEFINICION DE LOS TIPOS DE DATOS
- * *****************************************************************/
-
 typedef struct cola cola_t;
-
-/* ******************************************************************
- *                    PRIMITIVAS DE LA COLA
- * *****************************************************************/
 
 /**
  * Crea una cola.
  * Post: devuelve una cola vacia
  * */
-cola_t* cola_crear();
+cola_t* crear_cola();
 
-/** Destruye la cola. Si se recibe la funcion destruir_dato por 
- * parametro, para cada uno de los elementos de la cola llama a 
- * destruir_dato.
- * Pre: la cola fue creada. destruir_dato es una función capaz de 
- * destruir los datos de la cola, o NULL en caso de que no se la utilice
+/** 
+ * Destruye la cola.
+ * Pre: la cola fue creada.
  * Post: se eliminaron todos los elementos de la cola.
  **/
-void cola_destruir(cola_t *cola);
+void destruir_cola(cola_t *cola);
 
 /**
  * Devuelve verdadero o false, segun si la cola tiene o no elementos
@@ -42,15 +32,6 @@ bool cola_esta_vacia(const cola_t *cola);
  * final de la cola.
  * */
 bool cola_encolar(cola_t *cola, void* valor);
-
-/**
- * Obtiene el valor del primer elemento de la cola. Si la cola tiene
- * elementos, se devuelve el valor del primero, si está vacía devuelve 
- * NULL.
- * Pre: la cola fue creada.
- * Post: se devolvio el primer elemento de la cola, cuando no esta vacia
- * */
-void* cola_ver_primero(const cola_t *cola);
 
 /**
  * Saca el primer elemento de la cola. Si la cola tiene elementos, se 

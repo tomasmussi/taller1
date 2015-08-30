@@ -34,7 +34,7 @@ void crear_recolector(recolector_t *recolector, const char *nombre_archivo,
 		size_t recorrido_distancia){
 	strncpy(recolector->nombre_archivo, nombre_archivo, MAX_CARACTERES_ARCHIVO);
 	recolector->nombre_archivo[MAX_CARACTERES_ARCHIVO - 1] = '\0';
-	recolector->fallas = cola_crear();
+	recolector->fallas = crear_cola();
 	recolector->recorrido_distancia = recorrido_distancia;
 }
 
@@ -121,7 +121,7 @@ void destruir_recolector(recolector_t *recolector){
 		 destruir_sensor(recolector->sensores[posicion]);
 	}
 	free(recolector->sensores);
-	cola_destruir(recolector->fallas);
+	destruir_cola(recolector->fallas);
 }
 
 
