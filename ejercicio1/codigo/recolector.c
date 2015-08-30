@@ -51,6 +51,8 @@ bool procesar_archivo(recolector_t *recolector){
 			recolector->recorrido_distancia);
 	generar_sensores(recolector);
 	uint32_t cantidad = 0;
+	double factor = (double) recolector->v_fluido;
+	factor = factor / (recolector->v_sensor * SEGUNDOS_EN_MINUTO);
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
 		if (medicion != MASCARA_EOF){
@@ -64,19 +66,25 @@ bool procesar_archivo(recolector_t *recolector){
 			if (tomar_medicion(recolector->sensores[n_sens], medicion, n_muestra)){
 				falla_t *falla = obtener_falla(recolector->sensores[n_sens]);
 
-				size_t numerador = falla->mediciones * recolector->v_fluido;
-				double denominador = recolector->v_sensor * SEGUNDOS_EN_MINUTO;
-				double punto = numerador / denominador;
-				falla->punto_recorrido = punto;
-				/*if (n_sens == 0){
+				/*size_t numerador = falla->mediciones * recolector->v_fluido;
+				double denominador = recolector->v_sensor * SEGUNDOS_EN_MINUTO;*/
+				double punto = falla->mediciones * factor;
+				//double redondeado = roundf(punto * 100) / 100;
+				double redondeado = punto;
+				falla->punto_recorrido = redondeado;
+				
+				/*char num[200];
+				sprintf(num, "%.2f",punto);
+				if (strcmp(num, "141.39") == 0){
 					printf("Cantidad: %d\n", cantidad);
 					printf("Falla mediciones: %zd\n", falla->mediciones);
 					printf("Div: %d\n", (cantidad / recolector->c_sensor));
 					printf("CUENTA: (%zd  * %d)   /  (%d * %d)\n", 
-					(cantidad - falla->mediciones + 1), 
+					(falla->mediciones), 
 					recolector->v_fluido, recolector->v_sensor,
 					SEGUNDOS_EN_MINUTO);
 					printf("Punto: %.2f\n", punto);
+					exit(1);
 				}*/
 				cola_encolar(recolector->fallas, falla);
 			}

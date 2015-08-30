@@ -105,6 +105,8 @@ void reportar_falla(recorrido_t *recorrido, grafo_t *grafo, falla_t *falla){
 		iterador_avanzar(it_anterior);
 		iterador_avanzar(it_actual);
 	}
+	destruir_iterador(it_anterior);
+	destruir_iterador(it_actual);
 }
 
 void informar_fallas(recorrido_t *recorrido, grafo_t *grafo, cola_t *cola){
