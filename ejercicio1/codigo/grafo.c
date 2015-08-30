@@ -32,15 +32,15 @@ bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen,
 bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, 
 		double metros);
 
-void crear_grafo(grafo_t *grafo, const char *tuberias){
+bool crear_grafo(grafo_t *grafo, const char *tuberias){
 	grafo->vector = calloc(GRAFO_TAMANIO_INICIAL, sizeof(lista_t));
 	if (grafo->vector == NULL){
 		fprintf(stderr, "SIN MEMORIA EN CREAR GRAFO\n");
-		return;
+		return false;
 	}
 	grafo->cantidad = 0;
 	grafo->tamanio = GRAFO_TAMANIO_INICIAL;
-	armar_grafo_archivo(grafo, tuberias);
+	return armar_grafo_archivo(grafo, tuberias);
 }
 
 void destruir_grafo(grafo_t *grafo){
@@ -141,7 +141,7 @@ bool valores_validos(const char *elemento1, const char *elemento2,
 bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
 	FILE *fp = fopen(tuberias, "r");
 	if (fp == NULL){
-		fprintf(stderr, "Archivo invalido\n");
+		fprintf(stderr, "Archivo inválido\n");
 		return false;
 	}
 	char nombre_a[MAX_CARACTERES_NODO];

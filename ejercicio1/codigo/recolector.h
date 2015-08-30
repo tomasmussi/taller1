@@ -12,9 +12,9 @@
 typedef struct recolector {
 	char nombre_archivo[MAX_CARACTERES_ARCHIVO];
 	sensor_t **sensores;
-	uint32_t velocidad_fluido;
-	uint32_t velocidad_sensado;
-	uint32_t cantidad_sensores;
+	uint32_t v_fluido;
+	uint32_t v_sensor;
+	uint32_t c_sensor;
 	size_t mediciones_esperadas;
 	size_t recorrido_distancia;
 	cola_t *fallas;

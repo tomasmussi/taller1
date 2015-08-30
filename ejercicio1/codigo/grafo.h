@@ -18,9 +18,10 @@ typedef struct grafo {
  * Crea el grafo. Es un grafo no dirigido y pesado (con las distancias
  * que separan nodos como pesos)
  * PRE: grafo es una direccion de memoria valida
- * POST: grafo inicializado y listo para agregar nodos
+ * POST: devuelve true si el grafo esta inicializado y listo para agregar nodos
+ * false si hubo un error al leer el archivo
  * */
-void crear_grafo(grafo_t *grafo, const char *tuberias);
+bool crear_grafo(grafo_t *grafo, const char *tuberias);
 
 /**
  * Destruye el grafo

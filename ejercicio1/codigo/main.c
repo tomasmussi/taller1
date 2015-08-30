@@ -16,7 +16,12 @@ bool ejecutar(const char *mediciones, const char *tuberias,
 	recorrido_t *recorrido = &recorrido_reservado;
 
 	crear_recorrido(recorrido, recorrido_archivo);
-	crear_grafo(grafo, tuberias);
+	bool ok = crear_grafo(grafo, tuberias);
+	if (!ok){
+		destruir_recorrido(recorrido);
+		destruir_grafo(grafo);
+		return true;
+	}
 	computar_distancias(recorrido, grafo);
 	crear_recolector(recolector, mediciones, recorrido->distancia_total);
 	bool error = procesar_archivo(recolector);	

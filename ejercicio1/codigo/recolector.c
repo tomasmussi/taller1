@@ -23,10 +23,10 @@ void generar_sensores(recolector_t *recolector);
 
 size_t calcular_mediciones_esperadas(recolector_t *recolector, 
 		size_t recorrido_distancia){
-	double esperado = (double) recolector->cantidad_sensores * 
-			recolector->velocidad_sensado * SEGUNDOS_EN_MINUTO * 
+	double esperado = (double) recolector->c_sensor * 
+			recolector->v_sensor * SEGUNDOS_EN_MINUTO * 
 			recorrido_distancia;
-	esperado = floor(esperado / recolector->velocidad_fluido);
+	esperado = floor(esperado / recolector->v_fluido);
 	return (size_t) esperado;
 }
 
@@ -44,9 +44,9 @@ bool procesar_archivo(recolector_t *recolector){
 		fprintf(stderr, "Archivo invalido\n");
 		return false;
 	}
-	recolector->velocidad_fluido = parsear_numero(fp, BYTES_VELOCIDAD);
-	recolector->velocidad_sensado = parsear_numero(fp, BYTES_VELOCIDAD);
-	recolector->cantidad_sensores = parsear_numero(fp, BYTES_VELOCIDAD);
+	recolector->v_fluido = parsear_numero(fp, BYTES_VELOCIDAD);
+	recolector->v_sensor = parsear_numero(fp, BYTES_VELOCIDAD);
+	recolector->c_sensor = parsear_numero(fp, BYTES_VELOCIDAD);
 	recolector->mediciones_esperadas = calcular_mediciones_esperadas(recolector,
 			recolector->recorrido_distancia);
 	generar_sensores(recolector);
@@ -54,22 +54,27 @@ bool procesar_archivo(recolector_t *recolector){
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
 		if (medicion != MASCARA_EOF){
-			/*if (cantidad % recolector->cantidad_sensores == 0){
+			/*if (cantidad % recolector->c_sensor == 0){
 				printf("Sensor[%d], muestra: %x, medicion numero: %d\n",
-				cantidad % recolector->cantidad_sensores, medicion, 
-				(cantidad / recolector->cantidad_sensores) + 1);
+				cantidad % recolector->c_sensor, medicion, 
+				(cantidad / recolector->c_sensor) + 1);
 			}*/
-			if (tomar_medicion(recolector->sensores[cantidad % recolector->cantidad_sensores], medicion, (cantidad / recolector->cantidad_sensores) + 1)){
-				falla_t *falla = obtener_falla(recolector->sensores[cantidad % recolector->cantidad_sensores]);
-				double punto = (falla->mediciones * (double)recolector->velocidad_fluido) / (recolector->velocidad_sensado * SEGUNDOS_EN_MINUTO);
+			size_t n_sens = cantidad % recolector->c_sensor;
+			size_t n_muestra = (cantidad / recolector->c_sensor) + 1;
+			if (tomar_medicion(recolector->sensores[n_sens], medicion, n_muestra)){
+				falla_t *falla = obtener_falla(recolector->sensores[n_sens]);
+
+				size_t numerador = falla->mediciones * recolector->v_fluido;
+				double denominador = recolector->v_sensor * SEGUNDOS_EN_MINUTO;
+				double punto = numerador / denominador;
 				falla->punto_recorrido = punto;
-				/*if (cantidad % recolector->cantidad_sensores == 0){
+				/*if (n_sens == 0){
 					printf("Cantidad: %d\n", cantidad);
 					printf("Falla mediciones: %zd\n", falla->mediciones);
-					printf("Div: %d\n", (cantidad / recolector->cantidad_sensores));
+					printf("Div: %d\n", (cantidad / recolector->c_sensor));
 					printf("CUENTA: (%zd  * %d)   /  (%d * %d)\n", 
 					(cantidad - falla->mediciones + 1), 
-					recolector->velocidad_fluido, recolector->velocidad_sensado,
+					recolector->v_fluido, recolector->v_sensor,
 					SEGUNDOS_EN_MINUTO);
 					printf("Punto: %.2f\n", punto);
 				}*/
@@ -101,11 +106,12 @@ uint32_t parsear_numero(FILE *fp, int bytes){
 }
 
 void generar_sensores(recolector_t *recolector){
-	recolector->sensores = malloc(recolector->cantidad_sensores * sizeof(sensor_t));
-	double umbral = TOLERANCIA_CORROSION_METROS * MINUTO_EN_HORAS * recolector->velocidad_sensado;
-	umbral = ceil(umbral / recolector->velocidad_fluido);
+	recolector->sensores = malloc(recolector->c_sensor * sizeof(sensor_t));
+	double umbral = TOLERANCIA_CORROSION_METROS * MINUTO_EN_HORAS * 
+			recolector->v_sensor;
+	umbral = ceil(umbral / recolector->v_fluido);
 	size_t umbral_entero = (size_t) umbral;
-	for (int posicion = 0; posicion < recolector->cantidad_sensores; posicion++){
+	for (int posicion = 0; posicion < recolector->c_sensor; posicion++){
 		recolector->sensores[posicion] = crear_sensor(umbral_entero);
 	}
 }
@@ -117,7 +123,7 @@ bool arquitectura_big_endian(){
 }
 
 void destruir_recolector(recolector_t *recolector){
-	for (int posicion = 0; posicion < recolector->cantidad_sensores; posicion++){
+	for (int posicion = 0; posicion < recolector->c_sensor; posicion++){
 		 destruir_sensor(recolector->sensores[posicion]);
 	}
 	free(recolector->sensores);
