@@ -31,11 +31,11 @@ size_t calcular_mediciones_esperadas(recolector_t *recolector,
 }
 
 void crear_recolector(recolector_t *recolector, const char *nombre_archivo, 
-		size_t recorrido_distancia){
+		size_t recorrido_distancia, recorrido_t *recorrido){
 	strncpy(recolector->nombre_archivo, nombre_archivo, MAX_CARACTERES_ARCHIVO);
 	recolector->nombre_archivo[MAX_CARACTERES_ARCHIVO - 1] = '\0';
-	recolector->fallas = crear_cola();
 	recolector->recorrido_distancia = recorrido_distancia;
+	recolector->recorrido = recorrido;
 }
 
 bool procesar_archivo(recolector_t *recolector){
@@ -65,11 +65,8 @@ bool procesar_archivo(recolector_t *recolector){
 			size_t n_muestra = (cantidad / recolector->c_sensor) + 1;
 			if (tomar_medicion(recolector->sensores[n_sens], medicion, n_muestra)){
 				falla_t *falla = obtener_falla(recolector->sensores[n_sens]);
-
-				/*size_t numerador = falla->mediciones * recolector->v_fluido;
-				double denominador = recolector->v_sensor * SEGUNDOS_EN_MINUTO;*/
+				
 				double punto = falla->mediciones * factor;
-				//double redondeado = roundf(punto * 100) / 100;
 				double redondeado = punto;
 				falla->punto_recorrido = redondeado;
 				
@@ -86,7 +83,8 @@ bool procesar_archivo(recolector_t *recolector){
 					printf("Punto: %.2f\n", punto);
 					exit(1);
 				}*/
-				cola_encolar(recolector->fallas, falla);
+				reportar_falla(recolector->recorrido, falla);
+				destruir_falla(falla);
 			}
 			cantidad++;
 		}
@@ -135,7 +133,6 @@ void destruir_recolector(recolector_t *recolector){
 		 destruir_sensor(recolector->sensores[posicion]);
 	}
 	free(recolector->sensores);
-	destruir_cola(recolector->fallas);
 }
 
 

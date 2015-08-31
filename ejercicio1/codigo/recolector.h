@@ -4,8 +4,8 @@
 #define RECOLECTOR_H
 
 #include <stdint.h>
+#include "recorrido.h"
 #include "sensor.h"
-#include "cola.h"
 
 #define MAX_CARACTERES_ARCHIVO 51
 
@@ -17,11 +17,11 @@ typedef struct recolector {
 	uint32_t c_sensor;
 	size_t mediciones_esperadas;
 	size_t recorrido_distancia;
-	cola_t *fallas;
+	recorrido_t *recorrido;
 } recolector_t;
 
 void crear_recolector(recolector_t *recolector, const char *nombre_archivo, 
-		size_t recorrido_distancia);
+		size_t recorrido_distancia, recorrido_t *recorrido);
 
 void destruir_recolector(recolector_t *recolector);
 

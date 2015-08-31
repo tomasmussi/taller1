@@ -3,7 +3,6 @@
 #define RECORRIDO_H
 #include "lista.h"
 #include "grafo.h"
-#include "cola.h"
 #include "falla.h"
 #include <stdlib.h>
 #define MAX_CARACTERES_ARCHIVO 51
@@ -11,6 +10,7 @@
 
 typedef struct recorrido{
 	char nombre_archivo[MAX_CARACTERES_ARCHIVO];
+	grafo_t *grafo;
 	lista_t lista;
 	double distancia_total;
 } recorrido_t;
@@ -23,7 +23,8 @@ typedef struct recorrido{
  * POST: el recorrido esta parseado con la cantidad total de metros.
  * Si el nombre de archivo a leer es invalido, se informa un error.
  * */
-void crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo);
+bool crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo,
+		grafo_t *grafo);
 
 /**
  * Destruye el TDA
@@ -38,9 +39,10 @@ void destruir_recorrido(recorrido_t *recorrido);
  * PRE: el grafo y el recorrido fueron creados
  * POST: el recorrido ahora tiene la distancia total del recorrido
  * */
-void computar_distancias(recorrido_t *recorrido, grafo_t *grafo);
+void computar_distancias(recorrido_t *recorrido);
 
-void informar_fallas(recorrido_t *recorrido, grafo_t *grafo, cola_t *cola);
+
+void reportar_falla(recorrido_t *recorrido, falla_t *falla);
 
 
 #endif // RECORRIDO_H

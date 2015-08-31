@@ -8,6 +8,7 @@
 
 bool ejecutar(const char *mediciones, const char *tuberias, 
 		const char *recorrido_archivo){
+	/* Reservo memoria de stack para las estructuras */
 	recolector_t recolector_reservado;
 	recolector_t *recolector = &recolector_reservado;
 	grafo_t grafo_reservado;
@@ -15,17 +16,20 @@ bool ejecutar(const char *mediciones, const char *tuberias,
 	recorrido_t recorrido_reservado;
 	recorrido_t *recorrido = &recorrido_reservado;
 
-	crear_recorrido(recorrido, recorrido_archivo);
 	bool ok = crear_grafo(grafo, tuberias);
 	if (!ok){
-		destruir_recorrido(recorrido);
 		destruir_grafo(grafo);
 		return true;
 	}
-	computar_distancias(recorrido, grafo);
-	crear_recolector(recolector, mediciones, recorrido->distancia_total);
+	ok = crear_recorrido(recorrido, recorrido_archivo, grafo);
+	if (!ok){
+		destruir_grafo(grafo);
+		destruir_recorrido(recorrido);
+		return true;
+	}
+	crear_recolector(recolector, mediciones, recorrido->distancia_total,
+		recorrido);
 	bool error = procesar_archivo(recolector);	
-	informar_fallas(recorrido, grafo, recolector->fallas);
 
 	destruir_recorrido(recorrido);
 	destruir_grafo(grafo);

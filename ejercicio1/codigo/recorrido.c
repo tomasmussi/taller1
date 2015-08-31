@@ -6,12 +6,16 @@
 
 bool leer_archivo(recorrido_t *recorrido);
 
-void crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo){
+bool crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo,
+		grafo_t *grafo){
 	strncpy(recorrido->nombre_archivo, nombre_archivo, MAX_CARACTERES_ARCHIVO);
 	recorrido->nombre_archivo[MAX_CARACTERES_ARCHIVO - 1] = '\0';
 	recorrido->distancia_total = 0;
+	recorrido->grafo = grafo;
 	crear_lista(&(recorrido->lista), "Recorrido");
-	leer_archivo(recorrido);
+	bool ok = leer_archivo(recorrido);
+	computar_distancias(recorrido);
+	return ok;
 }
 
 static void leer_elemento(FILE *fp, char *elemento){
@@ -57,7 +61,7 @@ void destruir_recorrido(recorrido_t *recorrido){
 	destruir_lista(&(recorrido->lista));
 }
 
-void computar_distancias(recorrido_t *recorrido, grafo_t *grafo){
+void computar_distancias(recorrido_t *recorrido){
 	recorrido->distancia_total = 0;
 	iter_t iterador_anterior_reservado;
 	iter_t iterador_actual_reservado;
@@ -70,14 +74,14 @@ void computar_distancias(recorrido_t *recorrido, grafo_t *grafo){
 		return;
 	}
 	while (!iterador_al_final(it_actual)){
-		recorrido->distancia_total += obtener_distancia_nodos(grafo, 
+		recorrido->distancia_total += obtener_distancia_nodos(recorrido->grafo,
 				it_nombre(it_anterior), it_nombre(it_actual));
 		iterador_avanzar(it_anterior);
 		iterador_avanzar(it_actual);
 	}
 }
 
-void reportar_falla(recorrido_t *recorrido, grafo_t *grafo, falla_t *falla){
+void reportar_falla(recorrido_t *recorrido, falla_t *falla){
 	double punto = falla->punto_recorrido;
 	iter_t iterador_anterior_reservado;
 	iter_t iterador_actual_reservado;
@@ -91,7 +95,7 @@ void reportar_falla(recorrido_t *recorrido, grafo_t *grafo, falla_t *falla){
 	}
 	bool reportado = false;
 	while (!iterador_al_final(it_actual) && !reportado){
-		double tramo = obtener_distancia_nodos(grafo, 
+		double tramo = obtener_distancia_nodos(recorrido->grafo, 
 				it_nombre(it_anterior), it_nombre(it_actual));
 		if (tramo > punto){
 			printf("%s %s->%s (%.2fm)\n", falla->tipo, 
@@ -107,13 +111,5 @@ void reportar_falla(recorrido_t *recorrido, grafo_t *grafo, falla_t *falla){
 	}
 	destruir_iterador(it_anterior);
 	destruir_iterador(it_actual);
-}
-
-void informar_fallas(recorrido_t *recorrido, grafo_t *grafo, cola_t *cola){
-	while(! cola_esta_vacia(cola)){
-		falla_t *falla = cola_desencolar(cola);
-		reportar_falla(recorrido, grafo, falla);
-		destruir_falla(falla);
-	}
 }
 
