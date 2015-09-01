@@ -26,6 +26,7 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 		sensor->contador_corrosion++;
 		return false;
 	} else if (medicion > TOPE_RUPTURA){
+		sensor->contador_corrosion++;
 		sensor->ultima_falla = crear_falla("RUPTURA", numero_muestra);
 		return true;
 	} else {
@@ -34,7 +35,7 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 			/*printf("Finaliza en numero muestra: %zd habiendo comenzado
 			 hace %zd muestras\n", 
 			 numero_muestra,sensor->contador_corrosion);*/
-			 size_t origen = numero_muestra - sensor->contador_corrosion;
+			size_t origen = numero_muestra - sensor->contador_corrosion;
 			sensor->ultima_falla = crear_falla("CORROSION", origen);
 			problema = true;
 		}
