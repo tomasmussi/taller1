@@ -54,8 +54,11 @@ bool procesar_archivo(recolector_t *recolector){
 	double factor = (double) recolector->v_fluido;
 	factor = factor / (recolector->v_sensor * SEGUNDOS_EN_MINUTO);
 
+
+	//printf("CUENTA: (%d)   /  (%d * %d)\n", recolector->v_fluido, recolector->v_sensor, SEGUNDOS_EN_MINUTO);
 	//int count = 0;
 
+	//printf("Cantidad de sensores: %d\n", recolector->c_sensor);
 
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
@@ -67,9 +70,13 @@ bool procesar_archivo(recolector_t *recolector){
 			}*/
 			size_t n_sens = cantidad % recolector->c_sensor;
 			size_t n_muestra = (cantidad / recolector->c_sensor) + 1;
+			if (n_sens == 5){
+				printf("%zd,%d\n", n_muestra, medicion);
+			}
 			if (tomar_medicion(recolector->sensores[n_sens], medicion, n_muestra)){
 				falla_t *falla = obtener_falla(recolector->sensores[n_sens]);
 				//count++;
+				
 
 				double punto = falla->mediciones * factor;
 				double redondeado = punto;
@@ -77,9 +84,17 @@ bool procesar_archivo(recolector_t *recolector){
 
 				/*char num[200];
 				sprintf(num, "%.2f",punto);
-				if (count == 22){
-				//if (strcmp(num, "4.40m") == 0){
-					printf("Sensor numero: %d\n", n_sens);
+				if (strcmp(num, "4.43") == 0){
+					printf("Medicion %zd del sensor %zd\n",n_muestra , n_sens);
+				}*/
+
+
+				/*char num[200];
+				sprintf(num, "%.2f",punto);
+				//if (count == 22){
+				if (strcmp(num, "303.89") == 0){
+					printf("Medicion %zd del sensor %zd\n",n_muestra , n_sens);
+					printf("Sensor numero: %zd\n", n_sens);
 					printf("Cantidad: %d\n", cantidad);
 					printf("Falla mediciones: %zd\n", falla->mediciones);
 					printf("Div: %d\n", (cantidad / recolector->c_sensor));
@@ -89,13 +104,28 @@ bool procesar_archivo(recolector_t *recolector){
 					SEGUNDOS_EN_MINUTO);
 					printf("Punto: %.2f\n", punto);
 					exit(1);
-				}*/
-				reportar_falla(recolector->recorrido, falla);
+				}
+				reportar_falla(recolector->recorrido, falla);*/
 				destruir_falla(falla);
 			}
 			cantidad++;
 		}
 	}
+
+	size_t n_sens = cantidad % recolector->c_sensor;
+	size_t n_muestra = (cantidad / recolector->c_sensor) + 1;
+	uint32_t medicion = 0;
+	for (int posicion = 0; posicion < recolector->c_sensor; posicion++){
+		if (tomar_medicion(recolector->sensores[n_sens], medicion, n_muestra)){
+			falla_t *falla = obtener_falla(recolector->sensores[n_sens]);
+			double punto = falla->mediciones * factor;
+			double redondeado = punto;
+			falla->punto_recorrido = redondeado;
+			reportar_falla(recolector->recorrido, falla);
+			destruir_falla(falla);
+		}
+	}
+
 	if (cantidad != recolector->mediciones_esperadas){
 		fprintf(stderr, "Cantidad de muestras incorrectas\n");
 	}
