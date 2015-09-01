@@ -11,7 +11,8 @@
 typedef struct sensor {
 	size_t muestras_corrosion;
 	size_t contador_corrosion;
-	falla_t *ultima_falla;
+	falla_t *falla_corrosion;
+	falla_t *falla_ruptura;
 } sensor_t;
 
 sensor_t* crear_sensor(size_t umbral_muestras);
@@ -32,6 +33,14 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra);
  * ADVERTENCIA: ES RESPONSABILIDAD DEL USUARIO DESTRUIR LA FALLA!!!!!!
  * SENSOR NO MANTIENE REGISTRO DE TODAS LAS FALLAS QUE INFORMA
  * */
-falla_t* obtener_falla(sensor_t *sensor);
+
+bool hay_corrosion(sensor_t *sensor);
+falla_t* obtener_corrosion(sensor_t *sensor, uint32_t medicion);
+void limpiar_corrosion(sensor_t *sensor);
+
+bool hay_ruptura(sensor_t *sensor);
+falla_t* obtener_ruptura(sensor_t *sensor, uint32_t medicion);
+void limpiar_ruptura(sensor_t *sensor);
+
 
 #endif //SENSOR_H

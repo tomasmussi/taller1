@@ -14,6 +14,8 @@ sensor_t* crear_sensor(size_t umbral_muestras){
 		fprintf(stderr, "SIN MEMORIA EN CREAR SENSOR\n");
 		return NULL;
 	}
+	sensor->falla_corrosion = NULL;
+	sensor->falla_ruptura = NULL;
 	return sensor;
 }
 
@@ -27,7 +29,7 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 		return false;
 	} else if (medicion > TOPE_RUPTURA){
 		sensor->contador_corrosion++;
-		sensor->ultima_falla = crear_falla("RUPTURA", numero_muestra);
+		sensor->falla_ruptura = crear_falla("RUPTURA", numero_muestra);
 		return true;
 	} else {
 		bool problema = false;
@@ -35,8 +37,8 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 			/*printf("Finaliza en numero muestra: %zd habiendo comenzado
 			 hace %zd muestras\n", 
 			 numero_muestra,sensor->contador_corrosion);*/
-			size_t origen = numero_muestra - sensor->contador_corrosion;
-			sensor->ultima_falla = crear_falla("CORROSION", origen);
+			//size_t origen = numero_muestra - sensor->contador_corrosion;
+			//sensor->ultima_falla = crear_falla("CORROSION", origen);
 			problema = true;
 		}
 		sensor->contador_corrosion = 0;
@@ -44,8 +46,32 @@ bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 	}
 }
 
-falla_t* obtener_falla(sensor_t *sensor){
-	falla_t *falla = sensor->ultima_falla;
-	sensor->ultima_falla = NULL;
-	return falla;
+bool hay_corrosion(sensor_t *sensor){
+	return sensor->contador_corrosion >= sensor->muestras_corrosion;
 }
+
+falla_t* obtener_corrosion(sensor_t *sensor, size_t numero_muestra){
+	size_t origen = numero_muestra - sensor->contador_corrosion  + 1;
+	sensor->falla_corrosion = crear_falla("CORROSION", origen);
+	return sensor->falla_corrosion;
+}
+
+void limpiar_corrosion(sensor_t *sensor){
+	destruir_falla(sensor->falla_corrosion);
+	sensor->falla_corrosion = NULL;
+	sensor->contador_corrosion = 0;
+}
+
+bool hay_ruptura(sensor_t *sensor){
+	return sensor->falla_ruptura != NULL;
+}
+
+falla_t* obtener_ruptura(sensor_t *sensor, uint32_t medicion){
+	return sensor->falla_ruptura;
+}
+
+void limpiar_ruptura(sensor_t *sensor){
+	destruir_falla(sensor->falla_ruptura);
+	sensor->falla_ruptura = NULL;
+}
+
