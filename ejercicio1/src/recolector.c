@@ -18,7 +18,7 @@ uint32_t parsear_numero(FILE *fp, int bytes);
 
 bool arquitectura_little_endian();
 
-void generar_sensores(recolector_t *recolector);
+void generar_sensores(recolector_t *recolector, double factor);
 
 size_t calcular_mediciones_esperadas(recolector_t *recolector, 
 		size_t recorrido_distancia){
@@ -48,10 +48,11 @@ bool procesar_archivo(recolector_t *recolector){
 	recolector->c_sensor = parsear_numero(fp, BYTES_VELOCIDAD);
 	recolector->mediciones_esperadas = calcular_mediciones_esperadas(recolector,
 			recolector->recorrido_distancia);
-	generar_sensores(recolector);
+
 	uint32_t cantidad = 0;
 	double factor = (double) recolector->v_fluido;
 	factor = factor / (recolector->v_sensor * SEGUNDOS_EN_MINUTO);
+	generar_sensores(recolector, factor);
 
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
@@ -62,12 +63,12 @@ bool procesar_archivo(recolector_t *recolector){
 			tomar_medicion(sensor, medicion);
 			falla_t falla;
 			if (hay_corrosion(sensor)){
-				obtener_corrosion(&falla, sensor, n_muestra, factor);
+				obtener_corrosion(&falla, sensor, n_muestra);
 				reportar_falla(recolector->recorrido, &falla);
 				limpiar_corrosion(sensor);
 			}
 			if (hay_ruptura(sensor)){
-				obtener_ruptura(&falla, sensor, n_muestra, factor);
+				obtener_ruptura(&falla, sensor, n_muestra);
 				reportar_falla(recolector->recorrido, &falla);
 				limpiar_ruptura(sensor);
 			}
@@ -95,14 +96,14 @@ uint32_t parsear_numero(FILE *fp, int bytes){
 	return numero;
 }
 
-void generar_sensores(recolector_t *recolector){
+void generar_sensores(recolector_t *recolector, double factor){
 	recolector->sensores = malloc(recolector->c_sensor * sizeof(sensor_t));
 	double umbral = TOLERANCIA_CORROSION_METROS * MINUTO_EN_HORAS * 
 			recolector->v_sensor;
 	umbral = ceil(umbral / recolector->v_fluido);
 	size_t umbral_entero = (size_t) umbral;
 	for (int posicion = 0; posicion < recolector->c_sensor; posicion++){
-		recolector->sensores[posicion] = crear_sensor(umbral_entero);
+		recolector->sensores[posicion] = crear_sensor(umbral_entero, factor);
 	}
 }
 

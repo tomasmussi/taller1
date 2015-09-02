@@ -6,9 +6,13 @@
 
 #define CANTIDAD_ARCHIVOS 4
 
+/** 
+ * Ejecuta el programa.
+ * Devuelve true por ejecucion existosa, false de lo contrario
+ **/
 bool ejecutar(const char *mediciones, const char *tuberias, 
 		const char *recorrido_archivo){
-	/* Reservo memoria de stack para las estructuras */
+	/** Reservo memoria de stack para las estructuras */
 	recolector_t recolector_reservado;
 	recolector_t *recolector = &recolector_reservado;
 	grafo_t grafo_reservado;
@@ -19,13 +23,13 @@ bool ejecutar(const char *mediciones, const char *tuberias,
 	bool ok = crear_grafo(grafo, tuberias);
 	if (!ok){
 		destruir_grafo(grafo);
-		return true;
+		return false;
 	}
 	ok = crear_recorrido(recorrido, recorrido_archivo, grafo);
 	if (!ok){
 		destruir_grafo(grafo);
 		destruir_recorrido(recorrido);
-		return true;
+		return false;
 	}
 	crear_recolector(recolector, mediciones, recorrido->distancia_total,
 		recorrido);
@@ -34,7 +38,7 @@ bool ejecutar(const char *mediciones, const char *tuberias,
 	destruir_recorrido(recorrido);
 	destruir_grafo(grafo);
 	destruir_recolector(recolector);
-	return error;
+	return !error;
 }
 
 int main(int argc, char *argv[]){
@@ -43,6 +47,6 @@ int main(int argc, char *argv[]){
 		return 1;
 	}
 	bool resultado = ejecutar(argv[1], argv[2], argv[3]);
-	return resultado ? 1 : 0;
+	return resultado ? 0 : 1;
 }
 

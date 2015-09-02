@@ -1,4 +1,3 @@
-
 #include "sensor.h"
 
 #include <stdio.h>
@@ -6,12 +5,13 @@
 #define TOPE_CORROSION 0x00A0
 #define TOPE_RUPTURA 0x00FF
 
-sensor_t* crear_sensor(size_t umbral_muestras){
+sensor_t* crear_sensor(size_t umbral_muestras, double factor){
 	sensor_t *sensor = malloc(sizeof(sensor_t));
 	if (sensor == NULL){
 		fprintf(stderr, "SIN MEMORIA EN CREAR SENSOR\n");
 		return NULL;
 	}
+	sensor->factor = factor;
 	sensor->muestras_corrosion = umbral_muestras;
 	sensor->contador_corrosion = 0;
 	sensor->hay_ruptura = false;
@@ -38,9 +38,9 @@ bool hay_corrosion(sensor_t *sensor){
 }
 
 void obtener_corrosion(falla_t *corrosion, sensor_t *sensor, 
-		size_t numero_muestra, double factor){
-	size_t origen = numero_muestra - sensor->contador_corrosion  + 1;
-	double punto = origen * factor;
+		size_t numero_muestra){
+	size_t origen = numero_muestra - sensor->contador_corrosion + 1;
+	double punto = origen * sensor->factor;
 	crear_falla(corrosion, "CORROSION", punto);
 }
 
@@ -52,9 +52,8 @@ bool hay_ruptura(sensor_t *sensor){
 	return sensor->hay_ruptura;
 }
 
-void obtener_ruptura(falla_t *ruptura, sensor_t *sensor, size_t numero_muestra,
-		double factor){
-	crear_falla(ruptura, "RUPTURA", numero_muestra * factor);
+void obtener_ruptura(falla_t *ruptura, sensor_t *sensor, size_t numero_muestra){
+	crear_falla(ruptura, "RUPTURA", numero_muestra * sensor->factor);
 }
 
 void limpiar_ruptura(sensor_t *sensor){
