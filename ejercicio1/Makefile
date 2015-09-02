@@ -182,4 +182,6 @@ cpplint:
 
 clean:
 	$(RM) $(o_files) $(BINDIR)/$(target)
+	$(RM) -R $(BINDIR)
+	$(RM) -R $(OBJDIR)
 
