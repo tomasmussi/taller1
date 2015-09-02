@@ -5,30 +5,20 @@
 #define GRAFO_TAMANIO_INICIAL 10
 #define FACTOR_REDIMENSION 2
 
-/**
- * Redimensiona el tamanio de las listas en caso de necesitarlo
- * */
+/** Redimensiona el tamanio de las listas en caso de necesitarlo */
 bool redimensionar(grafo_t *grafo);
 
-/**
- * Crea una lista para agregar al grafo
- * */
+/** Crea una lista para agregar al grafo */
 lista_t* alocar_lista();
 
-/**
- * Destruye la lista que se creo
- * */
+/** Destruye la lista que se creo */
 void desalocar_lista(lista_t *lista);
 
-/**
- * Agrega la relacion dirigida entre nodos
- * */
+/** Agrega la relacion dirigida entre nodos */
 bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, 
 		const char *destino, double metros);
 
-/**
- * Al ser un grafo no dirigido, se agrega A -> B como B -> A
- * */
+/** Al ser un grafo no dirigido, se agrega A -> B como B -> A */
 bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, 
 		double metros);
 

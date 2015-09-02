@@ -23,26 +23,14 @@ void destruir_sensor(sensor_t *sensor){
 	free(sensor);
 }
 
-bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
+void tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
 	if (medicion >= TOPE_CORROSION && medicion <= TOPE_RUPTURA){
 		sensor->contador_corrosion++;
-		return false;
 	} else if (medicion > TOPE_RUPTURA){
 		sensor->contador_corrosion++;
 		sensor->falla_ruptura = crear_falla("RUPTURA", numero_muestra);
-		return true;
 	} else {
-		bool problema = false;
-		if (sensor->contador_corrosion >= sensor->muestras_corrosion){
-			/*printf("Finaliza en numero muestra: %zd habiendo comenzado
-			 hace %zd muestras\n", 
-			 numero_muestra,sensor->contador_corrosion);*/
-			//size_t origen = numero_muestra - sensor->contador_corrosion;
-			//sensor->ultima_falla = crear_falla("CORROSION", origen);
-			problema = true;
-		}
 		sensor->contador_corrosion = 0;
-		return problema;
 	}
 }
 

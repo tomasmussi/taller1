@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 
 #define BYTES_VELOCIDAD 4
@@ -17,7 +16,7 @@ bool procesar_archivo(recolector_t *recolector);
 
 uint32_t parsear_numero(FILE *fp, int bytes);
 
-bool arquitectura_big_endian();
+bool arquitectura_little_endian();
 
 void generar_sensores(recolector_t *recolector);
 
@@ -90,14 +89,13 @@ bool procesar_archivo(recolector_t *recolector){
 uint32_t parsear_numero(FILE *fp, int bytes){
 	uint32_t numero = 0;
 	char *byte = (char*) &numero;
-	if (arquitectura_big_endian()){
+	if (arquitectura_little_endian()){
 		for (int i = bytes - 1; i >= 0; i--){
-			int c = fgetc(fp);
-			*(byte + i) = c;
+			byte[i] = fgetc(fp);
 		}
 	} else {
 		for (int i = 0; i < bytes; i++){
-			*(byte + i) = fgetc(fp);
+			byte[i] = fgetc(fp);
 		}
 	}
 	return numero;
@@ -114,7 +112,7 @@ void generar_sensores(recolector_t *recolector){
 	}
 }
 
-bool arquitectura_big_endian(){
+bool arquitectura_little_endian(){
 	int i = 1;
 	char *check = (char*) &i;
 	return check[0] == 1;

@@ -157,7 +157,7 @@ $(OBJDIR):
 $(BINDIR):
 	mkdir $@
 
-run-%: $(BINDIR)/$(target)
+run-%: clean $(BINDIR)/$(target)
 	$(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt
 
 test-codes: $(BINDIR)/$(target)

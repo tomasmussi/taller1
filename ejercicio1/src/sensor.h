@@ -25,14 +25,7 @@ void destruir_sensor(sensor_t *sensor);
  * Devuelve true si tiene alguna falla que informar.
  * Devuelve false si no tiene nada.
  * */
-bool tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra);
-
-/**
- * Al haber reportado una falla mediante tomar_medicion, se devuelve
- * dicha falla para que el usuario la reporte como quiera.
- * ADVERTENCIA: ES RESPONSABILIDAD DEL USUARIO DESTRUIR LA FALLA!!!!!!
- * SENSOR NO MANTIENE REGISTRO DE TODAS LAS FALLAS QUE INFORMA
- * */
+void tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra);
 
 bool hay_corrosion(sensor_t *sensor);
 falla_t* obtener_corrosion(sensor_t *sensor, size_t medicion);
