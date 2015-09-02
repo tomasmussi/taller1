@@ -8,12 +8,11 @@
 
 typedef struct falla {
 	char tipo[MAX_CARACTERES_TIPO];
-	size_t mediciones;
 	double punto_recorrido;
 } falla_t;
 
 
-falla_t* crear_falla(const char *tipo, size_t mediciones_atras);
+void crear_falla(falla_t *falla, const char *tipo, double punto_recorrido);
 
 void destruir_falla(falla_t *falla);
 

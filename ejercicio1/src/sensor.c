@@ -8,14 +8,13 @@
 
 sensor_t* crear_sensor(size_t umbral_muestras){
 	sensor_t *sensor = malloc(sizeof(sensor_t));
-	sensor->muestras_corrosion = umbral_muestras;
-	sensor->contador_corrosion = 0;
 	if (sensor == NULL){
 		fprintf(stderr, "SIN MEMORIA EN CREAR SENSOR\n");
 		return NULL;
 	}
-	sensor->falla_corrosion = NULL;
-	sensor->falla_ruptura = NULL;
+	sensor->muestras_corrosion = umbral_muestras;
+	sensor->contador_corrosion = 0;
+	sensor->hay_ruptura = false;
 	return sensor;
 }
 
@@ -23,12 +22,12 @@ void destruir_sensor(sensor_t *sensor){
 	free(sensor);
 }
 
-void tomar_medicion(sensor_t *sensor, uint32_t medicion, size_t numero_muestra){
+void tomar_medicion(sensor_t *sensor, uint32_t medicion){
 	if (medicion >= TOPE_CORROSION && medicion <= TOPE_RUPTURA){
 		sensor->contador_corrosion++;
 	} else if (medicion > TOPE_RUPTURA){
 		sensor->contador_corrosion++;
-		sensor->falla_ruptura = crear_falla("RUPTURA", numero_muestra);
+		sensor->hay_ruptura = true;
 	} else {
 		sensor->contador_corrosion = 0;
 	}
@@ -38,28 +37,27 @@ bool hay_corrosion(sensor_t *sensor){
 	return sensor->contador_corrosion >= sensor->muestras_corrosion;
 }
 
-falla_t* obtener_corrosion(sensor_t *sensor, size_t numero_muestra){
+void obtener_corrosion(falla_t *corrosion, sensor_t *sensor, 
+		size_t numero_muestra, double factor){
 	size_t origen = numero_muestra - sensor->contador_corrosion  + 1;
-	sensor->falla_corrosion = crear_falla("CORROSION", origen);
-	return sensor->falla_corrosion;
+	double punto = origen * factor;
+	crear_falla(corrosion, "CORROSION", punto);
 }
 
 void limpiar_corrosion(sensor_t *sensor){
-	destruir_falla(sensor->falla_corrosion);
-	sensor->falla_corrosion = NULL;
 	sensor->contador_corrosion = 0;
 }
 
 bool hay_ruptura(sensor_t *sensor){
-	return sensor->falla_ruptura != NULL;
+	return sensor->hay_ruptura;
 }
 
-falla_t* obtener_ruptura(sensor_t *sensor, uint32_t medicion){
-	return sensor->falla_ruptura;
+void obtener_ruptura(falla_t *ruptura, sensor_t *sensor, size_t numero_muestra,
+		double factor){
+	crear_falla(ruptura, "RUPTURA", numero_muestra * factor);
 }
 
 void limpiar_ruptura(sensor_t *sensor){
-	destruir_falla(sensor->falla_ruptura);
-	sensor->falla_ruptura = NULL;
+	sensor->hay_ruptura = false;
 }
 

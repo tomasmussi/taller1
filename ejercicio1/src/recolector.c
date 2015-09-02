@@ -59,22 +59,16 @@ bool procesar_archivo(recolector_t *recolector){
 			size_t n_sens = cantidad % recolector->c_sensor;
 			size_t n_muestra = (cantidad / recolector->c_sensor) + 1;
 			sensor_t *sensor = recolector->sensores[n_sens];
-			tomar_medicion(sensor, medicion, n_muestra);
-			falla_t *falla = NULL;
+			tomar_medicion(sensor, medicion);
+			falla_t falla;
 			if (hay_corrosion(sensor)){
-				falla = obtener_corrosion(sensor, n_muestra);
-				double punto = falla->mediciones * factor;
-				double redondeado = punto;
-				falla->punto_recorrido = redondeado;
-				reportar_falla(recolector->recorrido, falla);
+				obtener_corrosion(&falla, sensor, n_muestra, factor);
+				reportar_falla(recolector->recorrido, &falla);
 				limpiar_corrosion(sensor);
 			}
 			if (hay_ruptura(sensor)){
-				falla = obtener_ruptura(sensor, n_muestra);
-				double punto = falla->mediciones * factor;
-				double redondeado = punto;
-				falla->punto_recorrido = redondeado;
-				reportar_falla(recolector->recorrido, falla);
+				obtener_ruptura(&falla, sensor, n_muestra, factor);
+				reportar_falla(recolector->recorrido, &falla);
 				limpiar_ruptura(sensor);
 			}
 			cantidad++;
