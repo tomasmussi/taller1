@@ -12,13 +12,17 @@
 #define TOLERANCIA_CORROSION_METROS 0.5
 #define MASCARA_EOF 0xFFFF
 
-bool procesar_archivo(recolector_t *recolector);
+/** Parsea un numero del archivo de cantidad de bytes "bytes" */
+static uint32_t parsear_numero(FILE *fp, int bytes);
 
-uint32_t parsear_numero(FILE *fp, int bytes);
+/** Determina si la arquitectura sobre la cual se compilo es little endian. */
+static bool arquitectura_little_endian();
 
-bool arquitectura_little_endian();
-
-void generar_sensores(recolector_t *recolector, double factor);
+/** 
+ * Crea todos los sensores necesarios que indique el archivo de mediciones
+ * con el factor necesario para determinar el punto absoluto del recorrido.
+ * */
+static void generar_sensores(recolector_t *recolector, double factor);
 
 size_t calcular_mediciones_esperadas(recolector_t *recolector, 
 		size_t recorrido_distancia){
@@ -53,7 +57,6 @@ bool procesar_archivo(recolector_t *recolector){
 	double factor = (double) recolector->v_fluido;
 	factor = factor / (recolector->v_sensor * SEGUNDOS_EN_MINUTO);
 	generar_sensores(recolector, factor);
-
 	while (! feof(fp)){
 		uint32_t medicion = parsear_numero(fp, BYTES_MEDICION);
 		if (medicion != MASCARA_EOF){
