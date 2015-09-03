@@ -1,10 +1,12 @@
 #ifndef RECORRIDO_H
 
 #define RECORRIDO_H
+
 #include "lista.h"
 #include "grafo.h"
 #include "falla.h"
 #include <stdlib.h>
+
 #define MAX_CARACTERES_ARCHIVO 51
 #define MAX_CARACTERES_NODO 21
 
@@ -21,7 +23,7 @@ typedef struct recorrido{
  * nodos y armar el recorrido total
  * PRE: recorrido apunta a una estructura valida.
  * POST: el recorrido esta parseado con la cantidad total de metros.
- * Si el nombre de archivo a leer es invalido, se informa un error.
+ * Devuelve true si no hubo error, false de lo contrario.
  * */
 bool crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo,
 		grafo_t *grafo);

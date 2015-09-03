@@ -1,4 +1,3 @@
-
 #include "lista.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -9,8 +8,6 @@ struct nodo {
 	struct nodo *siguiente;
 	double metros;
 };
-
-nodo_t* crear_nodo(const char *nombre, double metros);
 
 nodo_t* crear_nodo(const char *nombre, double metros){
 	nodo_t *nodo = malloc(sizeof(nodo_t));

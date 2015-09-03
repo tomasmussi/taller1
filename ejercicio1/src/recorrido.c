@@ -31,8 +31,9 @@ static void leer_elemento(FILE *fp, char *elemento){
 			c = fgetc(fp);
 		}
 		elemento[posicion - 1] = '\0';
+	} else {
+		elemento[posicion] = '\0';
 	}
-	elemento[posicion] = '\0';
 }
 
 bool leer_archivo(recorrido_t *recorrido){
