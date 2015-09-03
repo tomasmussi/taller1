@@ -21,6 +21,7 @@ bool ejecutar(const char *mediciones, const char *tuberias,
 	recorrido_t *recorrido = &recorrido_reservado;
 
 	bool ok = crear_grafo(grafo, tuberias);
+	ok &= armar_grafo_archivo(grafo);
 	if (!ok){
 		destruir_grafo(grafo);
 		return false;
@@ -46,7 +47,6 @@ int main(int argc, char *argv[]){
 		fprintf(stderr, "Error, cantidad de archivos invalida\n");
 		return 1;
 	}
-	bool resultado = ejecutar(argv[1], argv[2], argv[3]);
-	return resultado ? 0 : 1;
+	bool ok = ejecutar(argv[1], argv[2], argv[3]);
+	return ok ? 0 : 1;
 }
-

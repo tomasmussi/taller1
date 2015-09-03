@@ -1,4 +1,3 @@
-
 #include "grafo.h"
 #include <stdlib.h>
 
@@ -23,14 +22,16 @@ bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b,
 		double metros);
 
 bool crear_grafo(grafo_t *grafo, const char *tuberias){
-	grafo->vector = calloc(GRAFO_TAMANIO_INICIAL, sizeof(lista_t));
+	grafo->vector = calloc(GRAFO_TAMANIO_INICIAL, sizeof(lista_t));	
 	if (grafo->vector == NULL){
 		fprintf(stderr, "SIN MEMORIA EN CREAR GRAFO\n");
 		return false;
 	}
+	strncpy(grafo->nombre_archivo, tuberias, MAX_CARACTERES_ARCHIVO);
+	grafo->nombre_archivo[MAX_CARACTERES_ARCHIVO - 1] = '\0';
 	grafo->cantidad = 0;
 	grafo->tamanio = GRAFO_TAMANIO_INICIAL;
-	return armar_grafo_archivo(grafo, tuberias);
+	return true;
 }
 
 void destruir_grafo(grafo_t *grafo){
@@ -129,8 +130,8 @@ bool valores_validos(const char *elemento1, const char *elemento2,
 		strlen(elemento3) > 0;
 }
 
-bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
-	FILE *fp = fopen(tuberias, "r");
+bool armar_grafo_archivo(grafo_t *grafo){
+	FILE *fp = fopen(grafo->nombre_archivo, "r");
 	if (fp == NULL){
 		fprintf(stderr, "Archivo inválido\n");
 		return false;

@@ -20,8 +20,8 @@ typedef struct recorrido{
 
 /**
  * Crea un recorrido a partir de un archivo. Lo que se hace es leer todos los
- * nodos y armar el recorrido total
- * PRE: recorrido apunta a una estructura valida.
+ * nodos y armar el recorrido total.
+ * PRE: recorrido apunta a memoria valida. Grafo fue creado y leido de archivo.
  * POST: el recorrido esta parseado con la cantidad total de metros.
  * Devuelve true si no hubo error, false de lo contrario.
  * */
@@ -29,9 +29,8 @@ bool crear_recorrido(recorrido_t *recorrido, const char *nombre_archivo,
 		grafo_t *grafo);
 
 /**
- * Destruye el TDA
- * PRE: recorrido fue creado
- * POST: el recorrido fue destruido y no puede usarse
+ * Destruye el recorrido.
+ * PRE: recorrido fue creado.
  * */
 void destruir_recorrido(recorrido_t *recorrido);
 
@@ -43,7 +42,10 @@ void destruir_recorrido(recorrido_t *recorrido);
  * */
 void computar_distancias(recorrido_t *recorrido);
 
-
+/**
+ * Reporta una falla encontrada por el recolector.
+ * PRE: recorrido y falla creados.
+ * */
 void reportar_falla(recorrido_t *recorrido, falla_t *falla);
 
 

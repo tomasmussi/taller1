@@ -21,14 +21,21 @@ typedef struct recolector {
 	recorrido_t *recorrido;
 } recolector_t;
 
-/** Crea el recolector de datos de mediciones reportadas por sensores. */
+/** Crea el recolector de datos de mediciones reportadas por sensores. 
+ * PRE: recolector apunta a memoria valida.
+ * POST: recolector listo para leer desde el archivo.
+ * */
 void crear_recolector(recolector_t *recolector, const char *nombre_archivo, 
 		size_t recorrido_distancia, recorrido_t *recorrido);
 
-/** Destruye el recolector. */
+/** Destruye el recolector. 
+ * PRE: recolector creado.
+ * */
 void destruir_recolector(recolector_t *recolector);
 
-/** Lee e informa todas las fallas que encontraron los sensores. */
+/** Lee e informa todas las fallas que encontraron los sensores. 
+ * PRE: recolector creado.
+ * */
 bool procesar_archivo(recolector_t *recolector);
 
 #endif //RECOLECTOR_H
