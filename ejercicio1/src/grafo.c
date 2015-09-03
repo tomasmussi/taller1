@@ -14,7 +14,7 @@ lista_t* alocar_lista();
 /** Destruye la lista que se creo */
 void desalocar_lista(lista_t *lista);
 
-/** Agrega la relacion dirigida entre nodos */
+/** Agrega la relacion dirigida origen -> destino */
 bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, 
 		const char *destino, double metros);
 
@@ -41,9 +41,6 @@ void destruir_grafo(grafo_t *grafo){
 	free(grafo->vector);
 }
 
-/**
- * Hay que agregar las relaciones a->b y b->a que son iguales, lo separo en otra funcion
- * */
 bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b, 
 		double metros){
 	bool r1 = agregar_relacion_dirigida(grafo, nodo_a, nodo_b, metros);
@@ -51,20 +48,24 @@ bool agregar_relacion(grafo_t *grafo, const char *nodo_a, const char *nodo_b,
 	return r1 && r2;
 }
 
-
-bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, 
-		const char *destino, double metros){
-	// Busco el origen en el vector de listas
-	bool encontrado = false;
+/** Busca el nodo en la lista de adyacencias del grafo */
+size_t buscar(grafo_t *grafo, const char *nodo){
 	size_t posicion = 0;
-	while (!encontrado && (posicion < grafo->cantidad)){
-		if (strcmp(origen, grafo->vector[posicion]->nombre) == 0){
-			encontrado = true;
+	while (posicion < grafo->cantidad){
+		if (strcmp(nodo, grafo->vector[posicion]->nombre) == 0){
+			return posicion;
 		} else {
 			posicion++;
 		}
 	}
-	if (!encontrado){
+	return posicion;
+}
+
+
+bool agregar_relacion_dirigida(grafo_t *grafo, const char *origen, 
+		const char *destino, double metros){
+	size_t posicion = buscar(grafo, origen);
+	if (posicion == grafo->cantidad){
 		// No lo encontre en el vector, hay que agregarlo a la lista
 		if (grafo->cantidad == grafo->tamanio){
 			bool pudo_redimensionar = redimensionar(grafo);
@@ -140,36 +141,28 @@ bool armar_grafo_archivo(grafo_t *grafo, const char *tuberias){
 	nombre_a[0] = '\0';
 	nombre_b[0] = '\0';
 	distancia[0] = '\0';
+	bool ok = true;
 	while(! feof(fp)){
 		leer_elemento(fp, nombre_a);
 		leer_elemento(fp, distancia);
 		leer_elemento(fp, nombre_b);
 		double distancia_real = atof(distancia);
 		if (valores_validos(nombre_a, nombre_b, distancia)){
-			agregar_relacion(grafo, nombre_a, nombre_b, distancia_real);
+			ok &= agregar_relacion(grafo, nombre_a, nombre_b, distancia_real);
 		}
 	}
 	int cierre = fclose(fp);
 	if (cierre){
 		fprintf(stderr, "ERROR AL CERRAR ARCHIVO DE RECORRIDO\n");
 	}
-	return cierre == 0;
+	return cierre == 0 && ok;
 }
 
 double obtener_distancia_nodos(grafo_t *grafo, const char *nodo_a, 
 		const char *nodo_b){
-	bool encontrado = false;
-	size_t posicion = 0;
-	while (!encontrado && (posicion < grafo->cantidad)){
-		if (strcmp(nodo_a, grafo->vector[posicion]->nombre) == 0){
-			encontrado = true;
-		} else {
-			posicion++;
-		}
+	size_t posicion = buscar(grafo, nodo_a);
+	if (posicion != grafo->cantidad){
+		return buscar_en_lista(grafo->vector[posicion], nodo_b);
 	}
-	size_t distancia = 0;
-	if (encontrado){
-		distancia = buscar_en_lista(grafo->vector[posicion], nodo_b);
-	}
-	return distancia;
+	return 0;
 }
