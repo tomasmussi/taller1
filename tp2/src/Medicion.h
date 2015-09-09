@@ -7,12 +7,13 @@ class Medicion {
 
 private:
 	int nivel;
-	int cauce;
+	int caudal;
 
 public:
 	Medicion(std::string pars);
 	~Medicion();
-	int getCauce();
+	int getNivel();
+	int getCaudal();
 };
 
 #endif /* SRC_MEDICION_H_ */

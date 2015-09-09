@@ -7,27 +7,31 @@ Conector::Conector(int cantidadMuestras) {
 }
 
 void Conector::tomarMedicion(Medicion medicion){
-	muestras[medicion.getCauce()]++;
+	nivel[medicion.getNivel()]++;
+	caudal[medicion.getCaudal()]++;
 	this->contador++;
-	if (this->contador % this->cantidadMuestras == 0){
-		this->calcularModa();
-		this->muestras.clear();
+	if (contador % cantidadMuestras == 0){
+		unsigned int nivelInformar = this->calcularModa(nivel);
+		unsigned int cauceInformar = this->calcularModa(caudal);
+		this->server.informarMediciones(nivelInformar, cauceInformar);
+		nivel.clear();
+		caudal.clear();
 	}
 }
 
-void Conector::calcularModa(){
-	// Asumo que las mediciones de cauce empiezan desde 1 por lo que el 0 es minimo
-	int moda = 0;
-	int valorMasAlto = 0;
-	for (std::map<int, int>::iterator it = this->muestras.begin(); it != this->muestras.end(); it++){
+unsigned int Conector::calcularModa(std::map<unsigned int, unsigned int> muestras){
+	// Como las muestras son valores enteros, 0 lo considero el minimo.
+	unsigned int moda = 0;
+	unsigned int medicionMasAlta = 0;
+	for (std::map<unsigned int, unsigned int>::iterator it = muestras.begin(); it != muestras.end(); it++){
 		if (it->second > moda){
-			valorMasAlto = it->first;
+			medicionMasAlta = it->first;
 			moda = it->second;
-		} else if (it->second == moda && it->first > valorMasAlto){
-			valorMasAlto = it->first;
+		} else if (it->second == moda && it->first > medicionMasAlta){
+			medicionMasAlta = it->first;
 		}
 	}
-	std::cout << "Moda: " << moda << ". Cauce: " << valorMasAlto << std::endl;
+	return medicionMasAlta;
 }
 
 Conector::~Conector() {

@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 	if (argc != ARGUMENTOS_CONECTOR){
 		cout << "Cantidad invalida de argumentos\nEjemplo\n";
-		cout << "./tp 127.0.0.1 6452 seccion1 100\n";
+		cout << "./tp 127.0.0.1 3333 seccion1 100\n";
 		return 1;
 	}
 	std::string ip = argv[1];
