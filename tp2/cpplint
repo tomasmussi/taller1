@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+python cpplint.py --extensions=h,hpp,c,cpp --filter=`cat /usr/local/bin/filter_options` `find -regextype posix-egrep -regex '.*\.(h|hpp|c|cpp)'`
