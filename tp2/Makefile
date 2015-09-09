@@ -6,7 +6,7 @@
 # CONFIGURACION
 ################
 
-# Nombre del ejecutable.
+# Nombre del ejecutable y los directorios a usar.
 target = tp
 SRCDIR = ./src
 INCDIR = ./src
@@ -44,6 +44,8 @@ math = si
 
 # CONFIGURACION "AVANZADA"
 ###########################
+
+CC = gcc
 
 # Opciones para el compilador C/C++ para tratamiento de errores y warnings.
 CFLAGS = -Wall -Werror -pedantic -pedantic-errors
@@ -118,9 +120,6 @@ CXXFLAGS += -std=$(CXXSTD)
 LD = $(CXX)
 endif
 
-# Si no especifica archivos, tomo todos.
-fuentes ?= $(wildcard *.$(extension))
-
 occ := $(CC)
 ocxx := $(CXX)
 orm := $(RM)
@@ -134,24 +133,55 @@ RM =  @echo "  CLEAN"; $(orm)
 LD =  @echo "  LD  $@"; $(old)
 endif
 
-
 # REGLAS
 #########
 
-.PHONY: all clean
+all: cpplint test-codes v-test1 v-test2 v-test3 v-test4 v-test5 v-test6
 
-all: $(target)
-
-o_files = $(patsubst %.$(extension),%.o,$(fuentes))
-
-$(target): $(o_files)
-	@if [ -z "$(o_files)" ]; \
+$(BINDIR)/$(target): $(OBJ) | $(BINDIR)
+	@if [ -z "$(OBJ)" ]; \
 	then \
 		echo "No hay archivos de entrada, recuerde que la extensión debe ser '.$(extension)'."; \
 		false; \
 	fi >&2
-	$(LD) $(o_files) -o $(target) $(LDFLAGS)
+	$(LD) $(OBJ) -o $(BINDIR)/$(target) $(LDFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.$(extension) | $(OBJDIR)
+	$(CC) -c $(CFLAGS) $< -o $@
+
+.PHONY: all clean
+
+$(OBJDIR):
+	mkdir $@
+
+$(BINDIR):
+	mkdir $@
+
+run-%: clean $(BINDIR)/$(target)
+	$(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt
+
+test-codes: $(BINDIR)/$(target)
+	$(BINDIR)/$(target) tests/test1/mediciones.dat tests/test1/tuberias.txt tests/test1/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 0
+	$(BINDIR)/$(target) tests/test2/mediciones.dat tests/test2/tuberias.txt tests/test2/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 1
+	$(BINDIR)/$(target) tests/test3/mediciones.dat tests/test3/tuberias.txt tests/test3/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 0
+	$(BINDIR)/$(target) tests/test4/mediciones.dat tests/test4/tuberias.txt tests/test4/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 1
+	$(BINDIR)/$(target) tests/test5/mediciones.dat tests/test5/tuberias.txt tests/test5/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 0
+	$(BINDIR)/$(target) tests/test6/mediciones.dat tests/test6/tuberias.txt tests/test6/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 1
+
+test%:
+	diff -iad $(BINDIR)/$@__stdout__ tests/$@/__stdout__
+	diff -iad $(BINDIR)/$@__stderr__ tests/$@/__stderr__
+
+v-test%: valgrind-% test%
+	
+valgrind-%: $(BINDIR)/$(target)
+	./execute_valgrind_and_verify_result_code.sh $(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt > $(BINDIR)/test$*__stdout__ 2> $(BINDIR)/test$*__stderr__
+
+cpplint:
+	cpplint
 
 clean:
-	$(RM) $(o_files) $(target)
+	$(RM) $(o_files) $(BINDIR)/$(target)
+	$(RM) -R $(BINDIR)
+	$(RM) -R $(OBJDIR)
 
