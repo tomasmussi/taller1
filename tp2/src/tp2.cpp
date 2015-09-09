@@ -21,19 +21,9 @@ int main(int argc, char *argv[]) {
 
 	std::string str = "";
 	Conector conector(cantidadMuestras);
-	bool continuar = getline(cin, str);
-	while(continuar) {
-		int contador = 0;
-		while (continuar && contador < cantidadMuestras){
-			istringstream ss(str);
-			std::string uno;
-			while (ss >> uno){
-				cout << uno << endl;
-			}
-			continuar = getline(cin, str);
-			contador++;
-		}
-		cout << "pasa\n";
+	while(getline(cin, str)) {
+		Medicion medicion(str);
+		conector.tomarMedicion(medicion);
 	}
 	return 0;
 }
