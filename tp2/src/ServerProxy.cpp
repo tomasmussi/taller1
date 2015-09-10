@@ -1,16 +1,25 @@
 #include "ServerProxy.h"
-#include <iostream>
+#include <sstream>
 
-ServerProxy::ServerProxy() {
-	// TODO Auto-generated constructor stub
-
+ServerProxy::ServerProxy(std::string ip, std::string puerto) {
+	this->socket = new Socket(ip,puerto);
+	this->socket->conectar();
 }
 
 ServerProxy::~ServerProxy() {
-	// TODO Auto-generated destructor stub
+	this->socket->enviar("fin\n");
+	delete this->socket;
+}
+
+void ServerProxy::informarSeccion(std::string nombreSeccion){
+	std::ostringstream builder;
+	builder << "conector seccion " << nombreSeccion << std::endl;
+	this->socket->enviar(builder.str());
 }
 
 void ServerProxy::informarMediciones(unsigned int nivel, unsigned int caudal){
-	std::cout << "Nivel " << nivel << " Caudal " << caudal << std::endl;
+	std::ostringstream builder;
+	builder << "actualizar nivel " << nivel << " caudal " << caudal << "\n";
+	this->socket->enviar(builder.str());
 }
 

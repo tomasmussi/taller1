@@ -1,9 +1,10 @@
 #include "Conector.h"
 #include <iostream>
 
-Conector::Conector(int cantidadMuestras) {
+Conector::Conector(int cantidadMuestras, ServerProxy *server) {
 	this->contador = 0;
 	this->cantidadMuestras = cantidadMuestras;
+	this->server = server;
 }
 
 void Conector::tomarMedicion(Medicion medicion){
@@ -13,7 +14,7 @@ void Conector::tomarMedicion(Medicion medicion){
 	if (contador % cantidadMuestras == 0){
 		unsigned int nivelInformar = this->calcularModa(nivel);
 		unsigned int cauceInformar = this->calcularModa(caudal);
-		this->server.informarMediciones(nivelInformar, cauceInformar);
+		this->server->informarMediciones(nivelInformar, cauceInformar);
 		nivel.clear();
 		caudal.clear();
 	}

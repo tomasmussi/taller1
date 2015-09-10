@@ -1,0 +1,3 @@
+echo -ne "n 1 c 3\nn 0 c 2\nn 1 c 3\nn 2 c 3\nn 1 c 3\nn 2 c 3\n" | ./tp localhost socks S1 3
+echo -ne "n 2 c 3\nn 1 c 3\nn 2 c 2\nn 2 c 2\n" | ./tp localhost socks S2 4
+echo -ne "n 1 c 3\nn 1 c 3\nn 5 c 4\n" | ./tp localhost socks S3 2
