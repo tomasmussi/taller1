@@ -1,15 +1,15 @@
 #include "Socket.h"
-
+#include <unistd.h>
+#include <stdlib.h>
 
 Socket::Socket (std::string ip, std::string puerto) {
 	struct addrinfo hints;
 	struct addrinfo *posibilidades, *iterador;
-
 	this->conectado = false;
 
 	memset(&hints, 0, sizeof(struct addrinfo));
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_family = AF_INET; /* IP v4*/
+	hints.ai_socktype = SOCK_STREAM; /* Protocolo TCP */
 	hints.ai_flags = 0;
 	int resultado = getaddrinfo(ip.c_str(), puerto.c_str(), &hints, &posibilidades);
 	if (resultado != 0){
@@ -18,18 +18,20 @@ Socket::Socket (std::string ip, std::string puerto) {
 	}
 	iterador = posibilidades;
 	bool direccionNoValida = true;
-	int skt;
 	while (iterador != NULL && direccionNoValida){
-		skt = socket(iterador->ai_family, iterador->ai_socktype, iterador->ai_protocol);
-		//skt = socket(iterador->ai_family, iterador->ai_socktype, iterador->ai_protocol);
+		int skt = socket(iterador->ai_family, iterador->ai_socktype, iterador->ai_protocol);
 		if (skt != -1){
 			// Anduvo, nos podemos conectar a esta direccion
 			this->socketFD = skt;
-			this->ai_addr = iterador->ai_addr;
+			this->ai_addr = (struct sockaddr*) malloc(sizeof(struct sockaddr));
+			memcpy(this->ai_addr, iterador->ai_addr, sizeof(struct sockaddr));
 			this->ai_addrlen = iterador->ai_addrlen;
 			direccionNoValida = false;
 		}
 		iterador = iterador->ai_next;
+	}
+	if (direccionNoValida){
+		std::cerr << "NO SE OBTUVIERON DIRECCIONES VALIDAS" << std::endl;
 	}
 	freeaddrinfo(posibilidades);
 }
@@ -75,6 +77,7 @@ bool Socket::enviar(std::string mensaje){
 }
 
 Socket::~Socket() {
+	free(this->ai_addr);
 	shutdown(this->socketFD, SHUT_RDWR);
 	close(this->socketFD);
 }
