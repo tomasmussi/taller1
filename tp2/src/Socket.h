@@ -20,10 +20,15 @@ private:
 
 public:
 
-	Socket(std::string ip, std::string puerto);
+	Socket(std::string ip, std::string puerto, int flags);
+	Socket(int nuevoSocketFD);
 	~Socket();
+	bool bindSocket();
+	bool listenSocket();
+	Socket* aceptar();
 	bool conectar();
 	bool enviar(std::string mensaje);
+	std::string recibir();
 };
 
 #endif /* SRC_SOCKET_H_ */

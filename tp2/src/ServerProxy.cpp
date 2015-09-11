@@ -2,7 +2,7 @@
 #include <sstream>
 
 ServerProxy::ServerProxy(std::string ip, std::string puerto) {
-	this->socket = new Socket(ip,puerto);
+	this->socket = new Socket(ip,puerto, 0);
 	this->socket->conectar();
 }
 

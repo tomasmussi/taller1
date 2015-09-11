@@ -2,7 +2,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-Socket::Socket (std::string ip, std::string puerto) {
+#define MAX_CONEXIONES 20
+#define MAX_BUFFER 100
+
+Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
 	struct addrinfo *posibilidades, *iterador;
 	this->conectado = false;
@@ -10,7 +13,7 @@ Socket::Socket (std::string ip, std::string puerto) {
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_INET; /* IP v4*/
 	hints.ai_socktype = SOCK_STREAM; /* Protocolo TCP */
-	hints.ai_flags = 0;
+	hints.ai_flags = flags;
 	int resultado = getaddrinfo(ip.c_str(), puerto.c_str(), &hints, &posibilidades);
 	if (resultado != 0){
 		std::cerr << "ERROR EN ADDRINFO: " << gai_strerror(resultado) << std::endl;
@@ -36,12 +39,46 @@ Socket::Socket (std::string ip, std::string puerto) {
 	freeaddrinfo(posibilidades);
 }
 
+Socket::Socket(int nuevoSocketFD){
+	this->socketFD = nuevoSocketFD;
+	this->ai_addr = NULL;
+	memset(&this->ai_addrlen, 0, sizeof(socklen_t));
+	this->conectado = true;
+}
+
+bool Socket::bindSocket(){
+	int resultado = bind(this->socketFD, this->ai_addr, this->ai_addrlen);
+	if (resultado != 0){
+		std::cerr << "ERROR AL BINDEAR SOCKET: " << gai_strerror(resultado) << std::endl;
+		return false;
+	}
+	return true;
+}
+
 bool Socket::conectar(){
 	int resultado = connect(this->socketFD, this->ai_addr, this->ai_addrlen);
 	this->conectado = resultado == 0;
 	if (resultado != 0){
 		std::cerr << "ERROR AL CONECTAR: " << gai_strerror(resultado) << std::endl;
 		close(this->socketFD);
+		return false;
+	}
+	return true;
+}
+
+Socket* Socket::aceptar(){
+	int nuevoSocketFD = accept(this->socketFD, NULL, NULL);
+	if (nuevoSocketFD == -1){
+		std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
+		return NULL;
+	}
+	return new Socket(nuevoSocketFD);
+}
+
+bool Socket::listenSocket(){
+	int resultado = listen(this->socketFD, MAX_CONEXIONES);
+	if (resultado != 0){
+		std::cerr << "ERROR AL ESCUCHAR SOCKET: " << gai_strerror(resultado) << std::endl;
 		return false;
 	}
 	return true;
@@ -74,6 +111,32 @@ bool Socket::enviar(std::string mensaje){
 		return false;
 	}
 	return true;
+}
+
+std::string Socket::recibir(){
+	int bytesRecibidos = 0;
+	char buffer[MAX_BUFFER];
+	memset(buffer, 0, MAX_BUFFER);
+	// Leo hasta un maximo de MAX_BUFFER caracteres
+	bool error = false, socketCerrado = false;
+	while (bytesRecibidos < MAX_BUFFER && !error && !socketCerrado){
+		int recibidoParcial = recv(this->socketFD, buffer + bytesRecibidos, MAX_BUFFER, MSG_NOSIGNAL);
+		if (recibidoParcial < 0){
+			std::cerr << "ERROR AL RECIBIR MENSAJE: " << gai_strerror(recibidoParcial) << std::endl;
+			error = true;
+		} else if (recibidoParcial == 0){
+			std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
+			socketCerrado = true;
+		} else {
+			bytesRecibidos += recibidoParcial;
+		}
+	}
+	if (error || socketCerrado){
+		shutdown(this->socketFD, SHUT_RDWR);
+		close(this->socketFD);
+		return "";
+	}
+	return std::string(buffer);
 }
 
 Socket::~Socket() {
