@@ -119,7 +119,8 @@ std::string Socket::recibir(){
 	memset(buffer, 0, MAX_BUFFER);
 	// Leo hasta un maximo de MAX_BUFFER caracteres
 	bool error = false, socketCerrado = false;
-	while (bytesRecibidos < MAX_BUFFER && !error && !socketCerrado){
+	bool termino = false;
+	while (bytesRecibidos < MAX_BUFFER && !error && !socketCerrado && !termino){
 		int recibidoParcial = recv(this->socketFD, buffer + bytesRecibidos, MAX_BUFFER, MSG_NOSIGNAL);
 		if (recibidoParcial < 0){
 			std::cerr << "ERROR AL RECIBIR MENSAJE: " << gai_strerror(recibidoParcial) << std::endl;
@@ -128,6 +129,14 @@ std::string Socket::recibir(){
 			std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
 			socketCerrado = true;
 		} else {
+			for (int i = bytesRecibidos; (i < (bytesRecibidos + recibidoParcial)) && !termino; i++){
+				if (buffer[i] == '\n'){
+					termino = true;
+				}
+				if (termino){
+					std::cout << "FIN: " << "char: " << ((buffer[i] == '\n') ? "barraene" : "") << std::endl;
+				}
+			}
 			bytesRecibidos += recibidoParcial;
 		}
 	}
@@ -135,6 +144,12 @@ std::string Socket::recibir(){
 		shutdown(this->socketFD, SHUT_RDWR);
 		close(this->socketFD);
 		return "";
+	}
+
+	buffer[bytesRecibidos - 1] = '\0';
+	if (strcmp(buffer, "fin") == 0){
+		std::cout << "Mensaje: " << buffer << std::endl;
+		std::cout << "bytes: " << bytesRecibidos << std::endl;
 	}
 	return std::string(buffer);
 }
