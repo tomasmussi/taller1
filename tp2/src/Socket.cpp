@@ -67,7 +67,7 @@ bool Socket::conectar(){
 }
 
 Socket* Socket::aceptar(){
-	int nuevoSocketFD = accept(this->socketFD, NULL, NULL);
+	int nuevoSocketFD = accept(this->socketFD, this->ai_addr, &this->ai_addrlen);
 	if (nuevoSocketFD == -1){
 		std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
 		return NULL;
@@ -84,18 +84,14 @@ bool Socket::listenSocket(){
 	return true;
 }
 
-bool Socket::enviar(std::string mensaje){
-	if (!this->conectado){
-		return false;
-	}
-	const char *buffer = mensaje.c_str();
-	size_t longitudMensaje = mensaje.length();
-	size_t bytesEnviados = 0;
+bool Socket::enviar(const char *buffer, int tamanio){
+	int bytesEnviados = 0;
 	bool error = false, socketCerrado = false;
-	while (bytesEnviados < longitudMensaje && !error && !socketCerrado){
-		int envioParcial = send(this->socketFD, buffer, longitudMensaje, MSG_NOSIGNAL);
+	while (bytesEnviados < tamanio && !error && !socketCerrado){
+		int envioParcial = send(this->socketFD, buffer + bytesEnviados, tamanio - bytesEnviados, MSG_NOSIGNAL);
 		if (envioParcial < 0){
-			std::cerr << "ERROR AL ENVIAR MENASJE: " << mensaje << ". ERROR: " << gai_strerror(envioParcial) << std::endl;
+			std::cerr << "Error al enviar mensaje: " << std::string(buffer) << std::endl;
+			std::cerr << "Error: " << gai_strerror(envioParcial) << std::endl;
 			error = true;
 		} else if (envioParcial == 0){
 			std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
@@ -110,47 +106,50 @@ bool Socket::enviar(std::string mensaje){
 		close(this->socketFD);
 		return false;
 	}
+	std::cout << "OK\n";
 	return true;
 }
 
-std::string Socket::recibir(){
+bool Socket::enviar(std::string mensaje){
+	return this->enviar(mensaje.c_str(), mensaje.length());
+}
+
+bool Socket::recibir(char *buffer, int tamanio){
 	int bytesRecibidos = 0;
-	char buffer[MAX_BUFFER];
-	memset(buffer, 0, MAX_BUFFER);
-	// Leo hasta un maximo de MAX_BUFFER caracteres
-	bool error = false, socketCerrado = false;
-	bool termino = false;
-	while (bytesRecibidos < MAX_BUFFER && !error && !socketCerrado && !termino){
-		int recibidoParcial = recv(this->socketFD, buffer + bytesRecibidos, MAX_BUFFER, MSG_NOSIGNAL);
+	memset(buffer, 0, tamanio);
+	bool fin = false, error = false, socketCerrado = false;
+	while (bytesRecibidos < tamanio && !fin && !error && !socketCerrado){
+		int recibidoParcial = recv(this->socketFD, buffer + bytesRecibidos ,tamanio - bytesRecibidos,MSG_NOSIGNAL);
 		if (recibidoParcial < 0){
-			std::cerr << "ERROR AL RECIBIR MENSAJE: " << gai_strerror(recibidoParcial) << std::endl;
+			std::cerr << "Error al recibir mensaje: " << gai_strerror(recibidoParcial) << std::endl;
 			error = true;
 		} else if (recibidoParcial == 0){
 			std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
 			socketCerrado = true;
 		} else {
-			for (int i = bytesRecibidos; (i < (bytesRecibidos + recibidoParcial)) && !termino; i++){
+			bytesRecibidos += recibidoParcial;
+			for (int i = 0; i < bytesRecibidos; i++){
 				if (buffer[i] == '\n'){
-					termino = true;
-				}
-				if (termino){
-					std::cout << "FIN: " << "char: " << ((buffer[i] == '\n') ? "barraene" : "") << std::endl;
+					buffer[i] = '\0';
+					fin = true;
+					break;
 				}
 			}
-			bytesRecibidos += recibidoParcial;
 		}
 	}
+	// Por las dudas
+	buffer[tamanio - 1] = '\0';
 	if (error || socketCerrado){
 		shutdown(this->socketFD, SHUT_RDWR);
 		close(this->socketFD);
-		return "";
+		return false;
 	}
+	return true;
+}
 
-	buffer[bytesRecibidos - 1] = '\0';
-	if (strcmp(buffer, "fin") == 0){
-		std::cout << "Mensaje: " << buffer << std::endl;
-		std::cout << "bytes: " << bytesRecibidos << std::endl;
-	}
+std::string Socket::recibir(){
+	char buffer[MAX_BUFFER];
+	this->recibir(buffer, MAX_BUFFER);
 	return std::string(buffer);
 }
 

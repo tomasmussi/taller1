@@ -17,6 +17,8 @@ private:
 	socklen_t ai_addrlen;
 	struct sockaddr *ai_addr;
 	bool conectado;
+	bool enviar(const char *buffer, int tamanio);
+	bool recibir(char *buffer, int tamanio);
 
 public:
 

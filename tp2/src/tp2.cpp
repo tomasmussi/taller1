@@ -39,9 +39,12 @@ void servidorSocketPrueba(char *argv[]){
 		Socket *nuevaConexion = socket.aceptar();
 		std::cout << "nuevo cliente!\n";
 		std::string mensajeRecibido = nuevaConexion->recibir();
-		std::cout << "mensaje leido\n";
-		delete nuevaConexion;
 		std::cout << "RECIBIDO: " << mensajeRecibido << std::endl;
+		while ((mensajeRecibido.compare("finish") != 0) && (mensajeRecibido.compare("end") != 0)){
+			mensajeRecibido = nuevaConexion->recibir();
+			std::cout << "RECIBIDO: " << mensajeRecibido << std::endl;
+		}
+		delete nuevaConexion;
 		if (mensajeRecibido.compare("finish") == 0){
 			break;
 		}
