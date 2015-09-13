@@ -3,6 +3,7 @@
 #include <iostream>
 
 ClientProxy::ClientProxy(std::string puerto) {
+	this->seguir = true;
 	this->secciones = new std::map<std::string, Medicion*>();
 	std::string localhost("localhost");
 	this->socket = new Socket(localhost, puerto, AI_PASSIVE);
@@ -23,8 +24,8 @@ bool ClientProxy::finMensaje(std::string mensaje){
 
 void ClientProxy::escucharConexiones(){
 	this->socket->listenSocket();
-	bool seguir = true;
-	while (seguir){
+	this->seguir = true;
+	while (this->seguir){
 		Socket *nuevaConexion = this->socket->aceptar();
 		std::string mensaje = nuevaConexion->recibir();
 		while (! this->finMensaje(mensaje)){
@@ -34,6 +35,15 @@ void ClientProxy::escucharConexiones(){
 		this->imprimir();
 		delete nuevaConexion;
 	}
+}
+
+void ClientProxy::finalizar(){
+	std::cout << "llega finalizar\n";
+	this->seguir = false;
+}
+
+void ClientProxy::run(){
+	this->escucharConexiones();
 }
 
 void ClientProxy::resolverMensaje(std::string mensajeString){

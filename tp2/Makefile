@@ -30,7 +30,7 @@ OBJ = $(addprefix $(OBJDIR)/,$(notdir $(SRC:.$(extension)=.o)))
 math = si
 
 # Si usa pthreads, descomentar (quitar el '#' a) la siguiente línea.
-#pthreads = si
+pthreads = si
 
 # Si es un programa GTK+, descomentar (quitar el '#' a) la siguiente línea.
 #gtk = si

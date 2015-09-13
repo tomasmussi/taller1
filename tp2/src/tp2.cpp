@@ -4,7 +4,7 @@
 #include <sstream>
 
 #include "Conector.h"
-#include "ClientProxy.h"
+#include "Servidor.h"
 
 using namespace std;
 #define ARGUMENTOS_CONECTOR 5
@@ -52,8 +52,9 @@ void servidorSocketPrueba(char *argv[]){
 }
 
 void servidor(char *argv[]){
-	ClientProxy proxy(argv[1]);
-	proxy.escucharConexiones();
+	std::string puerto = std::string(argv[1]);
+	Servidor servidor(puerto);
+	servidor.iniciar();
 }
 
 int main(int argc, char *argv[]) {
