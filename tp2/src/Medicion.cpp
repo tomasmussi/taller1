@@ -3,6 +3,11 @@
 #include <string>
 #include <sstream>
 
+Medicion::Medicion(int nivel, int caudal){
+	this->nivel = nivel;
+	this->caudal = caudal;
+}
+
 Medicion::Medicion(std::string pars) {
 	this->nivel = 0;
 	this->caudal = 0;

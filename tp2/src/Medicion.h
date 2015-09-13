@@ -10,6 +10,7 @@ private:
 	int caudal;
 
 public:
+	Medicion(int nivel, int caudal);
 	Medicion(std::string pars);
 	~Medicion();
 	int getNivel();
