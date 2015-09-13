@@ -106,7 +106,6 @@ bool Socket::enviar(const char *buffer, int tamanio){
 		close(this->socketFD);
 		return false;
 	}
-	std::cout << "OK\n";
 	return true;
 }
 
@@ -124,17 +123,10 @@ bool Socket::recibir(char *buffer, int tamanio){
 			std::cerr << "Error al recibir mensaje: " << gai_strerror(recibidoParcial) << std::endl;
 			error = true;
 		} else if (recibidoParcial == 0){
-			std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
+			//std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
 			socketCerrado = true;
 		} else {
 			bytesRecibidos += recibidoParcial;
-			for (int i = 0; i < bytesRecibidos; i++){
-				if (buffer[i] == '\n'){
-					buffer[i] = '\0';
-					fin = true;
-					break;
-				}
-			}
 		}
 	}
 	// Por las dudas
@@ -142,7 +134,8 @@ bool Socket::recibir(char *buffer, int tamanio){
 	if (error || socketCerrado){
 		shutdown(this->socketFD, SHUT_RDWR);
 		close(this->socketFD);
-		return false;
+		// Si me cierran el socket, no lo considero error.
+		return socketCerrado;
 	}
 	return true;
 }

@@ -17,12 +17,10 @@ void ClientProxy::escucharConexiones(){
 	while (seguir){
 		Socket *nuevaConexion = this->socket->aceptar();
 		std::string mensaje = nuevaConexion->recibir();
-		while (mensaje != "fin"){
-			std::cout << mensaje << std::endl;
-			mensaje.clear();
-			mensaje = nuevaConexion->recibir();
+		while (mensaje.find("fin") == std::string::npos){
+			mensaje += nuevaConexion->recibir();
 		}
-		std::cout << mensaje << std::endl;
+		std::cout << mensaje;
 		delete nuevaConexion;
 	}
 }
