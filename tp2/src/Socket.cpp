@@ -113,6 +113,7 @@ bool Socket::enviar(std::string mensaje){
 	return this->enviar(mensaje.c_str(), mensaje.length());
 }
 
+/* DEPRECADO!!! NO USAR. USAR RECIBIR DE STRING MENSAJE */
 bool Socket::recibir(char *buffer, int tamanio){
 	int bytesRecibidos = 0;
 	memset(buffer, 0, tamanio);
@@ -123,7 +124,7 @@ bool Socket::recibir(char *buffer, int tamanio){
 			std::cerr << "Error al recibir mensaje: " << gai_strerror(recibidoParcial) << std::endl;
 			error = true;
 		} else if (recibidoParcial == 0){
-			//std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
+			std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
 			socketCerrado = true;
 		} else {
 			bytesRecibidos += recibidoParcial;
@@ -140,11 +141,30 @@ bool Socket::recibir(char *buffer, int tamanio){
 	return true;
 }
 
-std::string Socket::recibir(){
+bool Socket::recibir(std::string &mensaje){
+	//int bytesRecibidos = 0;
+	bool error = false, socketCerrado = false;
 	char buffer[MAX_BUFFER];
-	this->recibir(buffer, MAX_BUFFER);
-	return std::string(buffer);
+	int recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
+	if (recibidoParcial < 0){
+		std::cerr << "Error al recibir mensaje: " << gai_strerror(recibidoParcial) << std::endl;
+		error = true;
+	} else if (recibidoParcial == 0){
+		//std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
+		socketCerrado = true;
+	} else {
+		buffer[recibidoParcial] = '\0';
+		mensaje += std::string(buffer);
+	}
+	if (error || socketCerrado){
+		shutdown(this->socketFD, SHUT_RDWR);
+		close(this->socketFD);
+		// Si me cierran el socket, no lo considero error.
+		return socketCerrado;
+	}
+	return true;
 }
+
 
 Socket::~Socket() {
 	free(this->ai_addr);

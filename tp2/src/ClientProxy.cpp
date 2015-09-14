@@ -1,8 +1,9 @@
 #include "ClientProxy.h"
 #include "MensajeConector.h"
 #include <iostream>
+#include <sstream>
 
-ClientProxy::ClientProxy(std::string puerto) {
+ClientProxy::ClientProxy(std::string puerto){
 	this->seguir = true;
 	this->secciones = new std::map<std::string, Medicion*>();
 	std::string localhost("localhost");
@@ -19,7 +20,8 @@ ClientProxy::~ClientProxy() {
 }
 
 bool ClientProxy::finMensaje(std::string mensaje){
-	return mensaje.find("fin") != std::string::npos || mensaje.find("consultar\n") != std::string::npos;
+	return mensaje.find("fin\n") != std::string::npos ||
+			(mensaje.find("consultar") != std::string::npos && mensaje.find("\n"));
 }
 
 void ClientProxy::escucharConexiones(){
@@ -27,18 +29,22 @@ void ClientProxy::escucharConexiones(){
 	this->seguir = true;
 	while (this->seguir){
 		Socket *nuevaConexion = this->socket->aceptar();
-		std::string mensaje = nuevaConexion->recibir();
+		std::string mensaje = "";
+		nuevaConexion->recibir(mensaje);
 		while (! this->finMensaje(mensaje)){
-			mensaje += nuevaConexion->recibir();
+			nuevaConexion->recibir(mensaje);
 		}
-		this->resolverMensaje(mensaje);
-		this->imprimir();
+		if (mensaje.find("conector seccion") != std::string::npos){
+			this->resolverMensaje(mensaje);
+		}else {
+			std::string respuesta = this->imprimir();
+			nuevaConexion->enviar(respuesta);
+		}
 		delete nuevaConexion;
 	}
 }
 
 void ClientProxy::finalizar(){
-	std::cout << "llega finalizar\n";
 	this->seguir = false;
 }
 
@@ -64,8 +70,12 @@ void ClientProxy::actualizarMedicion(std::string seccion, Medicion *medicion){
 	(*this->secciones)[seccion] = medicion;
 }
 
-void ClientProxy::imprimir(){
+std::string ClientProxy::imprimir(){
+	std::ostringstream out;
+	out << "Respuesta\n";
 	for (std::map<std::string, Medicion*>::iterator it = this->secciones->begin(); it != this->secciones->end(); it++){
-		std::cout << "seccion " << it->first << " nivel " << it->second->getNivel() << " caudal " << it->second->getCaudal() << "\n";
+		out << "seccion " << it->first << " nivel " << it->second->getNivel() << " caudal " << it->second->getCaudal() << "\n";
 	}
+	out << "fin\n";
+	return out.str();
 }

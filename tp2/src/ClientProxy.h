@@ -22,7 +22,7 @@ public:
 	void escucharConexiones();
 	void finalizar();
 	void actualizarMedicion(std::string seccion, Medicion *medicion);
-	void imprimir();
+	std::string imprimir();
 };
 
 #endif /* CLIENTPROXY_H_ */

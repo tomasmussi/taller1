@@ -26,13 +26,13 @@ void cliente(char *argv[]){
 		conector.tomarMedicion(medicion);
 	}
 }
-
+/*
 void servidorSocketPrueba(char *argv[]){
 	Socket socket("127.0.0.1", argv[1], AI_PASSIVE);
 
-	/* Asocio el socket al puerto pasado por parametro */
+	// Asocio el socket al puerto pasado por parametro
 	socket.bindSocket();
-	/* Indico que el socket estara escuchando conexiones */
+	// Indico que el socket estara escuchando conexiones
 	socket.listenSocket();
 	while (true){
 		std::cout << "escuchando conexiones... \n";
@@ -50,7 +50,7 @@ void servidorSocketPrueba(char *argv[]){
 		}
 	}
 }
-
+*/
 void servidor(char *argv[]){
 	std::string puerto = std::string(argv[1]);
 	Servidor servidor(puerto);

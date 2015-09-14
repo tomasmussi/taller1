@@ -30,7 +30,7 @@ public:
 	Socket* aceptar();
 	bool conectar();
 	bool enviar(std::string mensaje);
-	std::string recibir();
+	bool recibir(std::string &mensaje);
 };
 
 #endif /* SRC_SOCKET_H_ */
