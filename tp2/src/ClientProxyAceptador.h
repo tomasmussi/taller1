@@ -1,17 +1,16 @@
-#ifndef CLIENTPROXY_H_
-#define CLIENTPROXY_H_
+#ifndef CLIENTPROXYACEPTADOR_H_
+#define CLIENTPROXYACEPTADOR_H_
 
+#include "MapaConcurrenteHandler.h"
 #include "Socket.h"
 #include "Medicion.h"
 #include "Thread.h"
-#include <map>
-
 
 class ClientProxyAceptador : public Thread{
 private:
 	bool seguir;
 	Socket *socket;
-	std::map<std::string, Medicion*> *secciones;
+	MapaConcurrenteHandler *mapa;
 	bool finMensaje(std::string mensaje);
 	void resolverMensaje(std::string mensajeString);
 
@@ -21,8 +20,6 @@ public:
 	virtual void run();
 	void escucharConexiones();
 	void finalizar();
-	void actualizarMedicion(std::string seccion, Medicion *medicion);
-	std::string imprimir();
 };
 
-#endif /* CLIENTPROXY_H_ */
+#endif /* CLIENTPROXYACEPTADOR_H_ */
