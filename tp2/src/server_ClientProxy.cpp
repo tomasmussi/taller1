@@ -44,9 +44,6 @@ void ClientProxy::resolverMensaje(std::string mensajeString){
 		copy(std::istream_iterator<std::string>(iss),
 				std::istream_iterator<std::string>(),
 				back_inserter(tokens));
-		/*for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++){
-			std::cout << *it << std::endl;
-		}*/
 		std::string param = tokens.back() == "consultar" ? "" : tokens.back();
 		std::string respuesta = mapa->imprimir(param);
 		conexion->enviar(respuesta);

@@ -29,3 +29,7 @@ int Medicion::getNivel(){
 int Medicion::getCaudal(){
 	return this->caudal;
 }
+
+bool Medicion::valida(){
+	return this->nivel != 0 && this->caudal != 0;
+}

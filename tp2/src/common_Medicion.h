@@ -15,6 +15,7 @@ public:
 	~Medicion();
 	int getNivel();
 	int getCaudal();
+	bool valida();
 };
 
 #endif /* SRC_MEDICION_H_ */

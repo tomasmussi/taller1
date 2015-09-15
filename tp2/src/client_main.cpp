@@ -26,7 +26,9 @@ int main(int argc, char *argv[]) {
 	Conector conector(cantidadMuestras, &server);
 	while(getline(cin, str)) {
 		Medicion medicion(str);
-		conector.tomarMedicion(medicion);
+		if (medicion.valida()){
+			conector.tomarMedicion(medicion);
+		}
 	}
 	return 0;
 }

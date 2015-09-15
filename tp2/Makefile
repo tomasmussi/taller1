@@ -140,6 +140,8 @@ endif
 #########
 
 catedra: cpplint $(CLIENT) $(SERVER)
+	cp bin/client tests/client
+	cp bin/server tests/server
 	cd tests && ./runme.sh 01
 	cd tests && ./runme.sh 02
 	cd tests && ./runme.sh 03
