@@ -1,11 +1,11 @@
 #ifndef SERVIDOR_H_
 #define SERVIDOR_H_
 
-#include "ClientProxy.h"
+#include "ClientProxyAceptador.h"
 
 class Servidor {
 private:
-	ClientProxy *proxy;
+	ClientProxyAceptador *proxy;
 public:
 	Servidor(std::string puerto);
 	~Servidor();

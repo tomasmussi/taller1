@@ -7,7 +7,7 @@
 #include <map>
 
 
-class ClientProxy : public Thread{
+class ClientProxyAceptador : public Thread{
 private:
 	bool seguir;
 	Socket *socket;
@@ -16,8 +16,8 @@ private:
 	void resolverMensaje(std::string mensajeString);
 
 public:
-	ClientProxy(std::string puerto);
-	~ClientProxy();
+	ClientProxyAceptador(std::string puerto);
+	~ClientProxyAceptador();
 	virtual void run();
 	void escucharConexiones();
 	void finalizar();

@@ -1,9 +1,9 @@
-#include "ClientProxy.h"
+#include "ClientProxyAceptador.h"
 #include "MensajeConector.h"
 #include <iostream>
 #include <sstream>
 
-ClientProxy::ClientProxy(std::string puerto){
+ClientProxyAceptador::ClientProxyAceptador(std::string puerto){
 	this->seguir = true;
 	this->secciones = new std::map<std::string, Medicion*>();
 	std::string localhost("localhost");
@@ -11,7 +11,7 @@ ClientProxy::ClientProxy(std::string puerto){
 	this->socket->bindSocket();
 }
 
-ClientProxy::~ClientProxy() {
+ClientProxyAceptador::~ClientProxyAceptador() {
 	for (std::map<std::string, Medicion*>::iterator it = this->secciones->begin(); it != this->secciones->end(); it++){
 		delete it->second;
 	}
@@ -19,12 +19,12 @@ ClientProxy::~ClientProxy() {
 	delete this->socket;
 }
 
-bool ClientProxy::finMensaje(std::string mensaje){
+bool ClientProxyAceptador::finMensaje(std::string mensaje){
 	return mensaje.find("fin\n") != std::string::npos ||
 			(mensaje.find("consultar") != std::string::npos && mensaje.find("\n"));
 }
 
-void ClientProxy::escucharConexiones(){
+void ClientProxyAceptador::escucharConexiones(){
 	this->socket->listenSocket();
 	this->seguir = true;
 	while (this->seguir){
@@ -44,15 +44,15 @@ void ClientProxy::escucharConexiones(){
 	}
 }
 
-void ClientProxy::finalizar(){
+void ClientProxyAceptador::finalizar(){
 	this->seguir = false;
 }
 
-void ClientProxy::run(){
+void ClientProxyAceptador::run(){
 	this->escucharConexiones();
 }
 
-void ClientProxy::resolverMensaje(std::string mensajeString){
+void ClientProxyAceptador::resolverMensaje(std::string mensajeString){
 	/* Por el momento solo resuelvo los conectores */
 	MensajeConector mensaje(mensajeString);
 	std::string seccion = mensaje.getSeccion();
@@ -63,14 +63,14 @@ void ClientProxy::resolverMensaje(std::string mensajeString){
 	}
 }
 
-void ClientProxy::actualizarMedicion(std::string seccion, Medicion *medicion){
+void ClientProxyAceptador::actualizarMedicion(std::string seccion, Medicion *medicion){
 	if (this->secciones->find(seccion) != this->secciones->end()){
 		delete (*this->secciones)[seccion];
 	}
 	(*this->secciones)[seccion] = medicion;
 }
 
-std::string ClientProxy::imprimir(){
+std::string ClientProxyAceptador::imprimir(){
 	std::ostringstream out;
 	out << "Respuesta\n";
 	for (std::map<std::string, Medicion*>::iterator it = this->secciones->begin(); it != this->secciones->end(); it++){

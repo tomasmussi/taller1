@@ -1,7 +1,7 @@
 #include "Servidor.h"
 
 Servidor::Servidor(std::string puerto) {
-	this->proxy = new ClientProxy(puerto);
+	this->proxy = new ClientProxyAceptador(puerto);
 }
 
 Servidor::~Servidor() {
