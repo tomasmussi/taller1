@@ -7,18 +7,23 @@
 ################
 
 # Nombre del ejecutable y los directorios a usar.
-target = tp
 SRCDIR = ./src
 INCDIR = ./src
 OBJDIR = ./obj
 BINDIR = ./bin
+CLIENT = $(BINDIR)/client
+SERVER = $(BINDIR)/server
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
 
 # Archivos a usar
-SRC = $(wildcard $(SRCDIR)/*.$(extension))
-OBJ = $(addprefix $(OBJDIR)/,$(notdir $(SRC:.$(extension)=.o)))
+SRC_COMMON = $(wildcard $(SRCDIR)/common*.$(extension))
+SRC_CLIENT = $(wildcard $(SRCDIR)/client*.$(extension))
+SRC_SERVER = $(wildcard $(SRCDIR)/server*.$(extension))
+OBJ_COMMON = $(addprefix $(OBJDIR)/,$(notdir $(SRC_COMMON:.$(extension)=.o)))
+OBJ_CLIENT = $(addprefix $(OBJDIR)/,$(notdir $(SRC_CLIENT:.$(extension)=.o))) $(OBJ_COMMON)
+OBJ_SERVER = $(addprefix $(OBJDIR)/,$(notdir $(SRC_SERVER:.$(extension)=.o))) $(OBJ_COMMON)
 
 # Archivos con el código fuente que componen el ejecutable. Si no se especifica,
 # toma todos los archivos con la extensión mencionada. Para especificar hay que
@@ -45,10 +50,8 @@ pthreads = si
 # CONFIGURACION "AVANZADA"
 ###########################
 
-CC = gcc
-
 # Opciones para el compilador C/C++ para tratamiento de errores y warnings.
-CFLAGS = -Wall -Werror -pedantic -pedantic-errors
+CFLAGS = -Wall -Werror -Wextra -Wconversion -Wtype-limits -pedantic -pedantic-errors
 
 # Para optimizar el binario resultante lo mejor posible
 CFLAGS += -O3 -DNDEBUG
@@ -136,18 +139,47 @@ endif
 # REGLAS
 #########
 
-all: cpplint test-codes v-test1 v-test2 v-test3 v-test4 v-test5 v-test6
+catedra: cpplint $(CLIENT) $(SERVER)
+	cd tests && ./runme.sh 01
+	cd tests && ./runme.sh 02
+	cd tests && ./runme.sh 03
+	cd tests && ./runme.sh 04
+	cd tests && ./runme.sh 05
+	cd tests && ./runme.sh 06
+	cd tests && ./runme.sh 07
+	cd tests && ./runme.sh 08
 
-$(BINDIR)/$(target): $(OBJ) | $(BINDIR)
-	@if [ -z "$(OBJ)" ]; \
+cpplint: SRC_ALL = $(wildcard $(SRCDIR)/*)
+cpplint: $(SRC_ALL)
+	cpplint
+
+$(CLIENT): $(OBJ_CLIENT) | $(BINDIR)
+	@if [ -z "$(OBJ_CLIENT)" ]; \
 	then \
 		echo "No hay archivos de entrada, recuerde que la extensión debe ser '.$(extension)'."; \
 		false; \
 	fi >&2
-	$(LD) $(OBJ) -o $(BINDIR)/$(target) $(LDFLAGS)
+	$(LD) $(OBJ_CLIENT) -o $@ $(LDFLAGS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.$(extension) | $(OBJDIR)
+$(SERVER): $(OBJ_SERVER) | $(BINDIR)
+	@if [ -z "$(OBJ_SERVER)" ]; \
+	then \
+		echo "No hay archivos de entrada, recuerde que la extensión debe ser '.$(extension)'."; \
+		false; \
+	fi >&2
+	$(LD) $(OBJ_SERVER) -o $@ $(LDFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.$(extension) $(SRCDIR)/*.h | $(OBJDIR)
 	$(CC) -c $(CFLAGS) $< -o $@
+
+$(OBJDIR)/client_main.o: $(SRCDIR)/client_main.$(extension) | $(OBJDIR)
+	$(CC) -c $(CFLAGS) $< -o $@
+
+$(OBJDIR)/server_main.o: $(SRCDIR)/server_main.$(extension) | $(OBJDIR)
+	$(CC) -c $(CFLAGS) $< -o $@
+
+clean:
+	$(RM) -r $(BINDIR) $(OBJDIR)
 
 .PHONY: all clean
 
@@ -156,32 +188,3 @@ $(OBJDIR):
 
 $(BINDIR):
 	mkdir $@
-
-run-%: clean $(BINDIR)/$(target)
-	$(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt
-
-test-codes: $(BINDIR)/$(target)
-	$(BINDIR)/$(target) tests/test1/mediciones.dat tests/test1/tuberias.txt tests/test1/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 0
-	$(BINDIR)/$(target) tests/test2/mediciones.dat tests/test2/tuberias.txt tests/test2/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 1
-	$(BINDIR)/$(target) tests/test3/mediciones.dat tests/test3/tuberias.txt tests/test3/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 0
-	$(BINDIR)/$(target) tests/test4/mediciones.dat tests/test4/tuberias.txt tests/test4/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 1
-	$(BINDIR)/$(target) tests/test5/mediciones.dat tests/test5/tuberias.txt tests/test5/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 0
-	$(BINDIR)/$(target) tests/test6/mediciones.dat tests/test6/tuberias.txt tests/test6/recorrido.txt > /dev/null 2> /dev/null; test $$? -eq 1
-
-test%:
-	diff -iad $(BINDIR)/$@__stdout__ tests/$@/__stdout__
-	diff -iad $(BINDIR)/$@__stderr__ tests/$@/__stderr__
-
-v-test%: valgrind-% test%
-	
-valgrind-%: $(BINDIR)/$(target)
-	./execute_valgrind_and_verify_result_code.sh $(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt > $(BINDIR)/test$*__stdout__ 2> $(BINDIR)/test$*__stderr__
-
-cpplint:
-	cpplint
-
-clean:
-	$(RM) $(o_files) $(BINDIR)/$(target)
-	$(RM) -R $(BINDIR)
-	$(RM) -R $(OBJDIR)
-

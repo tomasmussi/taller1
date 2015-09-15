@@ -1,10 +1,10 @@
-
+/*
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
 
-#include "Conector.h"
-#include "Servidor.h"
+#include "client_Conector.h"
+#include "server_Servidor.h"
 
 using namespace std;
 #define ARGUMENTOS_CONECTOR 5
@@ -26,7 +26,7 @@ void cliente(char *argv[]){
 		conector.tomarMedicion(medicion);
 	}
 }
-/*
+
 void servidorSocketPrueba(char *argv[]){
 	Socket socket("127.0.0.1", argv[1], AI_PASSIVE);
 
@@ -50,7 +50,7 @@ void servidorSocketPrueba(char *argv[]){
 		}
 	}
 }
-*/
+
 void servidor(char *argv[]){
 	std::string puerto = std::string(argv[1]);
 	Servidor servidor(puerto);
@@ -70,3 +70,4 @@ int main(int argc, char *argv[]) {
 	}
 	return 0;
 }
+*/
