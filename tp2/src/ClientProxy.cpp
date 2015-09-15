@@ -1,4 +1,10 @@
 #include "ClientProxy.h"
+#include <sstream>
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <iterator>
+#include <vector>
 
 ClientProxy::ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa){
 	this->conexion = conexion;
@@ -14,12 +20,7 @@ void ClientProxy::run(){
 	while (! this->finMensaje(mensaje)){
 		conexion->recibir(mensaje);
 	}
-	if (mensaje.find("conector seccion") != std::string::npos){
-		this->resolverMensaje(mensaje);
-	} else {
-		std::string respuesta = mapa->imprimir();
-		conexion->enviar(respuesta);
-	}
+	this->resolverMensaje(mensaje);
 	delete conexion;
 }
 
@@ -29,12 +30,26 @@ bool ClientProxy::finMensaje(std::string mensaje){
 }
 
 void ClientProxy::resolverMensaje(std::string mensajeString){
-	/* Por el momento solo resuelvo los conectores */
-	MensajeConector mensaje(mensajeString);
-	std::string seccion = mensaje.getSeccion();
-	while (mensaje.hayActualizacion()){
-		Medicion *medicion = mensaje.getMedicionActual();
-		mapa->actualizarMedicion(seccion, medicion);
-		mensaje.avanzarMedicion();
+	if (mensajeString.find("conector seccion") != std::string::npos){
+		MensajeConector mensaje(mensajeString);
+		std::string seccion = mensaje.getSeccion();
+		while (mensaje.hayActualizacion()){
+			Medicion *medicion = mensaje.getMedicionActual();
+			mapa->actualizarMedicion(seccion, medicion);
+			mensaje.avanzarMedicion();
+		}
+	} else {
+		std::istringstream iss(mensajeString);
+		std::vector<std::string> tokens;
+		copy(std::istream_iterator<std::string>(iss),
+				std::istream_iterator<std::string>(),
+				back_inserter(tokens));
+		/*for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++){
+			std::cout << *it << std::endl;
+		}*/
+		std::string param = tokens.back() == "consultar" ? "" : tokens.back();
+		std::string respuesta = mapa->imprimir(param);
+		conexion->enviar(respuesta);
 	}
+
 }

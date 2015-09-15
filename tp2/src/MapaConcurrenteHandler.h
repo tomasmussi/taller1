@@ -13,7 +13,7 @@ public:
 	MapaConcurrenteHandler();
 	~MapaConcurrenteHandler();
 	void actualizarMedicion(std::string seccion, Medicion *medicion);
-	std::string imprimir();
+	std::string imprimir(std::string seccion);
 };
 
 #endif /* MAPACONCURRENTEHANDLER_H_ */
