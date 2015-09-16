@@ -25,8 +25,8 @@ void ClientProxy::run(){
 }
 
 bool ClientProxy::finMensaje(std::string mensaje){
-	return mensaje.find("fin\n") != std::string::npos ||
-			(mensaje.find("consultar") != std::string::npos && mensaje.find("\n"));
+	return (mensaje.find("fin\n") != std::string::npos) ||
+			((mensaje.find("consultar") != std::string::npos) && (mensaje.find("\n") != std::string::npos));
 }
 
 void ClientProxy::resolverMensaje(std::string mensajeString){

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define MAX_CONEXIONES 20
-#define MAX_BUFFER 100
+#define MAX_BUFFER 2
 
 Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
@@ -113,7 +113,6 @@ bool Socket::enviar(std::string mensaje){
 	return this->enviar(mensaje.c_str(), mensaje.length());
 }
 
-/* DEPRECADO!!! NO USAR. USAR RECIBIR DE STRING MENSAJE */
 bool Socket::recibir(char *buffer, int tamanio){
 	int bytesRecibidos = 0;
 	memset(buffer, 0, tamanio);
