@@ -88,7 +88,7 @@ bool Socket::enviar(const char *buffer, int tamanio){
 	int bytesEnviados = 0;
 	bool error = false, socketCerrado = false;
 	while (bytesEnviados < tamanio && !error && !socketCerrado){
-		int envioParcial = send(this->socketFD, buffer + bytesEnviados, tamanio - bytesEnviados, MSG_NOSIGNAL);
+		ssize_t envioParcial = send(this->socketFD, buffer + bytesEnviados, tamanio - bytesEnviados, MSG_NOSIGNAL);
 		if (envioParcial < 0){
 			std::cerr << "Error al enviar mensaje: " << std::string(buffer) << std::endl;
 			std::cerr << "Error: " << gai_strerror(envioParcial) << std::endl;
@@ -119,7 +119,7 @@ bool Socket::recibir(char *buffer, int tamanio){
 	memset(buffer, 0, tamanio);
 	bool fin = false, error = false, socketCerrado = false;
 	while (bytesRecibidos < tamanio && !fin && !error && !socketCerrado){
-		int recibidoParcial = recv(this->socketFD, buffer + bytesRecibidos ,tamanio - bytesRecibidos,MSG_NOSIGNAL);
+		ssize_t recibidoParcial = recv(this->socketFD, buffer + bytesRecibidos ,tamanio - bytesRecibidos,MSG_NOSIGNAL);
 		if (recibidoParcial < 0){
 			std::cerr << "Error al recibir mensaje: " << gai_strerror(recibidoParcial) << std::endl;
 			error = true;
@@ -145,7 +145,7 @@ bool Socket::recibir(std::string &mensaje){
 	//int bytesRecibidos = 0;
 	bool error = false, socketCerrado = false;
 	char buffer[MAX_BUFFER];
-	int recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
+	ssize_t recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
 	if (recibidoParcial < 0){
 		std::cerr << "Error al recibir mensaje: " << gai_strerror(recibidoParcial) << std::endl;
 		error = true;
