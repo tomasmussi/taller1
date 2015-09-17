@@ -9,6 +9,7 @@ Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
 	struct addrinfo *posibilidades, *iterador;
 	this->conectado = false;
+	this->cerrado = false;
 
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_INET; /* IP v4*/
@@ -44,6 +45,7 @@ Socket::Socket(int nuevoSocketFD){
 	this->ai_addr = NULL;
 	memset(&this->ai_addrlen, 0, sizeof(socklen_t));
 	this->conectado = true;
+	this->cerrado = false;
 }
 
 bool Socket::bindSocket(){
@@ -68,7 +70,7 @@ bool Socket::conectar(){
 
 Socket* Socket::aceptar(){
 	int nuevoSocketFD = accept(this->socketFD, this->ai_addr, &this->ai_addrlen);
-	if (nuevoSocketFD == -1){
+	if (nuevoSocketFD == -1 && !cerrado){
 		std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
 		return NULL;
 	}
@@ -118,7 +120,7 @@ bool Socket::recibir(std::string &mensaje){
 	bool error = false, socketCerrado = false;
 	char buffer[MAX_BUFFER];
 	ssize_t recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
-	if (recibidoParcial < 0){
+	if (recibidoParcial < 0 && !cerrado){
 		std::cerr << "Error al recibir mensaje: " << gai_strerror((int)recibidoParcial) << std::endl;
 		error = true;
 	} else if (recibidoParcial == 0){
@@ -134,6 +136,15 @@ bool Socket::recibir(std::string &mensaje){
 		// Si me cierran el socket, no lo considero error.
 		return socketCerrado;
 	}
+	return true;
+}
+
+bool Socket::cerrar(){
+	//std::cout << "FINALIZAR SOCKET\n";
+	shutdown(this->socketFD, SHUT_RDWR);
+	close(this->socketFD);
+	this->cerrado = true;
+	//std::cout << "DONE SOCKET\n";
 	return true;
 }
 

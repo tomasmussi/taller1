@@ -10,6 +10,7 @@ class ClientProxy : public Thread {
 private:
 	MapaConcurrenteHandler *mapa;
 	Socket *conexion;
+	bool finalizado;
 public:
 	ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa);
 	~ClientProxy();
@@ -17,6 +18,7 @@ public:
 	bool finMensaje(std::string mensaje);
 	std::string imprimir();
 	void resolverMensaje(std::string mensajeString);
+	bool finalizar();
 };
 
 #endif /* CLIENTPROXY_H_ */

@@ -9,6 +9,7 @@
 ClientProxy::ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa){
 	this->conexion = conexion;
 	this->mapa = mapa;
+	this->finalizado = false;
 }
 
 ClientProxy::~ClientProxy() {
@@ -17,7 +18,7 @@ ClientProxy::~ClientProxy() {
 void ClientProxy::run(){
 	std::string mensaje = "";
 	conexion->recibir(mensaje);
-	while (! this->finMensaje(mensaje)){
+	while (! this->finMensaje(mensaje) && !finalizado){
 		conexion->recibir(mensaje);
 	}
 	this->resolverMensaje(mensaje);
@@ -30,7 +31,9 @@ bool ClientProxy::finMensaje(std::string mensaje){
 }
 
 void ClientProxy::resolverMensaje(std::string mensajeString){
+	//std::cout << "Mensaje: " << mensajeString << std::endl;
 	if (mensajeString.find("conector seccion") != std::string::npos){
+		//std::cout << "Es un conector seccion\n";
 		MensajeConector mensaje(mensajeString);
 		std::string seccion = mensaje.getSeccion();
 		while (mensaje.hayActualizacion()){
@@ -39,6 +42,7 @@ void ClientProxy::resolverMensaje(std::string mensajeString){
 			mensaje.avanzarMedicion();
 		}
 	} else {
+		//std::cout << "Es una consulta\n";
 		std::istringstream iss(mensajeString);
 		std::vector<std::string> tokens;
 		copy(std::istream_iterator<std::string>(iss),
@@ -48,5 +52,12 @@ void ClientProxy::resolverMensaje(std::string mensajeString){
 		std::string respuesta = mapa->imprimir(param);
 		conexion->enviar(respuesta);
 	}
+}
 
+bool ClientProxy::finalizar(){
+	//std::cout << "FINALIZAR CLIENTPROXY\n";
+	this->finalizado = true;
+	bool fin = conexion->cerrar();
+	//std::cout << "DONE CLIENTPROXY\n";
+	return fin;
 }

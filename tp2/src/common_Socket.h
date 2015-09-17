@@ -17,6 +17,7 @@ private:
 	socklen_t ai_addrlen;
 	struct sockaddr *ai_addr;
 	bool conectado;
+	bool cerrado;
 	bool enviar(const char *buffer, ssize_t tamanio);
 	bool recibir(char *buffer, int tamanio);
 
@@ -31,6 +32,7 @@ public:
 	bool conectar();
 	bool enviar(std::string mensaje);
 	bool recibir(std::string &mensaje);
+	bool cerrar();
 };
 
 #endif /* SRC_SOCKET_H_ */

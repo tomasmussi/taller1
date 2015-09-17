@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+# set -x
 
 if [ "$1" == "--help" ] || [ $# -lt 2 ]; then
 	echo -e "Uso: run.sh puerto args_server [valgrind]\n"
@@ -12,6 +12,7 @@ modo=$4
 cant_lientes=5
 server="server"
 client="client"
+server_stdin="server-stdin"
 
 if [ "$3" == "valgrind" ]; then
 	pre_server='valgrind --gen-suppressions=all --tool=memcheck --trace-children=yes --track-fds=yes --time-stamp=yes --num-callers=20 --error-exitcode=42 --db-attach=no --leak-check=full --leak-resolution=med --log-file=valgrind_server.out '
@@ -26,8 +27,9 @@ shift
 shift
 
 echo -n "Server..."
-mkfifo server-stdin
-$pre_server ./$server $puerto "$@" <> server-stdin > __server_stdout__ 2> __server_stderr__ &
+# mkfifo $server_stdin
+# piping so I can use the hack below to write to /proc/PID/fd/0
+(while [ 1 ]; do sleep 1; done) | $pre_server ./$server $puerto "$@" > __server_stdout__ 2> __server_stderr__ &
 sleep 1
 ps $! > /dev/null
 server_status=$? 
@@ -36,7 +38,7 @@ if [ $! -gt 0 ] && [ $server_status -eq 0 ]; then
 	server_pid=$!
 else
 	echo "Error"
-	rm server-stdin
+	# rm $server_stdin
 	exit 2
 fi
 
@@ -89,13 +91,14 @@ if [ "$modo" == "multiple" ]; then
 	done
 fi
 
-echo -n "Terminando server..."
-echo -e "q\n" >> server-stdin
+echo "Terminando server..."
+echo -e "q\n" > "/proc/$server_pid/fd/0" # hackkkk
 sleep 1
-rm -f server-stdin
-if [ "$?" = "0" ]; then
+ps $server_pid > /dev/null
+if [ $? -eq "1" ]; then
 	echo "Server detenido OK"
 else
 	echo "Server ERROR"
 	kill -9 $server_pid
+	exit 1
 fi

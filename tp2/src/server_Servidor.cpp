@@ -15,6 +15,7 @@ void Servidor::iniciar(){
 		std::string mensajeEntrante;
 		getline(std::cin, mensajeEntrante);
 		if (mensajeEntrante == "q"){
+			//std::cout << "Finalizar SERVIDOR\n";
 			seguir = false;
 			proxy->finalizar();
 		}

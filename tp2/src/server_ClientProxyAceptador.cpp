@@ -1,6 +1,4 @@
 #include "server_ClientProxyAceptador.h"
-#include "server_ClientProxy.h"
-#include <list>
 
 ClientProxyAceptador::ClientProxyAceptador(std::string puerto){
 	this->seguir = true;
@@ -18,7 +16,6 @@ ClientProxyAceptador::~ClientProxyAceptador() {
 void ClientProxyAceptador::escucharConexiones(){
 	this->socket->listenSocket();
 	this->seguir = true;
-	std::list<ClientProxy*> threads;
 	while (this->seguir){
 		Socket *nuevaConexion = this->socket->aceptar();
 		ClientProxy *proxy = new ClientProxy(nuevaConexion, mapa);
@@ -32,7 +29,14 @@ void ClientProxyAceptador::escucharConexiones(){
 }
 
 void ClientProxyAceptador::finalizar(){
+	//std::cout << "FINALIZAR CLIENTPROXYACEPTADOR\n";
 	this->seguir = false;
+	for (std::list<ClientProxy*>::iterator it = threads.begin(); it != threads.end(); it++){
+		(*it)->finalizar();
+		delete (*it);
+	}
+	this->socket->cerrar();
+	//std::cout << "DONE CLIENTPROXYACEPTADOR\n";
 }
 
 void ClientProxyAceptador::run(){

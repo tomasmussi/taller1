@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 i=$1;
 while [ $i -le 1000000 ]; do 
