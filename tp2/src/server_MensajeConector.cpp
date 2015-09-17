@@ -15,10 +15,10 @@ MensajeConector::MensajeConector(std::string mensaje) {
 		parcial >> nivel; // numero
 		parcial >> medicion; // caudal
 		parcial >> caudal;
-		this->mediciones.push_back(new Medicion(nivel,caudal));
+		mediciones.push_back(new Medicion(nivel,caudal));
 		std::getline(ss, item, '\n');
 	}
-	this->iterador = this->mediciones.begin();
+	iterador = mediciones.begin();
 }
 
 void MensajeConector::parsearSeccion(std::string mensaje){
@@ -34,19 +34,19 @@ MensajeConector::~MensajeConector() {
 }
 
 std::string MensajeConector::getSeccion(){
-	return this->seccion;
+	return seccion;
 }
 
 bool MensajeConector::hayActualizacion(){
-	return this->iterador != this->mediciones.end();
+	return iterador != mediciones.end();
 }
 
 Medicion* MensajeConector::getMedicionActual(){
-	return *this->iterador;
+	return *iterador;
 }
 
 void MensajeConector::avanzarMedicion(){
-	this->iterador++;
+	iterador++;
 }
 
 
