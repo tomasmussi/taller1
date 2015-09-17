@@ -10,8 +10,8 @@
 
 class ClientProxyAceptador : public Thread{
 private:
-	MapaConcurrenteHandler *mapa;
-	Socket *socket;
+	MapaConcurrenteHandler mapa;
+	Socket socket;
 	bool seguir;
 	std::list<ClientProxy*> threads;
 	bool clientesEliminados;

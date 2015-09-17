@@ -1,26 +1,22 @@
 #include "server_ClientProxyAceptador.h"
 
-ClientProxyAceptador::ClientProxyAceptador(std::string puerto){
+ClientProxyAceptador::ClientProxyAceptador(std::string puerto)
+	: mapa(), socket("localhost", puerto, AI_PASSIVE){
 	this->seguir = true;
 	this->clientesEliminados = false;
-	this->mapa = new MapaConcurrenteHandler();
-	std::string localhost("localhost");
-	this->socket = new Socket(localhost, puerto, AI_PASSIVE);
-	this->socket->bindSocket();
+	this->socket.bindSocket();
 }
 
 ClientProxyAceptador::~ClientProxyAceptador() {
-	delete this->mapa;
-	delete this->socket;
 }
 
 void ClientProxyAceptador::escucharConexiones(){
-	this->socket->listenSocket();
+	this->socket.listenSocket();
 	this->seguir = true;
 	while (this->seguir){
-		Socket *nuevaConexion = this->socket->aceptar();
+		Socket *nuevaConexion = this->socket.aceptar();
 		if (this->seguir){
-			ClientProxy *proxy = new ClientProxy(nuevaConexion, mapa);
+			ClientProxy *proxy = new ClientProxy(nuevaConexion, &mapa);
 			threads.push_back(proxy);
 			proxy->start();
 		} else {
@@ -43,11 +39,9 @@ void ClientProxyAceptador::eliminarClientes(){
 }
 
 void ClientProxyAceptador::finalizar(){
-	//std::cout << "FINALIZAR CLIENTPROXYACEPTADOR\n";
 	this->seguir = false;
 	this->eliminarClientes();
-	this->socket->cerrar();
-	//std::cout << "DONE CLIENTPROXYACEPTADOR\n";
+	this->socket.cerrar();
 }
 
 void ClientProxyAceptador::run(){

@@ -7,8 +7,8 @@
 
 class MapaConcurrenteHandler {
 private:
-	std::map<std::string, Medicion*> *secciones;
-	Mutex *mutex;
+	std::map<std::string, Medicion*> secciones;
+	Mutex mutex;
 public:
 	MapaConcurrenteHandler();
 	~MapaConcurrenteHandler();
