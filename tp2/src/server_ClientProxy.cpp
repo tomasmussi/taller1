@@ -16,13 +16,24 @@ ClientProxy::~ClientProxy() {
 }
 
 void ClientProxy::run(){
+	//std::cout << "Se disparo un thread\n";
 	std::string mensaje = "";
 	conexion->recibir(mensaje);
 	while (! this->finMensaje(mensaje) && !finalizado){
 		conexion->recibir(mensaje);
 	}
-	this->resolverMensaje(mensaje);
+	if (!finalizado){
+		this->resolverMensaje(mensaje);
+	}
 	delete conexion;
+}
+
+bool ClientProxy::finalizar(){
+	//std::cout << "FINALIZAR CLIENTPROXY\n";
+	this->finalizado = true;
+	bool fin = conexion->cerrar();
+	//std::cout << "DONE CLIENTPROXY\n";
+	return fin;
 }
 
 bool ClientProxy::finMensaje(std::string mensaje){
@@ -54,10 +65,3 @@ void ClientProxy::resolverMensaje(std::string mensajeString){
 	}
 }
 
-bool ClientProxy::finalizar(){
-	//std::cout << "FINALIZAR CLIENTPROXY\n";
-	this->finalizado = true;
-	bool fin = conexion->cerrar();
-	//std::cout << "DONE CLIENTPROXY\n";
-	return fin;
-}

@@ -10,12 +10,14 @@
 
 class ClientProxyAceptador : public Thread{
 private:
-	std::list<ClientProxy*> threads;
-	bool seguir;
-	Socket *socket;
 	MapaConcurrenteHandler *mapa;
+	Socket *socket;
+	bool seguir;
+	std::list<ClientProxy*> threads;
+	bool clientesEliminados;
 	bool finMensaje(std::string mensaje);
 	void resolverMensaje(std::string mensajeString);
+	void eliminarClientes();
 
 public:
 	ClientProxyAceptador(std::string puerto);

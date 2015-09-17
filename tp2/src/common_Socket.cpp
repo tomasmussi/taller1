@@ -70,8 +70,10 @@ bool Socket::conectar(){
 
 Socket* Socket::aceptar(){
 	int nuevoSocketFD = accept(this->socketFD, this->ai_addr, &this->ai_addrlen);
-	if (nuevoSocketFD == -1 && !cerrado){
-		std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
+	if (nuevoSocketFD == -1){
+		if (!cerrado){
+			std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
+		}
 		return NULL;
 	}
 	return new Socket(nuevoSocketFD);
@@ -141,9 +143,9 @@ bool Socket::recibir(std::string &mensaje){
 
 bool Socket::cerrar(){
 	//std::cout << "FINALIZAR SOCKET\n";
-	shutdown(this->socketFD, SHUT_RDWR);
-	close(this->socketFD);
 	this->cerrado = true;
+	shutdown(this->socketFD, SHUT_RDWR);
+	//close(this->socketFD);
 	//std::cout << "DONE SOCKET\n";
 	return true;
 }
@@ -151,7 +153,9 @@ bool Socket::cerrar(){
 
 Socket::~Socket() {
 	free(this->ai_addr);
-	shutdown(this->socketFD, SHUT_RDWR);
+	if (!this->cerrado){
+		shutdown(this->socketFD, SHUT_RDWR);
+	}
 	close(this->socketFD);
 }
 

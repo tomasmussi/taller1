@@ -2,6 +2,7 @@
 
 ClientProxyAceptador::ClientProxyAceptador(std::string puerto){
 	this->seguir = true;
+	this->clientesEliminados = false;
 	this->mapa = new MapaConcurrenteHandler();
 	std::string localhost("localhost");
 	this->socket = new Socket(localhost, puerto, AI_PASSIVE);
@@ -18,23 +19,33 @@ void ClientProxyAceptador::escucharConexiones(){
 	this->seguir = true;
 	while (this->seguir){
 		Socket *nuevaConexion = this->socket->aceptar();
-		ClientProxy *proxy = new ClientProxy(nuevaConexion, mapa);
-		threads.push_back(proxy);
-		proxy->start();
+		if (this->seguir){
+			ClientProxy *proxy = new ClientProxy(nuevaConexion, mapa);
+			threads.push_back(proxy);
+			proxy->start();
+		} else {
+			if (nuevaConexion != NULL){
+				delete nuevaConexion;
+			}
+		}
 	}
-	for (std::list<ClientProxy*>::iterator it = threads.begin(); it != threads.end(); it++){
-		(*it)->join();
-		delete (*it);
+	this->eliminarClientes();
+}
+
+void ClientProxyAceptador::eliminarClientes(){
+	if (!this->clientesEliminados){
+		for (std::list<ClientProxy*>::iterator it = threads.begin(); it != threads.end(); it++){
+			(*it)->join();
+			delete (*it);
+		}
 	}
+	this->clientesEliminados = true;
 }
 
 void ClientProxyAceptador::finalizar(){
 	//std::cout << "FINALIZAR CLIENTPROXYACEPTADOR\n";
 	this->seguir = false;
-	for (std::list<ClientProxy*>::iterator it = threads.begin(); it != threads.end(); it++){
-		(*it)->finalizar();
-		delete (*it);
-	}
+	this->eliminarClientes();
 	this->socket->cerrar();
 	//std::cout << "DONE CLIENTPROXYACEPTADOR\n";
 }
