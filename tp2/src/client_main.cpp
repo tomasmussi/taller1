@@ -14,9 +14,9 @@ int main(int argc, char *argv[]) {
 		cout << "INVALIDO\n";
 		return 1;
 	}
-	std::string ip = argv[1];
-	std::string puerto = argv[2];
-	std::string nombreSeccion = argv[3];
+	std::string ip(argv[1]);
+	std::string puerto(argv[2]);
+	std::string nombreSeccion(argv[3]);
 	int cantidadMuestras = atoi(argv[4]);
 
 	ServerProxy server(ip, puerto);

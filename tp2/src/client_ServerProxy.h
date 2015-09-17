@@ -7,7 +7,7 @@
 
 class ServerProxy {
 private:
-	Socket *socket;
+	Socket socket;
 public:
 	ServerProxy(std::string ip, std::string puerto);
 	~ServerProxy();
