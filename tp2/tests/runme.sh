@@ -1,7 +1,7 @@
 testcase=$1
 port=$(./free_port.sh 3000)
 
-rm -R runenv/*
+rm -Rf runenv/*
 mkdir runenv/expected
 
 cp client server runenv
@@ -25,6 +25,7 @@ do
     if [ $? -ne 0 ] 
     then
       echo "FAIL: $s"
+      exit 1;
     fi  
 done
 
