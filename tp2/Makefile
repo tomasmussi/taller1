@@ -142,14 +142,14 @@ endif
 catedra: cpplint $(CLIENT) $(SERVER)
 	cp bin/client tests/client
 	cp bin/server tests/server
-	cd tests && ./runme.sh 01
-	cd tests && ./runme.sh 02
-	cd tests && ./runme.sh 03
-	cd tests && ./runme.sh 04
-	cd tests && ./runme.sh 05
-	cd tests && ./runme.sh 06
-	cd tests && ./runme.sh 07
-	cd tests && ./runme.sh 08
+	cd tests && ./runme.sh 01 valgrind
+	cd tests && ./runme.sh 02 valgrind
+	cd tests && ./runme.sh 03 valgrind
+	cd tests && ./runme.sh 04 valgrind
+	cd tests && ./runme.sh 05 valgrind
+	cd tests && ./runme.sh 06 valgrind
+	cd tests && ./runme.sh 07 valgrind
+	cd tests && ./runme.sh 08 valgrind
 
 cpplint: SRC_ALL = $(wildcard $(SRCDIR)/*)
 cpplint: $(SRC_ALL)
