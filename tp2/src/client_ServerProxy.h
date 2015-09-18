@@ -13,6 +13,7 @@ public:
 	~ServerProxy();
 	void informarSeccion(std::string nombreSeccion);
 	void informarMediciones(unsigned int nivel, unsigned int cauce);
+	void finalizar();
 };
 
 #endif /* SRC_SERVERPROXY_H_ */

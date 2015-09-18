@@ -30,5 +30,6 @@ int main(int argc, char *argv[]) {
 			conector.tomarMedicion(medicion);
 		}
 	}
+	server.finalizar();
 	return 0;
 }

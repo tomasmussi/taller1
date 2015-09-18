@@ -27,8 +27,7 @@ Socket::Socket (std::string ip, std::string puerto, int flags) {
 		if (skt != -1){
 			// Anduvo, nos podemos conectar a esta direccion
 			this->socketFD = skt;
-			this->ai_addr = (struct sockaddr*) malloc(sizeof(struct sockaddr));
-			memcpy(this->ai_addr, iterador->ai_addr, sizeof(struct sockaddr));
+			memcpy(& this->ai_addr, iterador->ai_addr, sizeof(struct sockaddr));
 			this->ai_addrlen = iterador->ai_addrlen;
 			direccionNoValida = false;
 		}
@@ -42,14 +41,13 @@ Socket::Socket (std::string ip, std::string puerto, int flags) {
 
 Socket::Socket(int nuevoSocketFD){
 	this->socketFD = nuevoSocketFD;
-	this->ai_addr = NULL;
 	memset(&this->ai_addrlen, 0, sizeof(socklen_t));
 	this->conectado = true;
 	this->cerrado = false;
 }
 
 bool Socket::bindSocket(){
-	int resultado = bind(this->socketFD, this->ai_addr, this->ai_addrlen);
+	int resultado = bind(this->socketFD, &this->ai_addr, this->ai_addrlen);
 	if (resultado != 0){
 		std::cerr << "ERROR AL BINDEAR SOCKET: " << gai_strerror(resultado) << std::endl;
 		return false;
@@ -58,7 +56,7 @@ bool Socket::bindSocket(){
 }
 
 bool Socket::conectar(){
-	int resultado = connect(this->socketFD, this->ai_addr, this->ai_addrlen);
+	int resultado = connect(this->socketFD, &this->ai_addr, this->ai_addrlen);
 	this->conectado = resultado == 0;
 	if (resultado != 0){
 		std::cerr << "ERROR AL CONECTAR: " << gai_strerror(resultado) << std::endl;
@@ -68,17 +66,6 @@ bool Socket::conectar(){
 	return true;
 }
 
-Socket* Socket::aceptar(){
-	int nuevoSocketFD = accept(this->socketFD, this->ai_addr, &this->ai_addrlen);
-	if (nuevoSocketFD == -1){
-		if (!cerrado){
-			std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
-		}
-		return NULL;
-	}
-	return new Socket(nuevoSocketFD);
-}
-
 bool Socket::listenSocket(){
 	int resultado = listen(this->socketFD, MAX_CONEXIONES);
 	if (resultado != 0){
@@ -86,6 +73,17 @@ bool Socket::listenSocket(){
 		return false;
 	}
 	return true;
+}
+
+Socket* Socket::aceptar(){
+	int nuevoSocketFD = accept(this->socketFD, &this->ai_addr, &this->ai_addrlen);
+	if (nuevoSocketFD == -1){
+		if (!cerrado){
+			std::cerr << "ERROR AL ACEPTAR CONEXION. " << gai_strerror(nuevoSocketFD) << std::endl;
+		}
+		return NULL;
+	}
+	return new Socket(nuevoSocketFD);
 }
 
 bool Socket::enviar(const char *buffer, ssize_t tamanio){
@@ -118,7 +116,6 @@ bool Socket::enviar(std::string mensaje){
 }
 
 bool Socket::recibir(std::string &mensaje){
-	//int bytesRecibidos = 0;
 	bool error = false, socketCerrado = false;
 	char buffer[MAX_BUFFER];
 	ssize_t recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
@@ -142,17 +139,13 @@ bool Socket::recibir(std::string &mensaje){
 }
 
 bool Socket::cerrar(){
-	//std::cout << "FINALIZAR SOCKET\n";
 	this->cerrado = true;
 	shutdown(this->socketFD, SHUT_RDWR);
-	//close(this->socketFD);
-	//std::cout << "DONE SOCKET\n";
 	return true;
 }
 
 
 Socket::~Socket() {
-	free(this->ai_addr);
 	if (!this->cerrado){
 		shutdown(this->socketFD, SHUT_RDWR);
 	}

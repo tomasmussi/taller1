@@ -7,7 +7,6 @@ ServerProxy::ServerProxy(std::string ip, std::string puerto)
 }
 
 ServerProxy::~ServerProxy() {
-	this->socket.enviar("fin\n");
 }
 
 void ServerProxy::informarSeccion(std::string nombreSeccion){
@@ -20,5 +19,10 @@ void ServerProxy::informarMediciones(unsigned int nivel, unsigned int caudal){
 	std::ostringstream builder;
 	builder << "actualizar nivel " << nivel << " caudal " << caudal << "\n";
 	this->socket.enviar(builder.str());
+}
+
+void ServerProxy::finalizar(){
+	this->socket.enviar("fin\n");
+	this->socket.cerrar();
 }
 
