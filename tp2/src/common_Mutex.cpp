@@ -1,7 +1,9 @@
 #include "common_Mutex.h"
 #include <stdlib.h>
+#include <string.h>
 
 Mutex::Mutex() {
+	memset(&this->mutex, 0, sizeof(pthread_mutex_t));
 	pthread_mutex_init(&this->mutex, NULL);
 }
 

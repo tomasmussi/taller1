@@ -11,6 +11,10 @@ private:
 	MapaConcurrenteHandler *mapa;
 	Socket *conexion;
 	bool finalizado;
+	std::string buffer;
+	std::string seccion;
+	bool interpretarEnviado(std::string enviado);
+	bool ejecutarComando(std::string comando, bool primero);
 public:
 	ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa);
 	~ClientProxy();

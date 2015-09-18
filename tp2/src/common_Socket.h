@@ -30,7 +30,7 @@ public:
 	Socket* aceptar();
 	bool conectar();
 	bool enviar(std::string mensaje);
-	bool recibir(std::string &mensaje);
+	std::string recibir();
 	bool cerrar();
 };
 

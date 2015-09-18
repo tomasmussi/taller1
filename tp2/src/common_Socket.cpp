@@ -3,7 +3,8 @@
 #include <stdlib.h>
 
 #define MAX_CONEXIONES 20
-#define MAX_BUFFER 2
+#define MAX_BUFFER 200
+#define MAX_RECIBIR 10
 
 Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
@@ -111,10 +112,12 @@ bool Socket::enviar(std::string mensaje){
 	return this->enviar(mensaje.c_str(), mensaje.length());
 }
 
-bool Socket::recibir(std::string &mensaje){
+std::string Socket::recibir(){
 	bool error = false, socketCerrado = false;
 	char buffer[MAX_BUFFER];
-	ssize_t recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
+	memset(buffer, 0, MAX_BUFFER);
+	//ssize_t recibidoParcial = recv(this->socketFD, buffer, MAX_BUFFER, MSG_NOSIGNAL);
+	ssize_t recibidoParcial = recv(this->socketFD, buffer, MAX_RECIBIR, MSG_NOSIGNAL);
 	if (recibidoParcial < 0 && !cerrado){
 		std::cerr << "Error al recibir mensaje: " << gai_strerror((int)recibidoParcial) << std::endl;
 		error = true;
@@ -122,15 +125,13 @@ bool Socket::recibir(std::string &mensaje){
 		socketCerrado = true;
 	} else {
 		buffer[recibidoParcial] = '\0';
-		mensaje += std::string(buffer);
 	}
 	if (error || socketCerrado){
 		this->cerrar();
 		close(this->socketFD);
-		// Si me cierran el socket, no lo considero error.
-		return socketCerrado;
+		return "";
 	}
-	return true;
+	return std::string(buffer);
 }
 
 bool Socket::cerrar(){

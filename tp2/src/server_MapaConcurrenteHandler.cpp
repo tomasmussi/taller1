@@ -1,5 +1,6 @@
 #include "server_MapaConcurrenteHandler.h"
 #include "common_Lock.h"
+
 #include <sstream>
 
 MapaConcurrenteHandler::MapaConcurrenteHandler() : secciones(), mutex() {
