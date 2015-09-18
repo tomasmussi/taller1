@@ -16,7 +16,6 @@ private:
 	int socketFD;
 	socklen_t ai_addrlen;
 	struct sockaddr ai_addr;
-	bool conectado;
 	bool cerrado;
 	bool enviar(const char *buffer, ssize_t tamanio);
 	bool recibir(char *buffer, int tamanio);

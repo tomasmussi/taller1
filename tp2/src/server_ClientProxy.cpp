@@ -24,6 +24,7 @@ void ClientProxy::run(){
 	if (!finalizado){
 		this->resolverMensaje(mensaje);
 	}
+	conexion->cerrar();
 	delete conexion;
 }
 

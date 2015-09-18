@@ -8,7 +8,6 @@
 Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
 	struct addrinfo *posibilidades, *iterador;
-	this->conectado = false;
 	this->cerrado = false;
 
 	memset(&hints, 0, sizeof(struct addrinfo));
@@ -21,19 +20,19 @@ Socket::Socket (std::string ip, std::string puerto, int flags) {
 		return;
 	}
 	iterador = posibilidades;
-	bool direccionNoValida = true;
-	while (iterador != NULL && direccionNoValida){
+	bool direccionValida = false;
+	while (iterador != NULL && !direccionValida){
 		int skt = socket(iterador->ai_family, iterador->ai_socktype, iterador->ai_protocol);
 		if (skt != -1){
 			// Anduvo, nos podemos conectar a esta direccion
 			this->socketFD = skt;
 			memcpy(& this->ai_addr, iterador->ai_addr, sizeof(struct sockaddr));
 			this->ai_addrlen = iterador->ai_addrlen;
-			direccionNoValida = false;
+			direccionValida = true;
 		}
 		iterador = iterador->ai_next;
 	}
-	if (direccionNoValida){
+	if (!direccionValida){
 		std::cerr << "NO SE OBTUVIERON DIRECCIONES VALIDAS" << std::endl;
 	}
 	freeaddrinfo(posibilidades);
@@ -42,7 +41,6 @@ Socket::Socket (std::string ip, std::string puerto, int flags) {
 Socket::Socket(int nuevoSocketFD){
 	this->socketFD = nuevoSocketFD;
 	memset(&this->ai_addrlen, 0, sizeof(socklen_t));
-	this->conectado = true;
 	this->cerrado = false;
 }
 
@@ -57,7 +55,6 @@ bool Socket::bindSocket(){
 
 bool Socket::conectar(){
 	int resultado = connect(this->socketFD, &this->ai_addr, this->ai_addrlen);
-	this->conectado = resultado == 0;
 	if (resultado != 0){
 		std::cerr << "ERROR AL CONECTAR: " << gai_strerror(resultado) << std::endl;
 		close(this->socketFD);
@@ -103,8 +100,7 @@ bool Socket::enviar(const char *buffer, ssize_t tamanio){
 		}
 	}
 	if (error || socketCerrado){
-		this->conectado = false;
-		shutdown(this->socketFD, SHUT_RDWR);
+		this->cerrar();
 		close(this->socketFD);
 		return false;
 	}
@@ -123,14 +119,13 @@ bool Socket::recibir(std::string &mensaje){
 		std::cerr << "Error al recibir mensaje: " << gai_strerror((int)recibidoParcial) << std::endl;
 		error = true;
 	} else if (recibidoParcial == 0){
-		//std::cerr << "SOCKET CERRADO DESDE EL OTRO PUNTO. " << std::endl;
 		socketCerrado = true;
 	} else {
 		buffer[recibidoParcial] = '\0';
 		mensaje += std::string(buffer);
 	}
 	if (error || socketCerrado){
-		shutdown(this->socketFD, SHUT_RDWR);
+		this->cerrar();
 		close(this->socketFD);
 		// Si me cierran el socket, no lo considero error.
 		return socketCerrado;
@@ -146,9 +141,6 @@ bool Socket::cerrar(){
 
 
 Socket::~Socket() {
-	if (!this->cerrado){
-		shutdown(this->socketFD, SHUT_RDWR);
-	}
 	close(this->socketFD);
 }
 
