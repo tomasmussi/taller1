@@ -14,7 +14,7 @@ private:
 	std::string buffer;
 	std::string seccion;
 	bool interpretarEnviado(std::string enviado);
-	bool ejecutarComando(std::string comando, bool primero);
+	bool ejecutarComando(std::string comando);
 public:
 	ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa);
 	~ClientProxy();

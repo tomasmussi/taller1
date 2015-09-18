@@ -34,47 +34,44 @@ void ClientProxy::run(){
 		recibido = conexion->recibir();
 		seguir = this->interpretarEnviado(recibido);
 	}
-	/*if (!finalizado){
-		this->resolverMensaje(recibido);
-	}*/
 	conexion->cerrar();
 	delete conexion;
 }
 
 bool ClientProxy::interpretarEnviado(std::string recibido){
-	std::cout << "RECIBIDO: " << recibido << std::endl;
+	//std::cout << "RECIBIDO: " << recibido << std::endl;
 	bool seguir = true;
 	if (recibido.find("\n") != std::string::npos){
 		// Hay un \n, hay que ver que es el mensaje
 		std::istringstream iss(recibido);
-		std::vector<std::string> tokens;
-		std::copy(std::istream_iterator<std::string>(iss),
-			 std::istream_iterator<std::string>(),
-			 back_inserter(tokens));
-		std::cout << "BUFFER: " << buffer << std::endl;
-		std::string comando = buffer + recibido;
+		std::string comando;
+		std::getline(iss, comando, '\n');
+		comando = buffer + comando;
 		buffer.clear();
-		std::cout << "BUFFER AFTER " << buffer << std::endl;
-		seguir = this->ejecutarComando(comando, true);
-		for (size_t i = 1; i < tokens.size(); i++){
-			if (tokens[i].find("\n") != std::string::npos){
-				seguir = seguir && this->ejecutarComando(tokens[i], false);
-			} else {
-				//std::cout << "parte: " << i << tokens[i] << std::endl;
-				buffer.append(tokens[i]);
-			}
+		while (!iss.eof()){
+			//std::cout << "TOKEN: " << token << std::endl;
+			seguir = seguir && this->ejecutarComando(comando);
+			std::getline(iss, comando, '\n');
 		}
+		//std::string comando = buffer + recibido;
+		buffer.append(comando);
+		//seguir = this->ejecutarComando(comando, true);
+		/*if (true){ // es una linea entera
+			seguir = seguir && this->ejecutarComando(tokens[i], false);
+		} else {
+			buffer.append(tokens[i]);
+		}*/
 	} else {
-		std::cout << "BUFFER DEL ELSE : " << buffer << std::endl;
+		//std::cout << "BUFFER DEL ELSE : " << buffer << std::endl;
 		buffer.append(recibido);
-		std::cout << "BUFFER DEL ELSE FIN : " << buffer << std::endl;
+		//std::cout << "BUFFER DEL ELSE FIN : " << buffer << std::endl;
 	}
 	//sleep(1);
 	return seguir;
 }
 
-bool ClientProxy::ejecutarComando(std::string mensaje, bool primero){
-	std::cout << "COMANDO: " << (primero ? " 1) " : " 2) ") << mensaje << std::endl;
+bool ClientProxy::ejecutarComando(std::string mensaje){
+	//std::cout << "COMANDO: " << mensaje << std::endl;
 	if (mensaje.find("consultar") == std::string::npos){
 		if (mensaje.find("conector") != std::string::npos){
 			// Es conector
@@ -84,6 +81,7 @@ bool ClientProxy::ejecutarComando(std::string mensaje, bool primero){
 			ss >> seccion;
 			ss >> seccion;
 			this->seccion = seccion;
+			//std::cout << "SECCION: " << this->seccion << std::endl;
 		} else if (mensaje.find("actualizar") != std::string::npos){
 			// Es actualizacion
 			std::stringstream parcial(mensaje);
@@ -94,6 +92,7 @@ bool ClientProxy::ejecutarComando(std::string mensaje, bool primero){
 			parcial >> nivel; // numero
 			parcial >> medicion; // caudal
 			parcial >> caudal;
+			//std::cout << "ACTUALIZAR: NIVEL: " << nivel << " CAUDAL: " << caudal <<std::endl;
 			mapa->actualizarMedicion(seccion, new Medicion(nivel, caudal));
 		}
 		/*MensajeConector mensaje(mensaje);
@@ -110,6 +109,7 @@ bool ClientProxy::ejecutarComando(std::string mensaje, bool primero){
 				std::istream_iterator<std::string>(),
 				back_inserter(tokens));
 		std::string param = tokens.back() == "consultar" ? "" : tokens.back();
+		//std::cout << "CONSULTAR SECCION: " << param << std::endl;
 		std::string respuesta = mapa->imprimir(param);
 		conexion->enviar(respuesta);
 	}
@@ -123,8 +123,8 @@ bool ClientProxy::finalizar(){
 }
 
 bool ClientProxy::finMensaje(std::string mensaje){
-	return (mensaje.find("fin\n") != std::string::npos) ||
-			((mensaje.find("consultar") != std::string::npos) && (mensaje.find("\n") != std::string::npos));
+	return (mensaje.find("fin") != std::string::npos) ||
+			(mensaje.find("consultar") != std::string::npos);
 }
 
 void ClientProxy::resolverMensaje(std::string mensajeString){

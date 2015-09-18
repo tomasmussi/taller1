@@ -4,7 +4,7 @@
 
 #define MAX_CONEXIONES 20
 #define MAX_BUFFER 200
-#define MAX_RECIBIR 10
+#define MAX_RECIBIR MAX_BUFFER
 
 Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
