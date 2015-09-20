@@ -30,7 +30,8 @@ void ClientProxyAceptador::escucharConexiones(){
 
 void ClientProxyAceptador::eliminarClientes(){
 	if (!this->clientesEliminados){
-		for (std::list<ClientProxy*>::iterator it = threads.begin(); it != threads.end(); it++){
+		for (std::list<ClientProxy*>::iterator it = threads.begin();
+				it != threads.end(); it++){
 			(*it)->join();
 			delete (*it);
 		}

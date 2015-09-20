@@ -18,15 +18,6 @@ ClientProxy::ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa){
 ClientProxy::~ClientProxy() {
 }
 
-/**
- * Tengo que cambiar esto.
- * La idea es:
- * Leer 1 linea. Con esto determino el comando
- *  1) Consultar: se resuelve con esta linea, se responde y fin
- *  2) while leer_linea != fin\n, actualizar mapa
- *  Como hacerlo elegante? No tengo la mas puta idea
- *
- * */
 void ClientProxy::run(){
 	std::string recibido = "";
 	bool seguir = true;
@@ -39,7 +30,6 @@ void ClientProxy::run(){
 }
 
 bool ClientProxy::interpretarEnviado(std::string recibido){
-	//std::cout << "RECIBIDO: " << recibido << std::endl;
 	bool seguir = true;
 	if (recibido.find("\n") != std::string::npos){
 		// Hay un \n, hay que ver que es el mensaje
@@ -49,29 +39,17 @@ bool ClientProxy::interpretarEnviado(std::string recibido){
 		comando = buffer + comando;
 		buffer.clear();
 		while (!iss.eof()){
-			//std::cout << "TOKEN: " << token << std::endl;
 			seguir = seguir && this->ejecutarComando(comando);
 			std::getline(iss, comando, '\n');
 		}
-		//std::string comando = buffer + recibido;
 		buffer.append(comando);
-		//seguir = this->ejecutarComando(comando, true);
-		/*if (true){ // es una linea entera
-			seguir = seguir && this->ejecutarComando(tokens[i], false);
-		} else {
-			buffer.append(tokens[i]);
-		}*/
 	} else {
-		//std::cout << "BUFFER DEL ELSE : " << buffer << std::endl;
 		buffer.append(recibido);
-		//std::cout << "BUFFER DEL ELSE FIN : " << buffer << std::endl;
 	}
-	//sleep(1);
 	return seguir;
 }
 
 bool ClientProxy::ejecutarComando(std::string mensaje){
-	//std::cout << "COMANDO: " << mensaje << std::endl;
 	if (mensaje.find("consultar") == std::string::npos){
 		if (mensaje.find("conector") != std::string::npos){
 			// Es conector
@@ -81,7 +59,6 @@ bool ClientProxy::ejecutarComando(std::string mensaje){
 			ss >> seccion;
 			ss >> seccion;
 			this->seccion = seccion;
-			//std::cout << "SECCION: " << this->seccion << std::endl;
 		} else if (mensaje.find("actualizar") != std::string::npos){
 			// Es actualizacion
 			std::stringstream parcial(mensaje);
@@ -92,16 +69,8 @@ bool ClientProxy::ejecutarComando(std::string mensaje){
 			parcial >> nivel; // numero
 			parcial >> medicion; // caudal
 			parcial >> caudal;
-			//std::cout << "ACTUALIZAR: NIVEL: " << nivel << " CAUDAL: " << caudal <<std::endl;
 			mapa->actualizarMedicion(seccion, new Medicion(nivel, caudal));
 		}
-		/*MensajeConector mensaje(mensaje);
-		std::string seccion = mensaje.getSeccion();
-		while (mensaje.hayActualizacion()){
-			Medicion *medicion = mensaje.getMedicionActual();
-			mapa->actualizarMedicion(seccion, medicion);
-			mensaje.avanzarMedicion();
-		}*/
 	} else {
 		std::istringstream iss(mensaje);
 		std::vector<std::string> tokens;
@@ -109,7 +78,6 @@ bool ClientProxy::ejecutarComando(std::string mensaje){
 				std::istream_iterator<std::string>(),
 				back_inserter(tokens));
 		std::string param = tokens.back() == "consultar" ? "" : tokens.back();
-		//std::cout << "CONSULTAR SECCION: " << param << std::endl;
 		std::string respuesta = mapa->imprimir(param);
 		conexion->enviar(respuesta);
 	}
@@ -126,25 +94,3 @@ bool ClientProxy::finMensaje(std::string mensaje){
 	return (mensaje.find("fin") != std::string::npos) ||
 			(mensaje.find("consultar") != std::string::npos);
 }
-
-void ClientProxy::resolverMensaje(std::string mensajeString){
-	if (mensajeString.find("conector seccion") != std::string::npos){
-		MensajeConector mensaje(mensajeString);
-		std::string seccion = mensaje.getSeccion();
-		while (mensaje.hayActualizacion()){
-			Medicion *medicion = mensaje.getMedicionActual();
-			mapa->actualizarMedicion(seccion, medicion);
-			mensaje.avanzarMedicion();
-		}
-	} else {
-		std::istringstream iss(mensajeString);
-		std::vector<std::string> tokens;
-		copy(std::istream_iterator<std::string>(iss),
-				std::istream_iterator<std::string>(),
-				back_inserter(tokens));
-		std::string param = tokens.back() == "consultar" ? "" : tokens.back();
-		std::string respuesta = mapa->imprimir(param);
-		conexion->enviar(respuesta);
-	}
-}
-

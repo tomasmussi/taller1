@@ -9,6 +9,8 @@ class MapaConcurrenteHandler {
 private:
 	std::map<std::string, Medicion*> secciones;
 	Mutex mutex;
+	void armarMensaje(std::ostringstream& out, Medicion *medicion,
+			std::string seccion);
 public:
 	MapaConcurrenteHandler();
 	~MapaConcurrenteHandler();

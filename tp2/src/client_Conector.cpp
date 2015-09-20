@@ -20,11 +20,13 @@ void Conector::tomarMedicion(Medicion medicion){
 	}
 }
 
-unsigned int Conector::calcularModa(std::map<unsigned int, unsigned int> muestras){
+unsigned int Conector::calcularModa(std::map<unsigned int,
+		unsigned int> muestras){
 	// Como las muestras son valores enteros, 0 lo considero el minimo.
 	unsigned int moda = 0;
 	unsigned int medicionMasAlta = 0;
-	for (std::map<unsigned int, unsigned int>::iterator it = muestras.begin(); it != muestras.end(); it++){
+	for (std::map<unsigned int, unsigned int>::iterator it = muestras.begin();
+			it != muestras.end(); it++){
 		if (it->second > moda){
 			medicionMasAlta = it->first;
 			moda = it->second;

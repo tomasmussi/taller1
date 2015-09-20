@@ -3,23 +3,31 @@
 
 #include <sstream>
 
-MapaConcurrenteHandler::MapaConcurrenteHandler() : secciones(), mutex() {
+MapaConcurrenteHandler::MapaConcurrenteHandler() {
 }
 
 MapaConcurrenteHandler::~MapaConcurrenteHandler() {
 	mutex.lock();
-	for (std::map<std::string, Medicion*>::iterator it = secciones.begin(); it != secciones.end(); it++){
+	for (std::map<std::string, Medicion*>::iterator it = secciones.begin();
+			it != secciones.end(); it++){
 		delete it->second;
 	}
 	mutex.unlock();
 }
 
-void MapaConcurrenteHandler::actualizarMedicion(std::string seccion, Medicion *medicion){
+void MapaConcurrenteHandler::actualizarMedicion(std::string seccion,
+		Medicion *medicion){
 	Lock lock(&mutex);
 	if (secciones.find(seccion) != secciones.end()){
 		delete secciones[seccion];
 	}
 	secciones[seccion] = medicion;
+}
+
+void MapaConcurrenteHandler::armarMensaje(std::ostringstream& out,
+		Medicion *medicion, std::string seccion){
+	out << "seccion " << seccion << " nivel " << medicion->getNivel()
+			<< " caudal " << medicion->getCaudal() << "\n";
 }
 
 std::string MapaConcurrenteHandler::imprimir(std::string seccion){
@@ -28,12 +36,12 @@ std::string MapaConcurrenteHandler::imprimir(std::string seccion){
 	out << "respuesta\n";
 	if (seccion != ""){
 		if (secciones.find(seccion) != secciones.end()){
-			Medicion *medicion = secciones[seccion];
-			out << "seccion " << seccion << " nivel " << medicion->getNivel() << " caudal " << medicion->getCaudal() << "\n";
+			this->armarMensaje(out, secciones[seccion], seccion);
 		}
 	} else {
-		for (std::map<std::string, Medicion*>::iterator it = secciones.begin(); it != secciones.end(); it++){
-			out << "seccion " << it->first << " nivel " << it->second->getNivel() << " caudal " << it->second->getCaudal() << "\n";
+		for (std::map<std::string, Medicion*>::iterator it = secciones.begin();
+				it != secciones.end(); it++){
+			this->armarMensaje(out, it->second, it->first);
 		}
 	}
 	out << "fin\n";
