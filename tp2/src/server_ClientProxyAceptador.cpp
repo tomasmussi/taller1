@@ -48,6 +48,3 @@ void ClientProxyAceptador::finalizar(){
 void ClientProxyAceptador::run(){
 	this->escucharConexiones();
 }
-
-
-

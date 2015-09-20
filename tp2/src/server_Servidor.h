@@ -5,7 +5,7 @@
 
 class Servidor {
 private:
-	ClientProxyAceptador *proxy;
+	ClientProxyAceptador proxy;
 public:
 	Servidor(std::string puerto);
 	~Servidor();
