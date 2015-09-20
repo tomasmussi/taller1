@@ -3,6 +3,7 @@
 
 #include <string>
 
+/* Representa una medicion de los sensores */
 class Medicion {
 
 private:

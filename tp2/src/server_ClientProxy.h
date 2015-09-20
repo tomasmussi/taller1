@@ -12,7 +12,7 @@ private:
 	bool finalizado;
 	std::string buffer;
 	std::string seccion;
-	bool interpretarEnviado(std::string enviado);
+	bool interpretarRecibido(std::string enviado);
 	bool ejecutarComando(std::string comando);
 public:
 	ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa);

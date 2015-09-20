@@ -10,6 +10,10 @@ ClientProxyAceptador::ClientProxyAceptador(std::string puerto)
 ClientProxyAceptador::~ClientProxyAceptador() {
 }
 
+/* Tiene la implementacion de escuchar conexiones entrantes
+ * y derivarlas en otro hilo con su socket peer para poder
+ * seguir recibiendo conexiones.
+ * */
 void ClientProxyAceptador::escucharConexiones(){
 	this->socket.listenSocket();
 	this->seguir = true;
@@ -28,6 +32,9 @@ void ClientProxyAceptador::escucharConexiones(){
 	this->eliminarClientes();
 }
 
+/* Envia un mensaje de finalizacion a todos los clientes, no importa
+ * lo que esten haciendo. El servidor se esta apagando.
+ * */
 void ClientProxyAceptador::eliminarClientes(){
 	if (!this->clientesEliminados){
 		for (std::list<ClientProxy*>::iterator it = threads.begin();
@@ -39,6 +46,7 @@ void ClientProxyAceptador::eliminarClientes(){
 	this->clientesEliminados = true;
 }
 
+/* Cierra el socket aceptor y todas las conexiones que fue derivando. */
 void ClientProxyAceptador::finalizar(){
 	this->seguir = false;
 	this->eliminarClientes();

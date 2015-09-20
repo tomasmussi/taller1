@@ -7,6 +7,7 @@
 #include <vector>
 #include <unistd.h>
 
+/* Representa una conexion con uno de los clientes(sensores) del rio */
 ClientProxy::ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa){
 	this->conexion = conexion;
 	this->mapa = mapa;
@@ -18,18 +19,22 @@ ClientProxy::ClientProxy(Socket *conexion, MapaConcurrenteHandler *mapa){
 ClientProxy::~ClientProxy() {
 }
 
+/* Se ejecuta en un hilo separado al del Socket que acepta conexiones,
+ * por eso tiene su propio Socket peer y el mapa que hay que actualizar.
+ * */
 void ClientProxy::run(){
 	std::string recibido = "";
 	bool seguir = true;
 	while (seguir && !finalizado){
 		recibido = conexion->recibir();
-		seguir = this->interpretarEnviado(recibido);
+		seguir = this->interpretarRecibido(recibido);
 	}
 	conexion->cerrar();
 	delete conexion;
 }
 
-bool ClientProxy::interpretarEnviado(std::string recibido){
+/* Interpreta los bytes recibidos de la conexion y arma los comandos a ejecutar. */
+bool ClientProxy::interpretarRecibido(std::string recibido){
 	bool seguir = true;
 	if (recibido.find("\n") != std::string::npos){
 		// Hay un \n, hay que ver que es el mensaje
@@ -84,13 +89,18 @@ bool ClientProxy::ejecutarComando(std::string mensaje){
 	return !this->finMensaje(mensaje);
 }
 
+/* El socket aceptor envia una senial de terminacion porque se quiere finalizar
+ * el servidor, eso implica cerrar todas las conexiones con los clientes.
+ * Se marca como finalizado y se cierra la conexion con la otra punta
+ * */
 bool ClientProxy::finalizar(){
 	this->finalizado = true;
 	bool fin = conexion->cerrar();
 	return fin;
 }
 
-bool ClientProxy::finMensaje(std::string mensaje){
-	return (mensaje.find("fin") != std::string::npos) ||
-			(mensaje.find("consultar") != std::string::npos);
+/* Verifica si el comando es para finalizar la conexion. */
+bool ClientProxy::finMensaje(std::string comando){
+	return (comando.find("fin") != std::string::npos) ||
+			(comando.find("consultar") != std::string::npos);
 }

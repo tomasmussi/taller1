@@ -7,6 +7,9 @@ Conector::Conector(int cantidadMuestras, ServerProxy *server) {
 	this->server = server;
 }
 
+/* Toma una medicion y la envia al servidor si ya pasaron N cantidad
+ * de muestras
+ * */
 void Conector::tomarMedicion(Medicion medicion){
 	nivel[medicion.getNivel()]++;
 	caudal[medicion.getCaudal()]++;

@@ -6,6 +6,10 @@
 #define MAX_BUFFER 200
 #define MAX_RECIBIR MAX_BUFFER
 
+/* Construye un Socket. Busca entre la ip y el puerto alguna de las
+ * posibles direcciones y crea un FD a donde se creo el socket.
+ * Si no puede encontrar una direccion valida, lo informa por stderr
+ * */
 Socket::Socket (std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
 	struct addrinfo *posibilidades, *iterador;
@@ -42,12 +46,14 @@ Socket::Socket (std::string ip, std::string puerto, int flags) {
 	freeaddrinfo(posibilidades);
 }
 
+/* Crea un nuevo Socket Peer. Lo instancia un socket listener */
 Socket::Socket(int nuevoSocketFD){
 	this->socketFD = nuevoSocketFD;
 	memset(&this->ai_addrlen, 0, sizeof(socklen_t));
 	this->cerrado = false;
 }
 
+/* Asocia el FD socket a la direccion y puerto definidos por addrinfo */
 bool Socket::bindSocket(){
 	int resultado = bind(this->socketFD, &this->ai_addr, this->ai_addrlen);
 	if (resultado != 0){
@@ -58,6 +64,7 @@ bool Socket::bindSocket(){
 	return true;
 }
 
+/* Se conecta al socket listener que se especifico */
 bool Socket::conectar(){
 	int resultado = connect(this->socketFD, &this->ai_addr, this->ai_addrlen);
 	if (resultado != 0){
@@ -69,6 +76,7 @@ bool Socket::conectar(){
 	return true;
 }
 
+/* Asocia el puerto del FD y lo prepara para recibir conexiones */
 bool Socket::listenSocket(){
 	int resultado = listen(this->socketFD, MAX_CONEXIONES);
 	if (resultado != 0){
@@ -79,6 +87,9 @@ bool Socket::listenSocket(){
 	return true;
 }
 
+/* Toma una conexion entrante y devuelve un nuevo Socket peer para comunicarse
+ * con la otra punta
+ * */
 Socket* Socket::aceptar(){
 	int nuevoSocketFD = accept(this->socketFD, &this->ai_addr,
 			&this->ai_addrlen);
@@ -92,6 +103,7 @@ Socket* Socket::aceptar(){
 	return new Socket(nuevoSocketFD);
 }
 
+/* Envia del buffer 'tamanio' bytes a la otra punta */
 bool Socket::enviar(const char *buffer, ssize_t tamanio){
 	ssize_t bytesEnviados = 0;
 	bool error = false, socketCerrado = false;
@@ -117,10 +129,17 @@ bool Socket::enviar(const char *buffer, ssize_t tamanio){
 	return true;
 }
 
+/* Envia un string hacia la otra punta, utiliza el enviar buffer, tamanio */
 bool Socket::enviar(std::string mensaje){
 	return this->enviar(mensaje.c_str(), mensaje.length());
 }
 
+/* Recibe de la otra punta hasta un maximo de MAX_RECIBIR bytes
+ * y los devuelve como un string. Hay que usar un protocolo para que el
+ * utilitario de esta funcion sepa cuando dejar de recibir datos porque
+ * sino se va a quedar bloqueado en la funcion hasta que la otra punta
+ * cierre el socket.
+ * */
 std::string Socket::recibir(){
 	bool error = false, socketCerrado = false;
 	char buffer[MAX_BUFFER];
@@ -144,13 +163,14 @@ std::string Socket::recibir(){
 	return std::string(buffer);
 }
 
+/* Cierra el socket */
 bool Socket::cerrar(){
 	this->cerrado = true;
 	shutdown(this->socketFD, SHUT_RDWR);
 	return true;
 }
 
-
+/* Cierra el FD del socket */
 Socket::~Socket() {
 	close(this->socketFD);
 }

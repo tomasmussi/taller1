@@ -3,16 +3,16 @@
 
 #include <sstream>
 
+/* Monitor del recurso compartido map para consultas y actualizaciones. */
 MapaConcurrenteHandler::MapaConcurrenteHandler() {
 }
 
 MapaConcurrenteHandler::~MapaConcurrenteHandler() {
-	mutex.lock();
+	Lock lock(&mutex);
 	for (std::map<std::string, Medicion*>::iterator it = secciones.begin();
 			it != secciones.end(); it++){
 		delete it->second;
 	}
-	mutex.unlock();
 }
 
 void MapaConcurrenteHandler::actualizarMedicion(std::string seccion,
