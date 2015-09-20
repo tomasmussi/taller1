@@ -1,5 +1,5 @@
-#include "server_MapaConcurrenteHandler.h"
-#include "common_Lock.h"
+#include "serverMapaConcurrenteHandler.h"
+#include "commonLock.h"
 
 #include <sstream>
 

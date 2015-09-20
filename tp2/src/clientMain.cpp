@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <sstream>
 
-#include "client_Conector.h"
+#include "clientConector.h"
 
 using namespace std;
 #define ARGUMENTOS_CONECTOR 5

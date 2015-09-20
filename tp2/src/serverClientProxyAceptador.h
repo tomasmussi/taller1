@@ -1,11 +1,11 @@
 #ifndef CLIENTPROXYACEPTADOR_H_
 #define CLIENTPROXYACEPTADOR_H_
 
-#include "server_ClientProxy.h"
-#include "server_MapaConcurrenteHandler.h"
-#include "common_Socket.h"
-#include "common_Medicion.h"
-#include "common_Thread.h"
+#include "serverClientProxy.h"
+#include "serverMapaConcurrenteHandler.h"
+#include "commonSocket.h"
+#include "commonMedicion.h"
+#include "commonThread.h"
 #include <list>
 
 class ClientProxyAceptador : public Thread{

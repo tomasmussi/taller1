@@ -1,7 +1,7 @@
 #ifndef SRC_CONECTOR_H_
 #define SRC_CONECTOR_H_
-#include "common_Medicion.h"
-#include "client_ServerProxy.h"
+#include "commonMedicion.h"
+#include "clientServerProxy.h"
 #include <map>
 
 class Conector {

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <sstream>
 
-#include "server_Servidor.h"
+#include "serverServidor.h"
 
 #define ARGUMENTOS_SERVIDOR 2
 

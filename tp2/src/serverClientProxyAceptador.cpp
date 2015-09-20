@@ -1,4 +1,4 @@
-#include "server_ClientProxyAceptador.h"
+#include "serverClientProxyAceptador.h"
 
 ClientProxyAceptador::ClientProxyAceptador(std::string puerto)
 	: mapa(), socket("localhost", puerto, AI_PASSIVE){

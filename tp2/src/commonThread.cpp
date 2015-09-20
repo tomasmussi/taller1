@@ -1,4 +1,4 @@
-#include "common_Thread.h"
+#include "commonThread.h"
 #include <string.h>
 
 Thread::Thread() {

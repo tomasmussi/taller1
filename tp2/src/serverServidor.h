@@ -1,7 +1,7 @@
 #ifndef SERVIDOR_H_
 #define SERVIDOR_H_
 
-#include "server_ClientProxyAceptador.h"
+#include "serverClientProxyAceptador.h"
 
 class Servidor {
 private:

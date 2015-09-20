@@ -1,4 +1,4 @@
-#include "common_Lock.h"
+#include "commonLock.h"
 
 Lock::Lock(Mutex *mutex) {
 	this->mutex = mutex;

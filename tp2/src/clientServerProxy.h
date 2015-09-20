@@ -1,7 +1,7 @@
 #ifndef SRC_SERVERPROXY_H_
 #define SRC_SERVERPROXY_H_
 
-#include "common_Socket.h"
+#include "commonSocket.h"
 #include <iostream>
 #include <string>
 

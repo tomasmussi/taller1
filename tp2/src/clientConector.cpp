@@ -1,4 +1,4 @@
-#include "client_Conector.h"
+#include "clientConector.h"
 #include <iostream>
 
 Conector::Conector(int cantidadMuestras, ServerProxy *server) {

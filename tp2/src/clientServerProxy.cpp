@@ -1,4 +1,4 @@
-#include "client_ServerProxy.h"
+#include "clientServerProxy.h"
 #include <sstream>
 
 ServerProxy::ServerProxy(std::string ip, std::string puerto)

@@ -1,9 +1,9 @@
 #ifndef CLIENTPROXY_H_
 #define CLIENTPROXY_H_
 
-#include "server_MapaConcurrenteHandler.h"
-#include "common_Thread.h"
-#include "common_Socket.h"
+#include "serverMapaConcurrenteHandler.h"
+#include "commonThread.h"
+#include "commonSocket.h"
 
 class ClientProxy : public Thread {
 private:
