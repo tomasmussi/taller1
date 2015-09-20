@@ -33,7 +33,9 @@ void ClientProxy::run(){
 	delete conexion;
 }
 
-/* Interpreta los bytes recibidos de la conexion y arma los comandos a ejecutar. */
+/* Interpreta los bytes recibidos de la conexion y arma los comandos a
+ * ejecutar.
+ * */
 bool ClientProxy::interpretarRecibido(std::string recibido){
 	bool seguir = true;
 	if (recibido.find("\n") != std::string::npos){

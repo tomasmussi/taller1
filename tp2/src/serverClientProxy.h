@@ -4,6 +4,7 @@
 #include "serverMapaConcurrenteHandler.h"
 #include "commonThread.h"
 #include "commonSocket.h"
+#include <string>
 
 class ClientProxy : public Thread {
 private:

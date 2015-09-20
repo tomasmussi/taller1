@@ -11,7 +11,6 @@
 
 
 class Socket {
-
 private:
 	int socketFD;
 	socklen_t ai_addrlen;
@@ -21,9 +20,8 @@ private:
 	bool recibir(char *buffer, int tamanio);
 
 public:
-
 	Socket(std::string ip, std::string puerto, int flags);
-	Socket(int nuevoSocketFD);
+	explicit Socket(int nuevoSocketFD);
 	~Socket();
 	bool bindSocket();
 	bool listenSocket();

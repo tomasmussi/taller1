@@ -1,7 +1,9 @@
 #include "serverMapaConcurrenteHandler.h"
 #include "commonLock.h"
 
+#include <string>
 #include <sstream>
+#include <map>
 
 /* Monitor del recurso compartido map para consultas y actualizaciones. */
 MapaConcurrenteHandler::MapaConcurrenteHandler() {

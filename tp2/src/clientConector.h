@@ -5,7 +5,6 @@
 #include <map>
 
 class Conector {
-
 private:
 	int contador;
 	int cantidadMuestras;
@@ -13,12 +12,10 @@ private:
 	std::map<unsigned int, unsigned int> nivel;
 	std::map<unsigned int, unsigned int> caudal;
 	unsigned int calcularModa(std::map<unsigned int, unsigned int> muestras);
-
 public:
 	Conector(int cantidadMuestras, ServerProxy *server);
 	void tomarMedicion(Medicion medicion);
 	~Conector();
-
 };
 
 #endif /* SRC_CONECTOR_H_ */

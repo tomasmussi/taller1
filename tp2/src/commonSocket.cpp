@@ -1,6 +1,7 @@
 #include "commonSocket.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <string>
 
 #define MAX_CONEXIONES 20
 #define MAX_BUFFER 200
@@ -10,7 +11,7 @@
  * posibles direcciones y crea un FD a donde se creo el socket.
  * Si no puede encontrar una direccion valida, lo informa por stderr
  * */
-Socket::Socket (std::string ip, std::string puerto, int flags) {
+Socket::Socket(std::string ip, std::string puerto, int flags) {
 	struct addrinfo hints;
 	struct addrinfo *posibilidades, *iterador;
 	this->cerrado = false;

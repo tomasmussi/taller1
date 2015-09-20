@@ -3,6 +3,7 @@
 
 #include "commonMedicion.h"
 #include "commonMutex.h"
+#include <string>
 #include <map>
 
 class MapaConcurrenteHandler {

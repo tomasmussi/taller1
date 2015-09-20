@@ -1,5 +1,6 @@
 #include "clientServerProxy.h"
 #include <sstream>
+#include <string>
 
 ServerProxy::ServerProxy(std::string ip, std::string puerto)
 	: socket(ip, puerto, 0) {

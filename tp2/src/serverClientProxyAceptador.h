@@ -6,6 +6,7 @@
 #include "commonSocket.h"
 #include "commonMedicion.h"
 #include "commonThread.h"
+#include <string>
 #include <list>
 
 class ClientProxyAceptador : public Thread{
@@ -20,7 +21,7 @@ private:
 	void eliminarClientes();
 
 public:
-	ClientProxyAceptador(std::string puerto);
+	explicit ClientProxyAceptador(std::string puerto);
 	~ClientProxyAceptador();
 	virtual void run();
 	void escucharConexiones();

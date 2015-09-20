@@ -1,17 +1,15 @@
+#include "clientConector.h"
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
+#include <string>
 
-#include "clientConector.h"
-
-using namespace std;
 #define ARGUMENTOS_CONECTOR 5
 #define ARGUMENTOS_SERVIDOR 2
 
 int main(int argc, char *argv[]) {
-
 	if (argc != ARGUMENTOS_CONECTOR){
-		cout << "INVALIDO\n";
+		std::cout << "INVALIDO\n";
 		return 1;
 	}
 	std::string ip(argv[1]);
@@ -24,7 +22,7 @@ int main(int argc, char *argv[]) {
 
 	std::string str = "";
 	Conector conector(cantidadMuestras, &server);
-	while(getline(cin, str)) {
+	while(std::getline(std::cin, str)) {
 		Medicion medicion(str);
 		if (medicion.valida()){
 			conector.tomarMedicion(medicion);

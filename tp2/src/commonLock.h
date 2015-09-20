@@ -4,12 +4,10 @@
 #include "commonMutex.h"
 
 class Lock {
-
 private:
 	Mutex *mutex;
-
 public:
-	Lock(Mutex *mutex);
+	explicit Lock(Mutex *mutex);
 	~Lock();
 };
 

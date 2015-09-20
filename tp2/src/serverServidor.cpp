@@ -1,4 +1,5 @@
 #include "serverServidor.h"
+#include <string>
 
 Servidor::Servidor(std::string puerto) :proxy(puerto) {
 }

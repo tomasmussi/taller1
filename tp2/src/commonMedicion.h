@@ -5,14 +5,13 @@
 
 /* Representa una medicion de los sensores */
 class Medicion {
-
 private:
 	int nivel;
 	int caudal;
 
 public:
 	Medicion(int nivel, int caudal);
-	Medicion(std::string pars);
+	explicit Medicion(std::string pars);
 	~Medicion();
 	int getNivel();
 	int getCaudal();

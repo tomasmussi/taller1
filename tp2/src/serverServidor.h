@@ -2,12 +2,13 @@
 #define SERVIDOR_H_
 
 #include "serverClientProxyAceptador.h"
+#include <string>
 
 class Servidor {
 private:
 	ClientProxyAceptador proxy;
 public:
-	Servidor(std::string puerto);
+	explicit Servidor(std::string puerto);
 	~Servidor();
 	void iniciar();
 };

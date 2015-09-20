@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <sstream>
-
+#include <string>
 #include "serverServidor.h"
 
 #define ARGUMENTOS_SERVIDOR 2

@@ -1,5 +1,6 @@
 #include "clientConector.h"
 #include <iostream>
+#include <map>
 
 Conector::Conector(int cantidadMuestras, ServerProxy *server) {
 	this->contador = 0;
