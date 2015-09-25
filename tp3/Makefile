@@ -14,7 +14,7 @@ OBJDIR = ./obj
 BINDIR = ./bin
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
-extension = c
+extension = cpp
 
 # Archivos a usar
 SRC = $(wildcard $(SRCDIR)/*.$(extension))
