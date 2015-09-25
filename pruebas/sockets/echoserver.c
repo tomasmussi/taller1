@@ -73,6 +73,7 @@ int send_message(int skt, char *buf, int size) {
    bool is_the_socket_valid = true;
 
    while (sent < size && is_the_socket_valid) {
+	   printf("sent: %d/%d\n", sent, size);
       s = send(skt, &buf[sent], size-sent, MSG_NOSIGNAL);
       
       if (s == 0) {
@@ -85,6 +86,7 @@ int send_message(int skt, char *buf, int size) {
          sent += s;
       }
    }
+   printf("Sent finalmente: %d\n", sent);
 
    if (is_the_socket_valid) {
       return sent;
@@ -101,7 +103,7 @@ int send_message(int skt, char *buf, int size) {
    Liberamos la memoria asi no tenemos ningun problema, no? 
                                                 que podria salir mal? 
 */
-#define REPEATS 16   //agregar mas repeticiones si es necesario
+#define REPEATS 2500   //agregar mas repeticiones si es necesario
 void process(char *password) {
    int i;
 
