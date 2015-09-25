@@ -14,7 +14,7 @@ OBJDIR = ./obj
 BINDIR = ./bin
 
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
-extension = cpp
+extension = c
 
 # Archivos a usar
 SRC = $(wildcard $(SRCDIR)/*.$(extension))
@@ -136,7 +136,7 @@ endif
 # REGLAS
 #########
 
-all: $(BINDIR)/$(target)
+all: cpplint test-codes v-test1 v-test2 v-test3 v-test4 v-test5 v-test6
 
 $(BINDIR)/$(target): $(OBJ) | $(BINDIR)
 	@if [ -z "$(OBJ)" ]; \
@@ -157,11 +157,29 @@ $(OBJDIR):
 $(BINDIR):
 	mkdir $@
 
-run: clean $(BINDIR)/$(target)
+run-%: clean $(BINDIR)/$(target)
+	$(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt
+
+test-codes: $(BINDIR)/$(target)
+	$(BINDIR)/$(target) tests/test1/configuracion.txt tests/test1/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0
+	$(BINDIR)/$(target) tests/test2/configuracion.txt tests/test2/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0
+	$(BINDIR)/$(target) tests/test3/configuracion.txt tests/test3/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0
+	$(BINDIR)/$(target) tests/test4/configuracion.txt tests/test4/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0
+
+test%:
+	diff -iad $(BINDIR)/$@__stdout__ tests/$@/__stdout__
+	diff -iad $(BINDIR)/$@__stderr__ tests/$@/__stderr__
+
+v-test%: valgrind-% test%
+	
+valgrind-%: $(BINDIR)/$(target)
+	./execute_valgrind_and_verify_result_code.sh $(BINDIR)/$(target) tests/test$*/configuracion.txt tests/test$*/mapa.txt > $(BINDIR)/test$*__stdout__ 2> $(BINDIR)/test$*__stderr__
 
 cpplint:
 	cpplint
 
 clean:
-	$(RM) -Rf $(BINDIR) $(OBJDIR)
+	$(RM) $(o_files) $(BINDIR)/$(target)
+	$(RM) -R $(BINDIR)
+	$(RM) -R $(OBJDIR)
 
