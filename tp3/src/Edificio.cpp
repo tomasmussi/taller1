@@ -1,4 +1,5 @@
 #include "Edificio.h"
+#include <iostream>
 
 Edificio::Edificio(std::list<Coordenada> coordenadas)
 	: Poligono(coordenadas) {
@@ -10,6 +11,7 @@ Edificio::Edificio(std::list<Coordenada> coordenadas, std::string nombre,
 	char caracter) : Poligono(coordenadas){
 	caracterInterno = caracter;
 	this->nombre = nombre;
+	std::cout << "EDIFICIO PUBLICO " << caracterInterno << " = " << nombre << std::endl;
 }
 
 Edificio::~Edificio() {
@@ -25,4 +27,8 @@ bool Edificio::superficieArbolada(){
 
 const char Edificio::caracter(){
 	return caracterInterno;
+}
+
+const std::string Edificio::getNombre(){
+	return nombre;
 }

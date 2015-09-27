@@ -5,6 +5,7 @@
 #include <list>
 #include "Coordenada.h"
 #include "Elemento.h"
+#include "Figura.h"
 #include "Poligono.h"
 #include "Circulo.h"
 #include "Arbol.h"
@@ -14,10 +15,19 @@
 #include "Semaforo.h"
 #include "Manzana.h"
 
+#define LETRA_A 65
+#define LETRAS 26
+
 Mapa::Mapa() {
+	contEdificiosPublicos = 0;
+	areaEdificada = 0;
+	areaArbolada = 0;
 }
 
 Mapa::~Mapa() {
+	for (std::list<Figura*>::iterator it = elementos.begin(); it != elementos.end(); it++){
+		delete (*it);
+	}
 }
 
 void Mapa::leerObjetos(const char *archivo){
@@ -27,6 +37,10 @@ void Mapa::leerObjetos(const char *archivo){
 		std::stringstream ss(linea);
 		std::string tipo;
 		std::getline(ss, tipo, ',');
+		std::string nombreEdificioPublico;
+		if (tipo.find("edificio-publico") != std::string::npos){
+			std::getline(ss, nombreEdificioPublico, ',');
+		}
 		std::list<Coordenada> coordenadas;
 
 		std::string lat;
@@ -46,47 +60,56 @@ void Mapa::leerObjetos(const char *archivo){
 				}
 			}
 		}
-		this->crearElemento(tipo, coordenadas, lat);
+		this->crearElemento(tipo, coordenadas, lat, nombreEdificioPublico);
 	}
+	std::cout << "Superficie edificada: " << areaEdificada << std::endl;
+	std::cout << "Superficie arbolada: " << areaArbolada << std::endl;
 }
 
 void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
-		std::string radio){
+		std::string radio, std::string nombrePublico){
 
-	//std::cout << "AREA DEL POLIGONO: " << figura.area() << std::endl;
-
-	std::cout << "Tipo: " << tipo << std::endl;
+	//TODO BORRAR CUANDO ESTE SEGURO DE LOS TIPOS
+	/*std::cout << "Tipo: " << tipo << std::endl;
 	for (std::list<Coordenada>::iterator it = coordenadas.begin(); it != coordenadas.end(); it++){
 		std::cout << "Coord: " << *it << "\n";
-	}
+	}*/
+
+	Figura *elemento;
 	if (tipo == "arbol"){
 		std::istringstream iss(radio);
 		double radioDouble;
 		iss >> radioDouble;
-		Arbol arbol(*coordenadas.begin(), radioDouble * 1000);
-		std::cout << "AREA DEL arbol: " << arbol.area() << std::endl;
+		elemento = new Arbol(*coordenadas.begin(), radioDouble * 1000);
 	} else if (tipo == "semaforo"){
 		std::istringstream iss(radio);
 		double radioDouble;
 		iss >> radioDouble;
-		Arbol arbol(*coordenadas.begin(), radioDouble * 1000);
-		std::cout << "AREA DEL semaforo: " << arbol.area() << std::endl;
-	} else {
-		/*Poligono pol(coordenadas);
-		std::cout << "AREA DEL POLIGONO: " << pol.area() << std::endl;*/
-	}
-
-	/*else if (tipo == "agua"){
-		Figura agua = Agua(coordenadas);
+		elemento = new Semaforo(*coordenadas.begin(), radioDouble * 1000);
+	} else if (tipo == "agua"){
+		elemento = new Agua(coordenadas);
 	} else if (tipo == "boulevard"){
-
+		elemento = new Boulevard(coordenadas);
 	} else if (tipo == "manzana"){
-
+		elemento = new Manzana(coordenadas);
 	} else if (tipo.find("edificio") != std::string::npos){
-		if ("edificio-privado"){
-
+		if (tipo == "edificio-privado"){
+			elemento = new Edificio(coordenadas);
 		} else {
-
+			elemento = new Edificio(coordenadas, nombrePublico, LETRA_A + (contEdificiosPublicos++ % LETRAS));
+			edificiosPublicos.push_back((Edificio*)elemento);
 		}
-	}*/
+	}
+	if (elemento->superficieEdificada()){
+		areaEdificada += elemento->area();
+	}
+	if (elemento->superficieArbolada()){
+		areaArbolada += elemento->area();
+	}
+	elementos.push_back(elemento);
+}
+
+
+void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
+	std::list<Celda*> celdas = configuracion.getCeldas();
 }

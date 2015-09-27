@@ -41,7 +41,7 @@ bool ConfiguracionMapa::leerArchivo(const char *archivo){
 	std::cout << std::setprecision(10);
 	std::cout << latitudSuperior << "\n" << latitudInferior << '\n' << longitudIzquierda << '\n'
 			<< longitudDerecha << '\n' << alto << '\n' << ancho << '\n';
-
+	this->crearCeldas();
 	return true;
 }
 
@@ -54,3 +54,12 @@ void ConfiguracionMapa::parsearEntero(std::string cadena, int& numero){
 	std::istringstream stream(cadena);
 	stream >> numero;
 }
+
+void ConfiguracionMapa::crearCeldas(){
+
+}
+
+const std::list<Celda*> ConfiguracionMapa::getCeldas() const {
+	return celdas;
+}
+

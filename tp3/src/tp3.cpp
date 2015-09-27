@@ -12,6 +12,6 @@ int main() {
 	configMapa.leerArchivo("/home/tomas/repos/taller1/tp3/tests/test1/configuracion.txt");
 	Mapa mapa;
 	mapa.leerObjetos("/home/tomas/repos/taller1/tp3/tests/test1/mapa.txt");
-
+	mapa.exportarArchivo(configMapa);
 	return 0;
 }

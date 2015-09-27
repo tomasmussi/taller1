@@ -16,6 +16,7 @@ public:
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();
+	const std::string getNombre();
 };
 
 #endif /* EDIFICIO_H_ */
