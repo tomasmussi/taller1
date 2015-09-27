@@ -2,8 +2,9 @@
 #define FIGURA_H_
 
 #include "Coordenada.h"
+#include "Elemento.h"
 
-class Figura {
+class Figura : public Elemento {
 public:
 	Figura();
 	virtual ~Figura();

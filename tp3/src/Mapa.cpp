@@ -4,8 +4,15 @@
 #include <sstream>
 #include <list>
 #include "Coordenada.h"
+#include "Elemento.h"
 #include "Poligono.h"
 #include "Circulo.h"
+#include "Arbol.h"
+#include "Agua.h"
+#include "Boulevard.h"
+#include "Edificio.h"
+#include "Semaforo.h"
+#include "Manzana.h"
 
 Mapa::Mapa() {
 }
@@ -45,18 +52,41 @@ void Mapa::leerObjetos(const char *archivo){
 
 void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 		std::string radio){
+
+	//std::cout << "AREA DEL POLIGONO: " << figura.area() << std::endl;
+
 	std::cout << "Tipo: " << tipo << std::endl;
 	for (std::list<Coordenada>::iterator it = coordenadas.begin(); it != coordenadas.end(); it++){
 		std::cout << "Coord: " << *it << "\n";
 	}
-	if (tipo == "arbol" || tipo == "semaforo"){
+	if (tipo == "arbol"){
 		std::istringstream iss(radio);
 		double radioDouble;
 		iss >> radioDouble;
-		Circulo circulo(*coordenadas.begin(), radioDouble * 1000);
-		std::cout << "AREA DEL CIRCULO: " << circulo.area() << std::endl;
+		Arbol arbol(*coordenadas.begin(), radioDouble * 1000);
+		std::cout << "AREA DEL arbol: " << arbol.area() << std::endl;
+	} else if (tipo == "semaforo"){
+		std::istringstream iss(radio);
+		double radioDouble;
+		iss >> radioDouble;
+		Arbol arbol(*coordenadas.begin(), radioDouble * 1000);
+		std::cout << "AREA DEL semaforo: " << arbol.area() << std::endl;
 	} else {
-		Poligono figura(coordenadas);
-		std::cout << "AREA DEL POLIGONO: " << figura.area() << std::endl;
+		/*Poligono pol(coordenadas);
+		std::cout << "AREA DEL POLIGONO: " << pol.area() << std::endl;*/
 	}
+
+	/*else if (tipo == "agua"){
+		Figura agua = Agua(coordenadas);
+	} else if (tipo == "boulevard"){
+
+	} else if (tipo == "manzana"){
+
+	} else if (tipo.find("edificio") != std::string::npos){
+		if ("edificio-privado"){
+
+		} else {
+
+		}
+	}*/
 }
