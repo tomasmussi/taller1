@@ -31,7 +31,3 @@ bool Poligono::tienePunto(Coordenada punto){
 	return true;
 }
 
-/*
-bool Poligono::colisionaCon(Figura otraFigura){
-	return false;
-}*/

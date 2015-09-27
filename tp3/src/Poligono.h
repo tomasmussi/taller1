@@ -15,7 +15,6 @@ public:
 	~Poligono();
 	double area();
 	bool tienePunto(Coordenada punto);
-	//bool colisionaCon(Figura otraFigura);
 };
 
 #endif /* POLIGONO_H_ */

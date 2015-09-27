@@ -20,8 +20,3 @@ bool Circulo::tienePunto(Coordenada punto){
 	return (latCuadrado + longCuadrado) < radioCuadrado;
 }
 
-/*
-bool Circulo::colisionaCon(Figura otraFigura){
-	return false;
-}
-*/

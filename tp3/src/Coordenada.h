@@ -11,6 +11,7 @@ private:
 public:
 	Coordenada();
 	Coordenada(std::string& latitud, std::string& longitud);
+	Coordenada(double longitud, double latitud);
 	~Coordenada();
 	double getLatitud();
 	double getLongitud();

@@ -1,5 +1,6 @@
 
 #include "ConfiguracionMapa.h"
+#include "Coordenada.h"
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -11,6 +12,9 @@ ConfiguracionMapa::ConfiguracionMapa() {
 }
 
 ConfiguracionMapa::~ConfiguracionMapa() {
+	for (std::list<Celda*>::iterator it = celdas.begin(); it != celdas.end(); it++){
+		delete (*it);
+	}
 }
 
 bool ConfiguracionMapa::leerArchivo(const char *archivo){
@@ -56,10 +60,28 @@ void ConfiguracionMapa::parsearEntero(std::string cadena, int& numero){
 }
 
 void ConfiguracionMapa::crearCeldas(){
-
+	double incrementoLongitud = (longitudDerecha - longitudIzquierda) / ancho;
+	double incrementoLatitud = (latitudSuperior - latitudInferior) / alto;
+	double limiteAnteriorLatitud = latitudSuperior;
+	while (limiteAnteriorLatitud > latitudInferior){
+		double limiteAnteriorLongitud = longitudIzquierda;
+		double latitudCentro = limiteAnteriorLatitud - (incrementoLatitud / 2);
+		while (limiteAnteriorLongitud < longitudDerecha){
+			double longitudCentro = limiteAnteriorLongitud + (incrementoLongitud / 2);
+			std::cout << "Coord: " << Coordenada(longitudCentro, latitudCentro) << std::endl;
+			Celda *celda = new Celda(Coordenada(longitudCentro, latitudCentro));
+			celdas.push_back(celda);
+			limiteAnteriorLongitud += incrementoLongitud;
+		}
+		limiteAnteriorLatitud -= incrementoLatitud;
+	}
 }
 
 const std::list<Celda*> ConfiguracionMapa::getCeldas() const {
 	return celdas;
+}
+
+int ConfiguracionMapa::getAncho() const{
+	return ancho;
 }
 

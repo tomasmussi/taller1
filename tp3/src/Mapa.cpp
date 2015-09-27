@@ -112,4 +112,19 @@ void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 
 void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
 	std::list<Celda*> celdas = configuracion.getCeldas();
+	for (std::list<Celda*>::const_iterator it = celdas.begin(); it != celdas.end(); it++){
+		for (std::list<Figura*>::iterator elemento = elementos.begin(); elemento != elementos.end(); elemento++){
+			if ((*elemento)->tienePunto((*it)->getCoordenada())){
+				(*it)->cambiarCaracter((*elemento)->caracter());
+			}
+		}
+	}
+	int cantidad = 0;
+	for (std::list<Celda*>::const_iterator it = celdas.begin(); it != celdas.end(); it++){
+		std::cout << (*it)->getCaracter();
+		cantidad++;
+		if ((cantidad % configuracion.getAncho()) == 0){
+			std::cout << std::endl;
+		}
+	}
 }

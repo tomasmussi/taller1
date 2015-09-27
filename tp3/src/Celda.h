@@ -7,8 +7,11 @@ private:
 	Coordenada centro;
 	char caracter;
 public:
-	Celda(Coordenada centro, char caracter);
+	explicit Celda(Coordenada centro);
 	~Celda();
+	const Coordenada getCoordenada();
+	void cambiarCaracter(char caracter);
+	char getCaracter();
 };
 
 #endif /* CELDA_H_ */

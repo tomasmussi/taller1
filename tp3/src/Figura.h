@@ -10,7 +10,6 @@ public:
 	virtual ~Figura();
 	virtual double area() = 0;
 	virtual bool tienePunto(Coordenada punto) = 0;
-	//virtual bool colisionaCon(Figura otraFigura) = 0;
 };
 
 #endif /* FIGURA_H_ */

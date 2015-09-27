@@ -22,6 +22,7 @@ public:
 	~ConfiguracionMapa();
 	bool leerArchivo(const char *archivo);
 	const std::list<Celda*> getCeldas() const;
+	int getAncho() const;
 };
 
 #endif /* CONFIGURACIONMAPA_H_ */

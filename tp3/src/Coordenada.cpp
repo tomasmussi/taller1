@@ -13,6 +13,11 @@ Coordenada::Coordenada(std::string& latitud, std::string& longitud){
 	this->parsearReal(longitud, this->longitud);
 }
 
+Coordenada::Coordenada(double longitud, double latitud){
+	this->longitud = longitud;
+	this->latitud = latitud;
+}
+
 Coordenada::~Coordenada() {
 }
 

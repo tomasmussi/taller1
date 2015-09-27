@@ -13,7 +13,6 @@ public:
 	~Circulo();
 	double area();
 	bool tienePunto(Coordenada punto);
-	//bool colisionaCon(Figura otraFigura);
 };
 
 #endif /* CIRCULO_H_ */
