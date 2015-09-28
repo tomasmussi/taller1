@@ -28,6 +28,21 @@ double Poligono::area(){
 
 
 bool Poligono::tienePunto(Coordenada punto){
-	return true;
+	std::list<Coordenada> li;
+	std::vector<Coordenada> vector;
+	std::copy(coordenadas.begin(), coordenadas.end(), std::back_inserter(vector));
+	bool adentro = false;
+	size_t i = 0, j = 0;
+	for (i = 0, j = vector.size() - 1; i < vector.size(); j = i++){
+		if ((vector[i].getLatitud() > punto.getLatitud()) != (vector[j].getLatitud() > punto.getLatitud())
+				&& (punto.getLongitud() <
+						(vector[j].getLongitud() - vector[i].getLongitud())
+						* (punto.getLatitud() - vector[i].getLatitud())
+						/ (vector[j].getLatitud() - vector[i].getLatitud() + vector[i].getLongitud()))){
+			adentro = !adentro;
+		}
+	}
+
+	return adentro;
 }
 

@@ -68,7 +68,8 @@ void ConfiguracionMapa::crearCeldas(){
 		double latitudCentro = limiteAnteriorLatitud - (incrementoLatitud / 2);
 		while (limiteAnteriorLongitud < longitudDerecha){
 			double longitudCentro = limiteAnteriorLongitud + (incrementoLongitud / 2);
-			std::cout << "Coord: " << Coordenada(longitudCentro, latitudCentro) << std::endl;
+			//TODO SACAR COMENTARIO
+			//std::cout << "Coord: " << Coordenada(longitudCentro, latitudCentro) << std::endl;
 			Celda *celda = new Celda(Coordenada(longitudCentro, latitudCentro));
 			celdas.push_back(celda);
 			limiteAnteriorLongitud += incrementoLongitud;

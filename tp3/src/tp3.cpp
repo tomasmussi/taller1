@@ -13,5 +13,6 @@ int main() {
 	Mapa mapa;
 	mapa.leerObjetos("/home/tomas/repos/taller1/tp3/tests/test1/mapa.txt");
 	mapa.exportarArchivo(configMapa);
+	std::cout << std::endl;
 	return 0;
 }

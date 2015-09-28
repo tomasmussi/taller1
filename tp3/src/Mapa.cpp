@@ -62,8 +62,8 @@ void Mapa::leerObjetos(const char *archivo){
 		}
 		this->crearElemento(tipo, coordenadas, lat, nombreEdificioPublico);
 	}
-	std::cout << "Superficie edificada: " << areaEdificada << std::endl;
-	std::cout << "Superficie arbolada: " << areaArbolada << std::endl;
+	std::cout << "Superficie total edificada: " << areaEdificada << std::endl;
+	std::cout << "Superficie total arbolada: " << areaArbolada << std::endl;
 }
 
 void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
