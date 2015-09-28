@@ -2,6 +2,8 @@
 #define ELEMENTO_H_
 
 #include <stdlib.h>
+#include <list>
+#include <string>
 
 class Elemento {
 public:

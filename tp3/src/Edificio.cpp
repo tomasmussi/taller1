@@ -1,5 +1,6 @@
 #include "Edificio.h"
-#include <iostream>
+#include <string>
+#include <list>
 
 Edificio::Edificio(std::list<Coordenada> coordenadas)
 	: Poligono(coordenadas) {

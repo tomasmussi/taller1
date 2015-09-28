@@ -3,6 +3,8 @@
 
 #include "Elemento.h"
 #include "Poligono.h"
+#include <list>
+#include <string>
 
 class Edificio: public Poligono {
 private:

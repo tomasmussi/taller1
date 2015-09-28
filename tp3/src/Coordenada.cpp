@@ -1,6 +1,7 @@
 #include "Coordenada.h"
 #include <ostream>
 #include <sstream>
+#include <string>
 #include <stdlib.h>
 
 Coordenada::Coordenada() {

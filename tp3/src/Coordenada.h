@@ -1,6 +1,7 @@
 #ifndef COORDENADA_H_
 #define COORDENADA_H_
 
+#include <string>
 #include <ostream>
 
 class Coordenada {

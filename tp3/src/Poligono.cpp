@@ -1,5 +1,7 @@
 #include "Poligono.h"
 #include "Coordenada.h"
+#include <algorithm>
+#include <list>
 #include <vector>
 #include <cmath>
 
@@ -14,12 +16,15 @@ Poligono::~Poligono() {
 double Poligono::area(){
 	std::list<Coordenada> li;
 	std::vector<Coordenada> vector;
-	std::copy(coordenadas.begin(), coordenadas.end(), std::back_inserter(vector));
+	std::copy(coordenadas.begin(), coordenadas.end(),
+			std::back_inserter(vector));
 	double area = 0;
 	size_t j = vector.size() - 1;
 	for (size_t i = 0; i < vector.size(); i++){
-		double longitud = (vector[j].getLongitud() + vector[i].getLongitud()) * GRADO_LONGITUD_EN_METROS;
-		double latitud = (vector[j].getLatitud() - vector[i].getLatitud()) * GRADO_LATITUD_EN_METROS;
+		double longitud = (vector[j].getLongitud() + vector[i].getLongitud())
+				* GRADO_LONGITUD_EN_METROS;
+		double latitud = (vector[j].getLatitud() - vector[i].getLatitud())
+				* GRADO_LATITUD_EN_METROS;
 		area = area + (longitud * latitud);
 		j = i;
 	}
@@ -31,7 +36,8 @@ double Poligono::area(){
 bool Poligono::tienePunto(Coordenada punto){
 	std::list<Coordenada> li;
 	std::vector<Coordenada> vector;
-	std::copy(coordenadas.begin(), coordenadas.end(), std::back_inserter(vector));
+	std::copy(coordenadas.begin(), coordenadas.end(),
+			std::back_inserter(vector));
 	int anterior = 2;
 	for (size_t i = 0; i < vector.size(); i++){
 		Coordenada a = vector[i % vector.size()];
@@ -52,14 +58,15 @@ bool Poligono::tienePunto(Coordenada punto){
 }
 
 Coordenada Poligono::v_sub(Coordenada a, Coordenada b){
-	return Coordenada(a.getLongitud() - b.getLongitud(), a.getLatitud() - b.getLatitud());
+	return Coordenada(a.getLongitud() - b.getLongitud(),
+			a.getLatitud() - b.getLatitud());
 }
 
 int Poligono::getSide(Coordenada a, Coordenada b){
 	double producto = this->producto(a, b);
 	if (producto < 0){
 		return -1;
-	} else if(producto > 0){
+	} else if (producto > 0){
 		return 1;
 	} else {
 		return 0;

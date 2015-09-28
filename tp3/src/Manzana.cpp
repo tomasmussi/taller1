@@ -3,7 +3,6 @@
 #include <list>
 
 Manzana::Manzana(std::list<Coordenada> coordenadas) : Poligono(coordenadas){
-
 }
 
 Manzana::~Manzana() {

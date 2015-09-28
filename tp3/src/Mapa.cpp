@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <list>
+#include <string>
 #include "Coordenada.h"
 #include "Elemento.h"
 #include "Figura.h"
@@ -25,7 +26,8 @@ Mapa::Mapa() {
 }
 
 Mapa::~Mapa() {
-	for (std::list<Figura*>::iterator it = elementos.begin(); it != elementos.end(); it++){
+	for (std::list<Figura*>::iterator it = elementos.begin();
+			it != elementos.end(); it++){
 		delete (*it);
 	}
 }
@@ -62,18 +64,10 @@ void Mapa::leerObjetos(const char *archivo){
 		}
 		this->crearElemento(tipo, coordenadas, lat, nombreEdificioPublico);
 	}
-
 }
 
 void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 		std::string radio, std::string nombrePublico){
-
-	//TODO BORRAR CUANDO ESTE SEGURO DE LOS TIPOS
-	/*std::cout << "Tipo: " << tipo << std::endl;
-	for (std::list<Coordenada>::iterator it = coordenadas.begin(); it != coordenadas.end(); it++){
-		std::cout << "Coord: " << *it << "\n";
-	}*/
-
 	Figura *elemento;
 	if (tipo == "arbol"){
 		std::istringstream iss(radio);
@@ -95,7 +89,8 @@ void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 		if (tipo == "edificio-privado"){
 			elemento = new Edificio(coordenadas);
 		} else {
-			elemento = new Edificio(coordenadas, nombrePublico, LETRA_A + (contEdificiosPublicos++ % LETRAS));
+			elemento = new Edificio(coordenadas, nombrePublico,
+					LETRA_A + (contEdificiosPublicos++ % LETRAS));
 			edificiosPublicos.push_back((Edificio*)elemento);
 		}
 	}
@@ -109,21 +104,26 @@ void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 }
 
 void Mapa::exportarSuperficies(){
-	std::cout << "Superficie total edificada: " << (int)(areaEdificada + 0.5) << " metros cuadrados." << std::endl;
-	std::cout << "Superficie total arbolada: " << (int)(areaArbolada + 0.5) << " metros cuadrados." <<std::endl;
+	std::cout << "Superficie total edificada: " << (int)(areaEdificada + 0.5)
+			<< " metros cuadrados." << std::endl;
+	std::cout << "Superficie total arbolada: " << (int)(areaArbolada + 0.5)
+			<< " metros cuadrados." <<std::endl;
 }
 
 void Mapa::exportarMapa(const ConfiguracionMapa& configuracion){
 	std::list<Celda*> celdas = configuracion.getCeldas();
-	for (std::list<Celda*>::const_iterator it = celdas.begin(); it != celdas.end(); it++){
-		for (std::list<Figura*>::iterator elemento = elementos.begin(); elemento != elementos.end(); elemento++){
+	for (std::list<Celda*>::const_iterator it = celdas.begin();
+			it != celdas.end(); it++){
+		for (std::list<Figura*>::iterator elemento = elementos.begin();
+				elemento != elementos.end(); elemento++){
 			if ((*elemento)->tienePunto((*it)->getCoordenada())){
 				(*it)->cambiarCaracter((*elemento));
 			}
 		}
 	}
 	int cantidad = 0;
-	for (std::list<Celda*>::const_iterator it = celdas.begin(); it != celdas.end(); it++){
+	for (std::list<Celda*>::const_iterator it = celdas.begin();
+			it != celdas.end(); it++){
 		std::cout << (*it)->getCaracter();
 		cantidad++;
 		if ((cantidad % configuracion.getAncho()) == 0){
@@ -133,8 +133,10 @@ void Mapa::exportarMapa(const ConfiguracionMapa& configuracion){
 }
 
 void Mapa::exportarEdificiosPublicos(){
-	for (std::list<Edificio*>::iterator it = edificiosPublicos.begin(); it != edificiosPublicos.end(); it++){
-		std::cout << (*it)->caracter() << ": " << (*it)->getNombre() << std::endl;
+	for (std::list<Edificio*>::iterator it = edificiosPublicos.begin();
+			it != edificiosPublicos.end(); it++){
+		std::cout << (*it)->caracter() << ": " << (*it)->getNombre()
+				<< std::endl;
 	}
 }
 

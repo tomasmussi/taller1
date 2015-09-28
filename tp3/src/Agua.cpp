@@ -1,4 +1,5 @@
 #include "Agua.h"
+#include <list>
 
 Agua::Agua(std::list<Coordenada> coordenadas)
 	: Poligono(coordenadas) {
