@@ -1,12 +1,14 @@
 #ifndef CONFIGURACIONMAPA_H_
 #define CONFIGURACIONMAPA_H_
 
+#include "Calle.h"
 #include "Celda.h"
 #include <list>
 #include <string>
 
 class ConfiguracionMapa {
 private:
+	Calle calle;
 	double latitudSuperior;
 	double latitudInferior;
 	double longitudIzquierda;

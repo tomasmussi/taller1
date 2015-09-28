@@ -17,6 +17,7 @@ public:
 	bool superficieArbolada();
 	const char caracter();
 	const std::string getNombre();
+	size_t nivel();
 };
 
 #endif /* EDIFICIO_H_ */

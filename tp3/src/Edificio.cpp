@@ -31,3 +31,7 @@ const char Edificio::caracter(){
 const std::string Edificio::getNombre(){
 	return nombre;
 }
+
+size_t Edificio::nivel(){
+	return 2;
+}

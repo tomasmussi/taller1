@@ -20,3 +20,7 @@ bool Boulevard::superficieArbolada(){
 const char Boulevard::caracter(){
 	return 'b';
 }
+
+size_t Boulevard::nivel(){
+	return 1;
+}

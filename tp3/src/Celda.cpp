@@ -1,8 +1,8 @@
 #include "Celda.h"
 
-Celda::Celda(Coordenada centro) {
+Celda::Celda(Coordenada centro, Elemento *elemento) {
 	this->centro = centro;
-	this->caracter = ' ';
+	this->elemento = elemento;
 }
 
 Celda::~Celda() {
@@ -12,10 +12,12 @@ const Coordenada Celda::getCoordenada(){
 	return centro;
 }
 
-void Celda::cambiarCaracter(char caracter){
-	this->caracter = caracter;
+void Celda::cambiarCaracter(Elemento *elemento){
+	if (elemento->nivel() > this->elemento->nivel()){
+		this->elemento = elemento;
+	}
 }
 
 char Celda::getCaracter(){
-	return caracter;
+	return this->elemento->caracter();
 }

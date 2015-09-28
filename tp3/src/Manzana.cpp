@@ -20,3 +20,7 @@ bool Manzana::superficieArbolada(){
 const char Manzana::caracter(){
 	return 'm';
 }
+
+size_t Manzana::nivel(){
+	return 1;
+}

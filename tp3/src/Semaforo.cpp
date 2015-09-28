@@ -18,3 +18,6 @@ const char Semaforo::caracter(){
 	return '#';
 }
 
+size_t Semaforo::nivel(){
+	return 1;
+}

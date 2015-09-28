@@ -1,16 +1,17 @@
 #ifndef CELDA_H_
 #define CELDA_H_
 #include "Coordenada.h"
+#include "Elemento.h"
 
 class Celda {
 private:
 	Coordenada centro;
-	char caracter;
+	Elemento *elemento;
 public:
-	explicit Celda(Coordenada centro);
+	Celda(Coordenada centro, Elemento *elemento);
 	~Celda();
 	const Coordenada getCoordenada();
-	void cambiarCaracter(char caracter);
+	void cambiarCaracter(Elemento *elemento);
 	char getCaracter();
 };
 

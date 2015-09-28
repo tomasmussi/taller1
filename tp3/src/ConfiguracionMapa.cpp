@@ -8,7 +8,7 @@
 #include <sstream>
 #include <stdlib.h>
 
-ConfiguracionMapa::ConfiguracionMapa() {
+ConfiguracionMapa::ConfiguracionMapa(){
 }
 
 ConfiguracionMapa::~ConfiguracionMapa() {
@@ -89,7 +89,7 @@ void ConfiguracionMapa::crearCeldas(){
 		double latitudCentro = latitudInferior + incrementoLatitud * alto + (incrementoLatitud / 2);
 		for (int ancho = 0; ancho < this->ancho; ancho++){
 			double longitudCentro = longitudIzquierda + incrementoLongitud * ancho + (incrementoLongitud / 2);
-			celdas.push_back(new Celda(Coordenada(longitudCentro, latitudCentro)));
+			celdas.push_back(new Celda(Coordenada(longitudCentro, latitudCentro), &calle));
 		}
 	}
 	//std::cout << "cantidad de celdas: " << celdas.size() << std::endl;

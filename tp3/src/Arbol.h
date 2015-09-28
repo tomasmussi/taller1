@@ -11,6 +11,7 @@ public:
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();
+	size_t nivel();
 };
 
 #endif /* ARBOL_H_ */

@@ -108,15 +108,17 @@ void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 	elementos.push_back(elemento);
 }
 
-
-void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
+void Mapa::exportarSuperficies(){
 	std::cout << "Superficie total edificada: " << (int)(areaEdificada + 0.5) << " metros cuadrados." << std::endl;
 	std::cout << "Superficie total arbolada: " << (int)(areaArbolada + 0.5) << " metros cuadrados." <<std::endl;
+}
+
+void Mapa::exportarMapa(const ConfiguracionMapa& configuracion){
 	std::list<Celda*> celdas = configuracion.getCeldas();
 	for (std::list<Celda*>::const_iterator it = celdas.begin(); it != celdas.end(); it++){
 		for (std::list<Figura*>::iterator elemento = elementos.begin(); elemento != elementos.end(); elemento++){
 			if ((*elemento)->tienePunto((*it)->getCoordenada())){
-				(*it)->cambiarCaracter((*elemento)->caracter());
+				(*it)->cambiarCaracter((*elemento));
 			}
 		}
 	}
@@ -128,7 +130,16 @@ void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
 			std::cout << std::endl;
 		}
 	}
+}
+
+void Mapa::exportarEdificiosPublicos(){
 	for (std::list<Edificio*>::iterator it = edificiosPublicos.begin(); it != edificiosPublicos.end(); it++){
 		std::cout << (*it)->caracter() << ": " << (*it)->getNombre() << std::endl;
 	}
+}
+
+void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
+	this->exportarSuperficies();
+	this->exportarMapa(configuracion);
+	this->exportarEdificiosPublicos();
 }

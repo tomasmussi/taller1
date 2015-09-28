@@ -18,3 +18,7 @@ bool Agua::superficieArbolada(){
 const char Agua::caracter(){
 	return '-';
 }
+
+size_t Agua::nivel(){
+	return 1;
+}

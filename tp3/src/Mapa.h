@@ -15,8 +15,12 @@ private:
 	char contEdificiosPublicos;
 	double areaEdificada;
 	double areaArbolada;
+
 	void crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 			std::string radio, std::string nombrePublico);
+	void exportarSuperficies();
+	void exportarMapa(const ConfiguracionMapa& configuracion);
+	void exportarEdificiosPublicos();
 public:
 	Mapa();
 	~Mapa();

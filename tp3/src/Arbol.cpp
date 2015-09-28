@@ -19,3 +19,6 @@ const char Arbol::caracter(){
 	return '@';
 }
 
+size_t Arbol::nivel(){
+	return 2;
+}
