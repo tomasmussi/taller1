@@ -11,7 +11,6 @@ Edificio::Edificio(std::list<Coordenada> coordenadas, std::string nombre,
 	char caracter) : Poligono(coordenadas){
 	caracterInterno = caracter;
 	this->nombre = nombre;
-	std::cout << "EDIFICIO PUBLICO " << caracterInterno << " = " << nombre << std::endl;
 }
 
 Edificio::~Edificio() {

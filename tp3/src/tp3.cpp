@@ -7,12 +7,15 @@
 
 void leerObjetos(const char *archivo){}
 
-int main() {
+int main(int argc, char* argv[]) {
+	if (argc != 3){
+		std::cerr << "Cantidad invalida de archivos" << std::endl;
+		return 1;
+	}
 	ConfiguracionMapa configMapa;
-	configMapa.leerArchivo("/home/tomas/repos/taller1/tp3/tests/test1/configuracion.txt");
+	configMapa.leerArchivo(argv[1]);
 	Mapa mapa;
-	mapa.leerObjetos("/home/tomas/repos/taller1/tp3/tests/test1/mapa.txt");
+	mapa.leerObjetos(argv[2]);
 	mapa.exportarArchivo(configMapa);
-	std::cout << std::endl;
 	return 0;
 }

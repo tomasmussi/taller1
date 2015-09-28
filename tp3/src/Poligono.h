@@ -3,13 +3,15 @@
 
 #include "Figura.h"
 #include "Coordenada.h"
-#define GRADO_LONGITUD_EN_METROS 111319
-#define GRADO_LATITUD_EN_METROS 111131
+#include "Constantes.h"
 #include <list>
 
 class Poligono: public Figura {
 private:
 	std::list<Coordenada> coordenadas;
+	Coordenada v_sub(Coordenada a, Coordenada b);
+	int getSide(Coordenada a, Coordenada b);
+	double producto(Coordenada a, Coordenada b);
 public:
 	explicit Poligono(std::list<Coordenada> coordenadas);
 	~Poligono();

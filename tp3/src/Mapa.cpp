@@ -62,8 +62,7 @@ void Mapa::leerObjetos(const char *archivo){
 		}
 		this->crearElemento(tipo, coordenadas, lat, nombreEdificioPublico);
 	}
-	std::cout << "Superficie total edificada: " << areaEdificada << std::endl;
-	std::cout << "Superficie total arbolada: " << areaArbolada << std::endl;
+
 }
 
 void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
@@ -111,6 +110,8 @@ void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 
 
 void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
+	std::cout << "Superficie total edificada: " << (int)(areaEdificada + 0.5) << " metros cuadrados." << std::endl;
+	std::cout << "Superficie total arbolada: " << (int)(areaArbolada + 0.5) << " metros cuadrados." <<std::endl;
 	std::list<Celda*> celdas = configuracion.getCeldas();
 	for (std::list<Celda*>::const_iterator it = celdas.begin(); it != celdas.end(); it++){
 		for (std::list<Figura*>::iterator elemento = elementos.begin(); elemento != elementos.end(); elemento++){
@@ -126,5 +127,8 @@ void Mapa::exportarArchivo(const ConfiguracionMapa& configuracion){
 		if ((cantidad % configuracion.getAncho()) == 0){
 			std::cout << std::endl;
 		}
+	}
+	for (std::list<Edificio*>::iterator it = edificiosPublicos.begin(); it != edificiosPublicos.end(); it++){
+		std::cout << (*it)->caracter() << ": " << (*it)->getNombre() << std::endl;
 	}
 }

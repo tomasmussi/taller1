@@ -42,9 +42,11 @@ bool ConfiguracionMapa::leerArchivo(const char *archivo){
 	this->parsearEntero(linea, ancho);
 
 	// TODO: Sacar cuando tenga el tp
-	std::cout << std::setprecision(10);
+	/*std::cout << std::setprecision(10);
 	std::cout << latitudSuperior << "\n" << latitudInferior << '\n' << longitudIzquierda << '\n'
 			<< longitudDerecha << '\n' << alto << '\n' << ancho << '\n';
+	std::cout << "ANCHO: " << ancho << std::endl;
+	std::cout << "ALTO: " << alto << std::endl;*/
 	this->crearCeldas();
 	return true;
 }
@@ -59,6 +61,7 @@ void ConfiguracionMapa::parsearEntero(std::string cadena, int& numero){
 	stream >> numero;
 }
 
+/*
 void ConfiguracionMapa::crearCeldas(){
 	double incrementoLongitud = (longitudDerecha - longitudIzquierda) / ancho;
 	double incrementoLatitud = (latitudSuperior - latitudInferior) / alto;
@@ -76,6 +79,20 @@ void ConfiguracionMapa::crearCeldas(){
 		}
 		limiteAnteriorLatitud -= incrementoLatitud;
 	}
+	std::cout << "cantidad de celdas: " << celdas.size() << std::endl;
+}*/
+
+void ConfiguracionMapa::crearCeldas(){
+	double incrementoLongitud = (longitudDerecha - longitudIzquierda) / ancho;
+	double incrementoLatitud = (latitudSuperior - latitudInferior) / alto;
+	for (int alto = this->alto - 1; alto >= 0; alto--){
+		double latitudCentro = latitudInferior + incrementoLatitud * alto + (incrementoLatitud / 2);
+		for (int ancho = 0; ancho < this->ancho; ancho++){
+			double longitudCentro = longitudIzquierda + incrementoLongitud * ancho + (incrementoLongitud / 2);
+			celdas.push_back(new Celda(Coordenada(longitudCentro, latitudCentro)));
+		}
+	}
+	//std::cout << "cantidad de celdas: " << celdas.size() << std::endl;
 }
 
 const std::list<Celda*> ConfiguracionMapa::getCeldas() const {
