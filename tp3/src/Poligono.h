@@ -17,6 +17,10 @@ public:
 	~Poligono();
 	double area();
 	bool tienePunto(Coordenada punto);
+bool superficieEdificada();
+bool superficieArbolada();
+const char caracter();
+size_t nivel();
 };
 
 #endif /* POLIGONO_H_ */

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <stdlib.h>
+#include <math.h>
 
 Coordenada::Coordenada() {
 	latitud = 0;
@@ -31,10 +32,20 @@ std::ostream& operator<<(std::ostream& os, const Coordenada& obj){
 	return os << "(" << obj.latitud << ", " << obj.longitud << ")";
 }
 
-double Coordenada::getLatitud(){
+double Coordenada::getLatitud() const{
 	return latitud;
 }
 
-double Coordenada::getLongitud(){
+double Coordenada::getLongitud() const{
 	return longitud;
+}
+
+double Coordenada::distanciaCon(const Coordenada& otroPunto) const{
+	double latitudCuadrado = pow(latitud - otroPunto.latitud, 2);
+	double longitudCuadrado = pow(longitud - otroPunto.longitud, 2);
+	return sqrt(latitudCuadrado + longitudCuadrado);
+}
+
+bool Coordenada::operator ==(const Coordenada& otro) const{
+	return longitud == otro.longitud && latitud == otro.latitud;
 }

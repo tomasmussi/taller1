@@ -19,5 +19,5 @@ const char Semaforo::caracter(){
 }
 
 size_t Semaforo::nivel(){
-	return 1;
+	return 3;
 }

@@ -20,5 +20,5 @@ const char Arbol::caracter(){
 }
 
 size_t Arbol::nivel(){
-	return 2;
+	return 3;
 }

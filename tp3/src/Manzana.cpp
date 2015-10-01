@@ -21,5 +21,5 @@ const char Manzana::caracter(){
 }
 
 size_t Manzana::nivel(){
-	return 1;
+	return 2;
 }

@@ -34,5 +34,5 @@ const std::string Edificio::getNombre(){
 }
 
 size_t Edificio::nivel(){
-	return 2;
+	return caracterInterno == 'e' ? 3 : 4;
 }

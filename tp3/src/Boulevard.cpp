@@ -22,5 +22,5 @@ const char Boulevard::caracter(){
 }
 
 size_t Boulevard::nivel(){
-	return 1;
+	return 2;
 }
