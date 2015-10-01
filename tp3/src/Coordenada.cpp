@@ -5,12 +5,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-Coordenada::Coordenada() {
-	latitud = 0;
-	longitud = 0;
-}
-
-Coordenada::Coordenada(std::string& latitud, std::string& longitud){
+Coordenada::Coordenada(const std::string& latitud,
+		const std::string& longitud){
 	this->parsearReal(latitud, this->latitud);
 	this->parsearReal(longitud, this->longitud);
 }

@@ -2,12 +2,8 @@
 #include <math.h>
 #include "Constantes.h"
 
-Circulo::Circulo(Coordenada centro, double radio){
-	this->centro = centro;
+Circulo::Circulo(Coordenada centro, double radio) : centro(centro){
 	this->radio = radio;
-}
-
-Circulo::~Circulo() {
 }
 
 double Circulo::area(){

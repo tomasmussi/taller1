@@ -1,18 +1,15 @@
 #include "Celda.h"
 
-Celda::Celda(Coordenada centro, Elemento *elemento) {
-	this->centro = centro;
+Celda::Celda(const Coordenada& centro, Elemento *elemento)
+	: centro(centro){
 	this->elemento = elemento;
-}
-
-Celda::~Celda() {
 }
 
 const Coordenada Celda::getCoordenada(){
 	return centro;
 }
 
-void Celda::cambiarCaracter(Elemento *elemento){
+void Celda::cambiarElemento(Elemento *elemento){
 	if (elemento->nivel() > this->elemento->nivel()){
 		this->elemento = elemento;
 	}

@@ -6,13 +6,11 @@
 
 class Coordenada {
 private:
-
 	void parsearReal(std::string cadena, double& numero);
 public:
 	double latitud;
 	double longitud;
-	Coordenada();
-	Coordenada(std::string& latitud, std::string& longitud);
+	Coordenada(const std::string& latitud, const std::string& longitud);
 	Coordenada(double longitud, double latitud);
 	~Coordenada();
 	double getLatitud() const;

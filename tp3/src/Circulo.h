@@ -10,7 +10,6 @@ private:
 	double radio;
 public:
 	Circulo(Coordenada centro, double radio);
-	~Circulo();
 	double area();
 	bool tienePunto(Coordenada punto);
 };

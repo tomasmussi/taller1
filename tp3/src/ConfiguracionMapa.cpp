@@ -9,9 +9,6 @@
 #include <stdlib.h>
 #include <list>
 
-ConfiguracionMapa::ConfiguracionMapa(){
-}
-
 ConfiguracionMapa::~ConfiguracionMapa() {
 	for (std::list<Celda*>::iterator it = celdas.begin();
 			it != celdas.end(); it++){
@@ -27,28 +24,16 @@ bool ConfiguracionMapa::leerArchivo(const char *archivo){
 	std::string linea;
 	std::getline(fileIn, linea);
 	this->parsearReal(linea, latitudSuperior);
-
 	std::getline(fileIn, linea);
 	this->parsearReal(linea, latitudInferior);
-
 	std::getline(fileIn, linea);
 	this->parsearReal(linea, longitudIzquierda);
-
 	std::getline(fileIn, linea);
 	this->parsearReal(linea, longitudDerecha);
-
 	std::getline(fileIn, linea);
 	this->parsearEntero(linea, alto);
-
 	std::getline(fileIn, linea);
 	this->parsearEntero(linea, ancho);
-
-	// TODO: Sacar cuando tenga el tp
-	/*std::cout << std::setprecision(10);
-	std::cout << latitudSuperior << "\n" << latitudInferior << '\n' << longitudIzquierda << '\n'
-			<< longitudDerecha << '\n' << alto << '\n' << ancho << '\n';
-	std::cout << "ANCHO: " << ancho << std::endl;
-	std::cout << "ALTO: " << alto << std::endl;*/
 	this->crearCeldas();
 	return true;
 }

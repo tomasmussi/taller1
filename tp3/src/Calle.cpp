@@ -3,9 +3,6 @@
 Calle::Calle() {
 }
 
-Calle::~Calle() {
-}
-
 bool Calle::superficieEdificada(){
 	return false;
 }

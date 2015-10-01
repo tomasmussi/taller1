@@ -20,7 +20,6 @@ private:
 	void parsearEntero(std::string cadena, int& numero);
 	void crearCeldas();
 public:
-	ConfiguracionMapa();
 	~ConfiguracionMapa();
 	bool leerArchivo(const char *archivo);
 	const std::list<Celda*> getCeldas() const;

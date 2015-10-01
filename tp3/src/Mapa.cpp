@@ -111,13 +111,13 @@ void Mapa::exportarSuperficies(){
 }
 
 void Mapa::exportarMapa(const ConfiguracionMapa& configuracion){
-	std::list<Celda*> celdas = configuracion.getCeldas();
+	const std::list<Celda*> celdas = configuracion.getCeldas();
 	for (std::list<Celda*>::const_iterator it = celdas.begin();
 			it != celdas.end(); it++){
 		for (std::list<Figura*>::iterator elemento = elementos.begin();
 				elemento != elementos.end(); elemento++){
 			if ((*elemento)->tienePunto((*it)->getCoordenada())){
-				(*it)->cambiarCaracter((*elemento));
+				(*it)->cambiarElemento((*elemento));
 			}
 		}
 	}

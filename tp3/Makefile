@@ -157,10 +157,10 @@ $(OBJDIR):
 $(BINDIR):
 	mkdir $@
 
-run-%: clean $(BINDIR)/$(target)
+run-%: clean cpplint $(BINDIR)/$(target)
 	$(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt
 
-test-codes: $(BINDIR)/$(target)
+test-codes: clean $(BINDIR)/$(target)
 	$(BINDIR)/$(target) tests/test1/configuracion.txt tests/test1/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0
 	$(BINDIR)/$(target) tests/test2/configuracion.txt tests/test2/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0
 	$(BINDIR)/$(target) tests/test3/configuracion.txt tests/test3/mapa.txt > /dev/null 2> /dev/null; test $$? -eq 0

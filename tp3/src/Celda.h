@@ -8,10 +8,9 @@ private:
 	Coordenada centro;
 	Elemento *elemento;
 public:
-	Celda(Coordenada centro, Elemento *elemento);
-	~Celda();
+	Celda(const Coordenada& centro, Elemento *elemento);
 	const Coordenada getCoordenada();
-	void cambiarCaracter(Elemento *elemento);
+	void cambiarElemento(Elemento *elemento);
 	char getCaracter();
 };
 
