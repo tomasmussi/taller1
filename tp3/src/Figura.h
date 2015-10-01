@@ -7,7 +7,9 @@
 class Figura : public Elemento {
 public:
 	virtual ~Figura();
+	/* Calculo del area de una figura. */
 	virtual double area() = 0;
+	/* Informa si el punto esta contenido en la figura. */
 	virtual bool tienePunto(const Coordenada& punto) = 0;
 };
 

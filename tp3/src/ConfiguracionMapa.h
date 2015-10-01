@@ -21,8 +21,11 @@ private:
 	void crearCeldas();
 public:
 	~ConfiguracionMapa();
+	/* Parsea los datos de borde del mapa y las divisiones. */
 	bool leerArchivo(const char *archivo);
+	/* Devuelve las celdas creadas para que el mapa las utilice. */
 	const std::list<Celda*> getCeldas() const;
+	/* Devuelve el ancho del mapa. */
 	int getAncho() const;
 };
 
