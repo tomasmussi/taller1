@@ -4,6 +4,9 @@
 #define GRADO_LONGITUD_EN_METROS 111319
 #define GRADO_LATITUD_EN_METROS 111131
 
+#define CAPA_UNO 1
+#define CAPA_DOS 2
+#define CAPA_TRES 3
 
 
 #endif /* SRC_CONSTANTES_H_ */

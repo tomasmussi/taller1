@@ -1,11 +1,8 @@
 #include "Agua.h"
 #include <list>
 
-Agua::Agua(std::list<Coordenada> coordenadas)
-	: Poligono(coordenadas) {
-}
 
-Agua::~Agua() {
+Agua::Agua(std::list<Coordenada> coordenadas) : Poligono(coordenadas) {
 }
 
 bool Agua::superficieEdificada(){

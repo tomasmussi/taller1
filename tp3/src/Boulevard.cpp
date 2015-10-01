@@ -6,9 +6,6 @@ Boulevard::Boulevard(std::list<Coordenada> coordenadas)
 	: Poligono(coordenadas) {
 }
 
-Boulevard::~Boulevard() {
-}
-
 bool Boulevard::superficieEdificada(){
 	return false;
 }

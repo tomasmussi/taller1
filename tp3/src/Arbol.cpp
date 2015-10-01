@@ -4,9 +4,6 @@
 Arbol::Arbol(Coordenada centro, double radio) : Circulo(centro, radio) {
 }
 
-Arbol::~Arbol() {
-}
-
 bool Arbol::superficieEdificada(){
 	return false;
 }

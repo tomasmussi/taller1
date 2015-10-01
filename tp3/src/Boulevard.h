@@ -8,7 +8,6 @@
 class Boulevard: public Poligono {
 public:
 	explicit Boulevard(std::list<Coordenada> coordenadas);
-	~Boulevard();
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

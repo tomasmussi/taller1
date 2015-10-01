@@ -8,7 +8,7 @@
 
 #define INF 100000
 
-Poligono::Poligono(std::list<Coordenada> coordenadas) {
+Poligono::Poligono(const std::list<Coordenada>& coordenadas) {
 	this->coordenadas = coordenadas;
 }
 
@@ -208,19 +208,5 @@ bool Poligono::tienePunto(Coordenada punto){
 		}
 	}
 	return c != 0;
-}
-
-
-bool Poligono::superficieEdificada(){
-	return false;
-}
-bool Poligono::superficieArbolada(){
-	return false;
-}
-const char Poligono::caracter(){
-	return 'p';
-}
-size_t Poligono::nivel(){
-	return 0;
 }
 

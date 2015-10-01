@@ -8,7 +8,7 @@
 #include "Coordenada.h"
 #include "Poligono.h"
 #include <list>
-
+/*
 void printTest(const char* mensaje, bool assert){
 	std::cout << "PRUEBA: " << mensaje << '\t' << ((assert) ? "OK" : "ERROR") << std::endl;
 }
@@ -36,7 +36,7 @@ void cuadrado(){
 
 void pruebas(){
 	cuadrado();
-}
+}*/
 
 int main(int argc, char* argv[]) {
 
@@ -50,6 +50,5 @@ int main(int argc, char* argv[]) {
 	mapa.leerObjetos(argv[2]);
 	mapa.exportarArchivo(configMapa);
 
-//	pruebas();
 	return 0;
 }

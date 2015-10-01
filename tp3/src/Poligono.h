@@ -13,14 +13,10 @@ private:
 	int getSide(Coordenada a, Coordenada b);
 	double producto(Coordenada a, Coordenada b);
 public:
-	explicit Poligono(std::list<Coordenada> coordenadas);
+	explicit Poligono(const std::list<Coordenada>& coordenadas);
 	~Poligono();
 	double area();
 	bool tienePunto(Coordenada punto);
-bool superficieEdificada();
-bool superficieArbolada();
-const char caracter();
-size_t nivel();
 };
 
 #endif /* POLIGONO_H_ */
