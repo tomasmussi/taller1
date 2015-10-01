@@ -5,13 +5,11 @@
 #include "Coordenada.h"
 #include "Constantes.h"
 #include <list>
+#include <vector>
 
 class Poligono: public Figura {
 private:
-	std::list<Coordenada> coordenadas;
-	Coordenada v_sub(Coordenada a, Coordenada b);
-	int getSide(Coordenada a, Coordenada b);
-	double producto(Coordenada a, Coordenada b);
+	std::vector<Coordenada> vector;
 public:
 	explicit Poligono(const std::list<Coordenada>& coordenadas);
 	double area();

@@ -8,6 +8,7 @@
 #define CAPA_UNO 1
 #define CAPA_DOS 2
 #define CAPA_TRES 3
+#define CAPA_CUATRO 4
 
 
 #endif /* SRC_CONSTANTES_H_ */

@@ -33,5 +33,5 @@ const std::string Edificio::getNombre(){
 }
 
 size_t Edificio::nivel(){
-	return caracterInterno == 'e' ? 4 : CAPA_TRES;
+	return caracterInterno == 'e' ? CAPA_CUATRO : CAPA_TRES;
 }

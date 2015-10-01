@@ -6,18 +6,14 @@
 
 class Coordenada {
 private:
-	void parsearReal(std::string cadena, double& numero);
+	double _latitud;
+	double _longitud;
+	void parsearReal(const std::string& cadena, double& numero);
 public:
-	double latitud;
-	double longitud;
 	Coordenada(const std::string& latitud, const std::string& longitud);
 	Coordenada(double longitud, double latitud);
-	~Coordenada();
-	double getLatitud() const;
-	double getLongitud() const;
-	double distanciaCon(const Coordenada& otroPunto) const;
-	bool operator==(const Coordenada &otro) const;
-	friend std::ostream& operator<<(std::ostream& os, const Coordenada& obj);
+	double latitud() const;
+	double longitud() const;
 };
 
 #endif /* COORDENADA_H_ */

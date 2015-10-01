@@ -3,7 +3,7 @@
 #include "Constantes.h"
 #include <list>
 
-Boulevard::Boulevard(std::list<Coordenada> coordenadas)
+Boulevard::Boulevard(const std::list<Coordenada>& coordenadas)
 	: Poligono(coordenadas) {
 }
 

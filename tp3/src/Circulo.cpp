@@ -11,9 +11,9 @@ double Circulo::area(){
 }
 
 bool Circulo::tienePunto(const Coordenada& punto){
-	double latCuadrado = pow((punto.getLatitud() - centro.getLatitud())
+	double latCuadrado = pow((punto.latitud() - centro.latitud())
 			* GRADO_LONGITUD_EN_METROS, 2.0);
-	double longCuadrado = pow((punto.getLongitud() - centro.getLongitud())
+	double longCuadrado = pow((punto.longitud() - centro.longitud())
 			* GRADO_LATITUD_EN_METROS, 2.0);
 	double radioCuadrado = pow(radio, 2.0);
 	return (latCuadrado + longCuadrado) < radioCuadrado;
