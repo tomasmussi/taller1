@@ -1,20 +1,19 @@
 #include "Edificio.h"
+#include "Constantes.h"
 #include <string>
 #include <list>
 
-Edificio::Edificio(std::list<Coordenada> coordenadas)
+Edificio::Edificio(const std::list<Coordenada>& coordenadas)
 	: Poligono(coordenadas) {
 	caracterInterno = 'e';
 	nombre = "";
 }
 
-Edificio::Edificio(std::list<Coordenada> coordenadas, std::string nombre,
-	char caracter) : Poligono(coordenadas){
+Edificio::Edificio(const std::list<Coordenada>& coordenadas,
+		const std::string& nombre, const char caracter)
+	: Poligono(coordenadas){
 	caracterInterno = caracter;
 	this->nombre = nombre;
-}
-
-Edificio::~Edificio() {
 }
 
 bool Edificio::superficieEdificada(){
@@ -34,5 +33,5 @@ const std::string Edificio::getNombre(){
 }
 
 size_t Edificio::nivel(){
-	return caracterInterno == 'e' ? 3 : 4;
+	return CAPA_TRES;
 }

@@ -8,8 +8,7 @@
 
 class Manzana: public Poligono {
 public:
-	explicit Manzana(std::list<Coordenada> coordenadas);
-	~Manzana();
+	explicit Manzana(const std::list<Coordenada>& coordenadas);
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

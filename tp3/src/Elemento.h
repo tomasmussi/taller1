@@ -7,7 +7,6 @@
 
 class Elemento {
 public:
-	Elemento();
 	virtual ~Elemento();
 	virtual bool superficieEdificada() = 0;
 	virtual bool superficieArbolada() = 0;

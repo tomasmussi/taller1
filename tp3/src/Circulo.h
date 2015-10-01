@@ -9,9 +9,9 @@ private:
 	Coordenada centro;
 	double radio;
 public:
-	Circulo(Coordenada centro, double radio);
+	Circulo(const Coordenada& centro, double radio);
 	double area();
-	bool tienePunto(Coordenada punto);
+	bool tienePunto(const Coordenada& punto);
 };
 
 #endif /* CIRCULO_H_ */

@@ -1,9 +1,7 @@
 #include "Semaforo.h"
+#include "Constantes.h"
 
 Semaforo::Semaforo(Coordenada centro, double radio) : Circulo(centro, radio) {
-}
-
-Semaforo::~Semaforo() {
 }
 
 bool Semaforo::superficieEdificada(){
@@ -19,5 +17,5 @@ const char Semaforo::caracter(){
 }
 
 size_t Semaforo::nivel(){
-	return 3;
+	return CAPA_TRES;
 }

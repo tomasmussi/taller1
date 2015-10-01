@@ -1,11 +1,10 @@
 #include "Manzana.h"
 #include "Coordenada.h"
+#include "Constantes.h"
 #include <list>
 
-Manzana::Manzana(std::list<Coordenada> coordenadas) : Poligono(coordenadas){
-}
-
-Manzana::~Manzana() {
+Manzana::Manzana(const std::list<Coordenada>& coordenadas)
+	: Poligono(coordenadas){
 }
 
 bool Manzana::superficieEdificada(){
@@ -21,5 +20,5 @@ const char Manzana::caracter(){
 }
 
 size_t Manzana::nivel(){
-	return 2;
+	return CAPA_DOS;
 }

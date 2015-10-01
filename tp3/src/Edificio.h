@@ -11,10 +11,9 @@ private:
 	char caracterInterno;
 	std::string nombre;
 public:
-	explicit Edificio(std::list<Coordenada> coordenadas);
-	Edificio(std::list<Coordenada> coordenadas, std::string nombre,
-			char caracter);
-	~Edificio();
+	explicit Edificio(const std::list<Coordenada>& coordenadas);
+	Edificio(const std::list<Coordenada>& coordenadas,
+			const std::string& nombre, const char caracter);
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

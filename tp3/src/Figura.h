@@ -6,10 +6,9 @@
 
 class Figura : public Elemento {
 public:
-	Figura();
 	virtual ~Figura();
 	virtual double area() = 0;
-	virtual bool tienePunto(Coordenada punto) = 0;
+	virtual bool tienePunto(const Coordenada& punto) = 0;
 };
 
 #endif /* FIGURA_H_ */

@@ -7,7 +7,6 @@
 class Semaforo: public Circulo {
 public:
 	Semaforo(Coordenada centro, double radio);
-	~Semaforo();
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

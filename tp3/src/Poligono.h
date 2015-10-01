@@ -14,9 +14,8 @@ private:
 	double producto(Coordenada a, Coordenada b);
 public:
 	explicit Poligono(const std::list<Coordenada>& coordenadas);
-	~Poligono();
 	double area();
-	bool tienePunto(Coordenada punto);
+	bool tienePunto(const Coordenada& punto);
 };
 
 #endif /* POLIGONO_H_ */

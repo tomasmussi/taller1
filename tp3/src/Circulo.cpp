@@ -2,7 +2,7 @@
 #include <math.h>
 #include "Constantes.h"
 
-Circulo::Circulo(Coordenada centro, double radio) : centro(centro){
+Circulo::Circulo(const Coordenada& centro, double radio) : centro(centro){
 	this->radio = radio;
 }
 
@@ -10,7 +10,7 @@ double Circulo::area(){
 	return M_PI * radio * radio;
 }
 
-bool Circulo::tienePunto(Coordenada punto){
+bool Circulo::tienePunto(const Coordenada& punto){
 	double latCuadrado = pow((punto.getLatitud() - centro.getLatitud())
 			* GRADO_LONGITUD_EN_METROS, 2.0);
 	double longCuadrado = pow((punto.getLongitud() - centro.getLongitud())
