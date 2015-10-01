@@ -40,9 +40,13 @@ bool Poligono::tienePunto(const Coordenada& punto){
 	int nvert = vector.size();
 
 	for (i = 0, j = nvert - 1; i < nvert; j = i++){
-		if (((vector[i].latitud > punto.latitud) != (vector[j].latitud > punto.latitud))
-				&& (punto.longitud < ((vector[j].longitud - vector[i].longitud) *
-						(punto.latitud - vector[i].latitud) / (vector[j].latitud - vector[i].latitud) + vector[i].longitud ))){
+		if (((vector[i].latitud > punto.latitud) !=
+				(vector[j].latitud > punto.latitud))
+				&& (punto.longitud < (
+				(vector[j].longitud - vector[i].longitud) *
+				(punto.latitud - vector[i].latitud) /
+						(vector[j].latitud - vector[i].latitud)
+						+ vector[i].longitud ))){
 			c = !c;
 		}
 	}

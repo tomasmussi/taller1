@@ -1,8 +1,8 @@
 #include "Agua.h"
+#include "Constantes.h"
 #include <list>
 
-
-Agua::Agua(std::list<Coordenada> coordenadas) : Poligono(coordenadas) {
+Agua::Agua(const std::list<Coordenada>& coordenadas) : Poligono(coordenadas) {
 }
 
 bool Agua::superficieEdificada(){
@@ -18,5 +18,5 @@ const char Agua::caracter(){
 }
 
 size_t Agua::nivel(){
-	return 1;
+	return CAPA_UNO;
 }

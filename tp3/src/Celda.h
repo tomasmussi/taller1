@@ -10,7 +10,7 @@ private:
 public:
 	Celda(const Coordenada& centro, Elemento *elemento);
 	const Coordenada getCoordenada();
-	void cambiarElemento(Elemento *elemento);
+	void agregarElemento(Elemento *elemento);
 	char getCaracter();
 };
 

@@ -117,7 +117,7 @@ void Mapa::exportarMapa(const ConfiguracionMapa& configuracion){
 		for (std::list<Figura*>::iterator elemento = elementos.begin();
 				elemento != elementos.end(); elemento++){
 			if ((*elemento)->tienePunto((*it)->getCoordenada())){
-				(*it)->cambiarElemento((*elemento));
+				(*it)->agregarElemento((*elemento));
 			}
 		}
 	}

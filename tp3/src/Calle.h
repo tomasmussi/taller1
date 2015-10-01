@@ -5,7 +5,6 @@
 
 class Calle: public Elemento {
 public:
-	Calle();
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

@@ -1,5 +1,6 @@
 #include "Boulevard.h"
 #include "Coordenada.h"
+#include "Constantes.h"
 #include <list>
 
 Boulevard::Boulevard(std::list<Coordenada> coordenadas)
@@ -19,5 +20,5 @@ const char Boulevard::caracter(){
 }
 
 size_t Boulevard::nivel(){
-	return 2;
+	return CAPA_DOS;
 }

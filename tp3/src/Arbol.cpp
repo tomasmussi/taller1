@@ -1,7 +1,9 @@
 #include "Arbol.h"
 #include "Coordenada.h"
+#include "Constantes.h"
 
-Arbol::Arbol(Coordenada centro, double radio) : Circulo(centro, radio) {
+Arbol::Arbol(const Coordenada& centro, double radio)
+	: Circulo(centro, radio) {
 }
 
 bool Arbol::superficieEdificada(){
@@ -17,5 +19,5 @@ const char Arbol::caracter(){
 }
 
 size_t Arbol::nivel(){
-	return 3;
+	return CAPA_TRES;
 }

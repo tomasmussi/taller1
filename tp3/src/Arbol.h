@@ -6,7 +6,7 @@
 
 class Arbol: public Circulo {
 public:
-	Arbol(Coordenada centro, double radio);
+	Arbol(const Coordenada& centro, double radio);
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

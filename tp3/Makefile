@@ -136,7 +136,7 @@ endif
 # REGLAS
 #########
 
-all: cpplint test-codes v-test1 v-test2 v-test3 v-test4 v-test5 v-test6
+all: cpplint test-codes v-test1 v-test2 v-test3 v-test4
 
 $(BINDIR)/$(target): $(OBJ) | $(BINDIR)
 	@if [ -z "$(OBJ)" ]; \
@@ -157,7 +157,7 @@ $(OBJDIR):
 $(BINDIR):
 	mkdir $@
 
-run-%: clean cpplint $(BINDIR)/$(target)
+run-%: cpplint clean $(BINDIR)/$(target)
 	$(BINDIR)/$(target) tests/test$*/mediciones.dat tests/test$*/tuberias.txt tests/test$*/recorrido.txt
 
 test-codes: clean $(BINDIR)/$(target)
@@ -176,7 +176,8 @@ valgrind-%: $(BINDIR)/$(target)
 	./execute_valgrind_and_verify_result_code.sh $(BINDIR)/$(target) tests/test$*/configuracion.txt tests/test$*/mapa.txt > $(BINDIR)/test$*__stdout__ 2> $(BINDIR)/test$*__stderr__
 
 cpplint:
-	cpplint
+	echo "Hola"
+	python ./cpplint.py --extensions=h,hpp,c,cpp --filter=`cat filter_options` `find -regextype posix-egrep -regex '.*\.(h|hpp|c|cpp)'`
 
 clean:
 	$(RM) $(o_files) $(BINDIR)/$(target)

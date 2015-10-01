@@ -7,7 +7,7 @@
 
 class Agua: public Poligono {
 public:
-	explicit Agua(std::list<Coordenada> coordenadas);
+	explicit Agua(const std::list<Coordenada>& coordenadas);
 	bool superficieEdificada();
 	bool superficieArbolada();
 	const char caracter();

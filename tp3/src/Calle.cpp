@@ -1,7 +1,5 @@
 #include "Calle.h"
-
-Calle::Calle() {
-}
+#include "Constantes.h"
 
 bool Calle::superficieEdificada(){
 	return false;
@@ -16,5 +14,5 @@ const char Calle::caracter(){
 }
 
 size_t Calle::nivel(){
-	return 0;
+	return CAPA_CERO;
 }
