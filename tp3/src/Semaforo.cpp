@@ -1,7 +1,8 @@
 #include "Semaforo.h"
 #include "Constantes.h"
 
-Semaforo::Semaforo(Coordenada centro, double radio) : Circulo(centro, radio) {
+Semaforo::Semaforo(const Coordenada& centro, double radio)
+	: Circulo(centro, radio) {
 }
 
 bool Semaforo::superficieEdificada(){

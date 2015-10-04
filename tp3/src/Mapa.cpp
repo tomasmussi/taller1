@@ -18,6 +18,14 @@
 
 #define LETRA_A 65
 #define LETRAS 26
+static const char* ARBOL = "arbol";
+static const char* AGUA = "agua";
+static const char* BOULEVARD = "boulevard";
+static const char* EDIFICIO = "edificio";
+static const char* EDIFICIO_PRIVADO = "edificio-privado";
+static const char* MANZANA = "manzana";
+static const char* SEMAFORO = "semaforo";
+
 
 Mapa::Mapa() {
 	contEdificiosPublicos = 0;
@@ -69,24 +77,24 @@ void Mapa::leerObjetos(const char *archivo){
 void Mapa::crearElemento(std::string tipo, std::list<Coordenada>& coordenadas,
 		std::string radio, std::string nombrePublico){
 	Figura *elemento;
-	if (tipo == "arbol"){
+	if (tipo == ARBOL){
 		std::istringstream iss(radio);
 		double radioDouble;
 		iss >> radioDouble;
 		elemento = new Arbol(*coordenadas.begin(), radioDouble * 1000);
-	} else if (tipo == "semaforo"){
+	} else if (tipo == SEMAFORO){
 		std::istringstream iss(radio);
 		double radioDouble;
 		iss >> radioDouble;
 		elemento = new Semaforo(*coordenadas.begin(), radioDouble * 1000);
-	} else if (tipo == "agua"){
+	} else if (tipo == AGUA){
 		elemento = new Agua(coordenadas);
-	} else if (tipo == "boulevard"){
+	} else if (tipo == BOULEVARD){
 		elemento = new Boulevard(coordenadas);
-	} else if (tipo == "manzana"){
+	} else if (tipo == MANZANA){
 		elemento = new Manzana(coordenadas);
-	} else if (tipo.find("edificio") != std::string::npos){
-		if (tipo == "edificio-privado"){
+	} else if (tipo.find(EDIFICIO) != std::string::npos){
+		if (tipo == EDIFICIO_PRIVADO){
 			elemento = new Edificio(coordenadas);
 		} else {
 			elemento = new Edificio(coordenadas, nombrePublico,

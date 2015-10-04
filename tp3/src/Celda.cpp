@@ -4,7 +4,7 @@ Celda::Celda(const Coordenada& centro, Elemento *elemento)
 	: centro(centro), elemento(elemento){
 }
 
-const Coordenada Celda::getCoordenada(){
+const Coordenada& Celda::getCoordenada(){
 	return centro;
 }
 

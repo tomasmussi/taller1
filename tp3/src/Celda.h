@@ -10,7 +10,7 @@ private:
 	Elemento *elemento;
 public:
 	Celda(const Coordenada& centro, Elemento *elemento);
-	const Coordenada getCoordenada();
+	const Coordenada& getCoordenada();
 	/* Agrega un elemento que esta contenido en esta celda. */
 	void agregarElemento(Elemento *elemento);
 	/* Caracter con el cual pintar la celda en la exportacion. */
