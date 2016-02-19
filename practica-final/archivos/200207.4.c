@@ -1,0 +1,62 @@
+/*
+ *     Ejercicio [4] final 20/02/07
+ *     Escribir un algoritmo ANSI C que, sin crear archivos intermedios
+ * 	   altere el archivo a.txt reemplazando la secuencia - por --
+ */
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char** argv)
+{
+	FILE* binFile = NULL;
+	int* buffer = NULL;
+	int byte = 0;
+	int index = 0;
+	int tam = 0;
+	int tam2 = 0;
+	int result = 0;
+	
+	if (argc!=2)
+		return 1;
+	binFile=fopen(argv[1],"r+t");	
+	if (!binFile)
+		return 1;
+	
+	/* calculo el tamanio del archivo */
+	if (fseek(binFile,0L,SEEK_END)!=0)
+		return 1;
+	tam = ftell(binFile);
+	if (tam==-1) {
+		return 1;
+	}
+	tam2 = (tam)*(sizeof(int));
+	buffer = (int*)malloc(tam2);
+	
+	/* posiciono el file pointer al comienzo del archivo */
+	if (fseek(binFile,0L,SEEK_SET) != 0)
+		return 1;
+	
+	/* acumulo el contenido del archivo en el buffer */
+	while ((byte = fgetc(binFile))!= EOF ) {
+		buffer[index]=byte;
+		index++;
+	}
+	
+	/* posiciono el file pointer al comienzo del archivo */
+	if (fseek(binFile,0L,SEEK_SET) != 0)
+		return 1;
+		
+	/* analizo buffer y escribo en archivo */
+	for (index=0; index<(tam2/4); index++){
+		if (buffer[index]=='-'){
+			fputc('-',binFile);
+			fputc('-',binFile);
+		} else
+			fputc((char)buffer[index],binFile);
+	}
+	fclose(binFile);
+	free(buffer);
+	return 0;
+}

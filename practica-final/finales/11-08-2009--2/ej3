@@ -1,0 +1,32 @@
+3)
+
+¿Qué significa this en C++? ¿Dónde se usa explícita o implícitamente?
+
+Es un puntero que mantiene la dirección de memoria del objeto actual, es decir, aquél usado para llamar al método. 
+Se usa explícitamente para diferenciar ambigüedades cuando aparecen variables o parámetros con el mismo nombre que 
+algún atributo de la clase (i) o para retornar una referencia al mismo (ii), e implícitamente al usar atributos del objeto (iii)
+
+No pide ejemplos, pero:
+class A {
+	public:
+		A(int valor);
+		A* getSelf();	
+		void metodoCualquiera();
+	private:
+		int valor;
+}
+
+// (i)
+A::A(int valor) {
+	this->valor = valor;
+}
+
+// (ii)
+A* getSelf() {
+	return this;
+}
+
+// (iii)
+void A::metodoCualquiera() {
+	valor = 3141526;
+}

@@ -1,0 +1,9 @@
+10) Describa con exactitud las siguientes declaraciones/definiciones globales:
+
+extern char (*X)[2];
+float Z(int *Y[5]);
+static long Z;
+
+i) es un puntero a vector de dos posiciones de char que se encuentra en un modulo exterior
+ii) es una funcion que recibe un vector de 5 posiciones de punteros a entero y devuelve float
+iii) es una variable de tipo long que solo es visible dentro del archivo en la que se define

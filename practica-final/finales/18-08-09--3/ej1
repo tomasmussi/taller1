@@ -1,0 +1,22 @@
+1) Haciendo uso de columnas escriba el código de 2 threads que implementen un deadlock inevitable.
+
+void callback(void* a) {
+	pthread_mutex_t* mutex = a;
+	pthread_mutex_lock(a);
+	
+}
+
+.....
+
+pthread_mutex_t mutex;
+pthread_mutex_init(&mutex,0);
+pthread_t thread;
+pthread_mutex_lock(&mutex);
+pthread_create(&thread, 0, callback, &mutex);
+phtread_join(thread, 0);
+
+
+.....
+
+De esta forma, el hilo principal pide el mutex, abre un hilo nuevo, pide el join, quedando bloqueado. Pero como
+no se libero el mutex, el hilo secundario va a quedar bloqueado en pthread_mutex_lock, generando un deadlock.

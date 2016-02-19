@@ -1,0 +1,13 @@
+5) ¿Qué es el pre-compilador? Explique dos instrucciones cualquiera que éste procese.
+
+El precompilador es un procesador de texto que identifica MACROS y hace reemplazo de texto o algunas ediciones
+condicionales. Sirve para definir secuencias de codigo que se repetiran pero no tienen sentido como funcion (macro)
+o definir constantes. O para hacer compilacion condicional a la existencia de alguna libreria (ifdef).
+
+Una sentencia muy utilizada es #define. Dicha sentencia define un simbolo para el precompilador que perdurara durante la compilacion. Esto quiere decir que se podra consultar si dicho simbolo se encuentra definido y ademas si se
+encuentra durante una pasada del compilador, se hara un reemplazo por el literal asociado. Este literal asociado
+puede ser una macro (emula funciones) o una constante.
+
+Otra sentencia muy usual es la inclusion #include. La sentencia include lo que hace es buscar el archivo indicado y
+copiarlo en el fuente actual. Aunque su uso es muy comun, hay que tener ciertos resguardos como los include circulares
+o las dobles inclusiones.

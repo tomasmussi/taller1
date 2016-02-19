@@ -1,0 +1,9 @@
+10)
+¿Qué es un iterador?¿Cómo se utiliza?
+
+
+Iterador sirve para recorrer elementos.
+
+list.begin(), it != list.end(), it++
+
+

@@ -1,0 +1,30 @@
+
+9)
+Describa el prototipo de los siguientes operadores para que conserven la semántica esperada:
+
+ 
+
+operator>
+
+operator=
+
+operator int
+
+operator+
+
+operator++
+
+
+bool operator>(const T& t);
+
+T operator=(const T& t);
+
+T operator int();
+
+T operator+(const T& t);
+
+T& operator++();
+
+T operator++(int);
+
+

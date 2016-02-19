@@ -1,0 +1,5 @@
+5)
+
+¿Para qué sirve la función HTONS?¿A qué se debe su existencia?.
+
+Transforma el orden de los bytes de un short recibido por parámetro de aquél usado por el host a aquél usado en la red. Su existencia se debe a que la comunicación debe funcionar entre máquinas de distinto tipo, con distinta arquitectura y, probablemente, distinto endianness, entonces se trabaja con una representación en común.

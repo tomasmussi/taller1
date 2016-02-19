@@ -1,0 +1,18 @@
+6)
+Escriba:
+
+La declaración de una función denominada suma que tome como parámetros 2 punteros a entero y devuelva un puntero a un número de punto flotante de doble precisión.
+
+La definición de un puntero a una función que toma como parámetros un entero corto con signo y un puntero a puntero a caracter y devuelve un número de punto flotante. El mismo debe poder accederse desde cualquier módulo del programa.
+
+La definición de un entero con signo denominado A.
+
+
+double* suma(int *a, int *b);
+
+
+extern float (*funcion) (short int a, char **b);
+
+
+int A = 2;
+

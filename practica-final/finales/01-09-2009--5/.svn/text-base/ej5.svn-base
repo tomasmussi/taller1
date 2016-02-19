@@ -1,0 +1,15 @@
+5) Elija una estructura de datos disponible en STL y ejemplifique su uso (carga, vaciado y acceso a elementos).
+
+Se procedera a describri la std::list. La std::list es una implementacion teplarizada de una lista enlazada. Las
+ funciones de insercion son push_back, push_front y e insert. Las primeras dos insertan en el final y en el principio
+ de la lista respectivamente. La ultima recibe un iterador de list e inserta en dicha posicion.
+
+ Para poder remover elementos, existen los metodos pop_front, pop_back e erase, que funcionan de manera analoga a la
+ insercion. Los primeros dos eliminan los elementos del principio y del final, mientras que el ultimo recibe un
+ iterador de lista en la posicion del elemento que se quiere eliminar. Cabe destacar que ninguno de los metodos de 
+eliminar devuelven el elemento que se encontrase en la posicion, sino que para el acceso a los mismos elementos se
+debe usar front y back (elementos al principio o al final) o algun recorrido con un std::list::iterator. El iterator
+es un objeto que permite avanzar y pedir el elemento siguiente. Es el objeto que encapsula la iteracion sobre un
+contenedor, en este caso, una lista.
+
+

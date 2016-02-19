@@ -1,0 +1,8 @@
+8)
+¿Qué es una ambigüedad de compilación? Ejemplifique.
+
+
+Ambigüedad de compilacion es cuando no se puede resolver una llamada a funcion o
+nombre de una variable porque hay mas de un identificador representando cosas
+distintas
+

@@ -1,0 +1,11 @@
+7) Escriba:
+
+La declaración de una función que toma como parámetros un entero y un puntero a carácter.
+La declaración de un carácter llamado C.
+La definición de un puntero local a una función que recibe un puntero a carácter y un número de punto flotante de doble precisión y devuelve un entero.
+
+
+i) void funcion(int a, char* c)
+ii) char C;
+iii) static int(*puntero)(char* a, double d);
+

@@ -1,0 +1,10 @@
+Hola como te va.
+Reemplazo & por &.
+Este no * por &
+
+El que viene aca a ver como sale & *  <===> * &.
+
+
+
+
+

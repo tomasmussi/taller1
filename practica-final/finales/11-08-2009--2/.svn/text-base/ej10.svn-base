@@ -1,0 +1,10 @@
+10)
+Que función (Windows o Linux) utiliza para lanzar un nuevo thread. Describa sus parámetros y uso.
+
+La funcion que se utiliza para lanzar un nuevo hilo es pthread_create(). Dicha
+funcion recibe un pthread_t*, un pthread_attr_t*, una funcion de callback y un parametro para la funcion de callback.
+
+La forma de uso es la siguiente:
+
+pthread_t hilo;
+pthread_create(&hilo, 0 /* no queremos atributos */, callback, parametro_callback);

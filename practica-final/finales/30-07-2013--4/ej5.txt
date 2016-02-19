@@ -1,0 +1,21 @@
+5)
+¿En qué consiste el proceso de precompilación?
+
+El proceso de precompilacion consiste en tomar todas las instrucciones de preprocesador, indicadas con el
+simbolo '#'.
+
+Normalmente se utiliza para la expansion de MACROS o de reemplazo un simbolo por el valor con el cual se le definio.
+Son instrucciones que simplemente modifican los archivos a ser compilados modificando el texto que tienen escrito.
+
+Ejemplo:
+
+#define I 24
+
+int i = I;
+se transforma en
+int i = 24;
+
+
+#include <stdio.h>
+Lo que hace es tomar todo el archivo stdio.h y pegarlo antepuesto en el archivo que se esta procesando.
+

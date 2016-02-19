@@ -1,0 +1,5 @@
+10) ¿En qué consiste el proceso de linkedición?
+
+El proceso de linkedicion o linkeo consiste en asociar los simbolos procesados por el compilador con la direccion de
+memoria correspondiente. Por ejemplo, los metodos con sus definiciones, las funciones con sus bloques de memoria
+correspondiente, las variables globales con su pocision de memoria.

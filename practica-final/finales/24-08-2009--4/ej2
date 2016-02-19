@@ -1,0 +1,14 @@
+2) ¿Qué son las librerías STL? ¿Qué ventajas ofrece? De un ejemplo de su uso.
+
+Las librerias STL son las librerias de implementaciones standard de objetos templarizados, que por lo general se
+destaca por los contenedores. La ventaja de tener una libreria de STL es que se puede contar con un contenedor para
+cualquier necesidad que tengamos. Por ejemplo, el map puede redefinirse para cualquier par clave/valor que se nos
+ocurra usar. Si quisiera un map de string/MiObjeto basta con hacer:
+
+std::map< string, MiObjeto> miMapa;
+
+Se podria incluso definir un tipo de la siguiente forma:
+
+typedef std::map< string, MiObjeto> MapaObjetos
+
+y tener definido de esa forma un tipo de mapas con par string/MiObjeto

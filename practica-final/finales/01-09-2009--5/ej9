@@ -1,0 +1,19 @@
+9) ¿Qué es necesario que tenga la clase Test para que sea válido el siguiente código?
+
+Test A,B;
+
+A=(A>B)?((float)A==1.0?Test(B):A):0.0;
+
+Justifique
+
+
+Se pueden divisar distintos metodos y operadores que estan definidos para test. Dichos metodos son:
+
+- Test(): por la creacion de instancias A y B
+- operator=(const Test&): por la asignacion a A
+- operator=(float): por la asignacion 0.0
+- operator>(const Test&): por la comparacion A>B
+- operator float(): por el casteo (float)A
+- operator==(float): por la comparacion A==1.0
+- Test(const Test&): por la copia Test(B)
+

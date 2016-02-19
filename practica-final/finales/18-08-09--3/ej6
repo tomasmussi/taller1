@@ -1,0 +1,7 @@
+6) Escriba el trozo de código necesario para obtener el texto de la opción seleccionada en un combo de una ventana.
+
+El codigo seria:
+
+Glib::ustring string = combo.get_active_text();
+
+donde combo es un ComboBoxText.

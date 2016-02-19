@@ -1,0 +1,13 @@
+1)
+Asumiendo que existe una clase T con los operadores +,-,<< (impresión),>> (carga de consola), escriba una biblioteca
+ ANSI C++ que exporte las funciones sumar, restar, imprimir y cargar para ese tipo genérico T.
+
+#ifndef _LIB_H
+#define _LIB_H
+
+T& operator+(const T& a);
+T& operator-(const T& a);
+std::ostream& operator<<(const std::ostream& stream, T& a);
+std::istream& operator>>(const std::istream& stream, T& a);
+
+#endif

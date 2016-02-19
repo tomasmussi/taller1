@@ -1,0 +1,9 @@
+4)
+
+¿Qué consideración particular debe tenerse en cuenta al momento de definir una clase que utiliza memoria dinámica y será utilizada con polimorfismo.¿Por qué?
+
+El destructor debe ser virtual. El objeto, si bien será una instancia de clase Derivada, será tratado como una instancia de clase Base y, si su destructor no es virtual, al llamarlo no se liberará la memoria alocada por la clase Derivada porque no se llamará al destructor de Derivada.
+
+Base* b = new Derivada();
+[...]
+delete b;  // debe llamarse primero al destructor de Derivada y para eso debe ser virtual el de Base

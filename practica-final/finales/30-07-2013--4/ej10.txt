@@ -1,0 +1,10 @@
+10) ¿Qué es un iterador de STL? ¿Cómo se utiliza? Ejemplifique.
+
+
+Un iterador de STL es un objeto de alguna clase contenedora de elementos templarizados.
+Sirve para recorrer una estructura contenedora y ver los elementos que tiene dentro.
+
+Usualmente se lo utiliza para busquedas, consultas de los elementos, como tambien ABM
+
+
+

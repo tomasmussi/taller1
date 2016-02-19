@@ -1,0 +1,5 @@
+4) ¿Puede la función pthread_join lockear algún hilo? Justifique.
+
+El pthread_join espera a que el hilo a ser sincronizado se detenga antes de realizar accion alguna. Entonces, si el
+objetivo nunca fue detenido o se encuentra detenido en una llamada bloqueante, puede generarse un lock al hilo que
+haya intentado sincronizarlo.

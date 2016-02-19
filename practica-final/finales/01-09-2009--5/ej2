@@ -1,0 +1,4 @@
+2) Explique el propósito y uso de la función BIND.
+
+La funcion bind de sockets fue pensada para asignarle a un socket abierto una
+direccion. En general, este proceso se llama "nombramiento de socket". El uso de la funcion bind es previo al uso de la funcion accept, dado que la misma prepara al socket para poder escuchar conexiones.

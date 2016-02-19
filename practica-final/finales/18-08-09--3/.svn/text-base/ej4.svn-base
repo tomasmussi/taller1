@@ -1,0 +1,34 @@
+4) ¿Qué observaciones le merece el siguiente código?
+
+class Poli {
+
+private:
+
+    char    c;
+
+public:
+
+    X(char a, char b=1) {
+
+        c=a-b;
+
+    }
+
+    X(char d) {
+
+       c=d;
+
+   }
+
+};
+
+ 
+
+Poli   MiPoli('3');
+
+El codigo merece 2 observaciones importantes:
+
+1) La inicializacion del atributo c luego de su creacion, es decir, inicializarla adentro del metodo y no como
+corresponde
+2) La ambiguedad del llamado al constructor, debido a la presencia del constructor con parametro opcional y el
+constructor con un unico parametro.

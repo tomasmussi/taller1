@@ -1,0 +1,14 @@
+2)
+
+Escriba un trozo de código ANSI C que muestre:
+
+    i) Una definición de una variable de punto flotante de doble precisión, global, no visible fuera del fuente, llamada X.
+   ii) La definición de la función Suma que tome 2 enteros y devuelva la suma de ambos. La función sólo debe ser visible en el archivo donde se la define.
+  iii) Una declaración de la funcion main.
+
+i) static double X = 0.0; // fuera de cualquier scope de funciones
+ii) static int Suma(int a, int b) {
+		return a+b;
+	}
+iii) int main(int argc, char* argv[]);
+

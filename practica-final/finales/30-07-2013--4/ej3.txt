@@ -1,0 +1,18 @@
+3)
+¿Qué es la herencia?¿Para qué se utiliza?¿Qué tipos conoce?
+
+
+La herencia es una forma de relacionar objetos. De especificar que atributos comparten
+y que comportamiento tienen en comun.
+Permite reusar codigo como tambien extender comportamiento de clases base.
+
+
+Se utiliza para compartir comportamiento de una forma intuitiva y facil.
+
+Conozco herencia publica, protegida y privada.
+
+class B : public A {}; hereda todo.
+
+class B : protected A {}; solo puede ver protected
+
+class B : private A {}; no puede heredar nada me parece

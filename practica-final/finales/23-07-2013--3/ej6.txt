@@ -1,0 +1,10 @@
+6)
+Explique la función Accept haciendo referencia mínimamente a su formato, propósito y tipo de llamada/retorno.
+
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+
+La funcion accept devuelve un File Descriptor representando una nueva conexion socket para enviar y recibir datos.
+Tambien acepta la direccion addr y la longitud de la estructura por la cual se pidio familia y tipo del socket server
+El fd devuelto, conocido como socket peer, esta en condiciones de enviar y recibir datos.
+
+

@@ -1,0 +1,11 @@
+1)¿Qué significado tiene la palabra reservada static cuando es antepuesta a una variable local a una función. Ejemplifique.
+
+La palabra static en dicho contexto connota que la variable no sera una variable temporal de la funcion, sino que perdurara la ejecucion de la misma. Dicha variable sera alojada en el segmento de datos y sera inicializada una sola vez.
+
+Ejemplo:
+
+void foo() {
+	static int contadorFoo = 0;
+	contadorFoo++;
+	// hacer cosas en la funcion foo
+}

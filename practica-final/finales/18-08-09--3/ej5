@@ -1,0 +1,5 @@
+5)¿Qué es el pasaje por referencia?¿Cómo se utiliza en C++? Ejemplifique.
+
+El pasaje por referencia significa que se recibe un alias de lo que se haya pasado por parametro. Es decir, toda
+modificacion realizada a dicha referencia se vera reflejada a la instancia pasada por parametro. Dentro de la funcion
+que haya recibido la referencia, se maneja como si fuera la misma instancia y no un puntero.

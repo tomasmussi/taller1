@@ -1,0 +1,12 @@
+
+4)
+Describa y ejemplifique el uso de la siguiente instrucción de precompilación: #ifndef.
+
+
+La instruccion de precompilacion ifndef le indica al preprocesador que busque en su tabla de simbolos si existe el simbolo.
+Si la condicion es verdadera, entonces se pondra el codigo que este entre #ifndef y:
+a) Si hay else, entonces entre #ifndef y #else y se ignora lo que figure en #else y #endif
+b) si no hay else entonces entre #ifndef y #endif
+
+Se utiliza mucho en la definicion de cabeceras de archivo para evitar la doble inclusion de un archivo y multiple definicion de las mismas funciones.
+

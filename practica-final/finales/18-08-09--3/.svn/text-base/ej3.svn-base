@@ -1,0 +1,6 @@
+3) Describa y ejemplifique el uso de la siguiente instrucción de precompilación: #define.
+
+El uso de la sentencia de precompilacion #define es para definir simbolos para el precompilador. A su vez, cada vez
+que el precompilador encuentre un match a ese simbolo, reemplazara por el valor asociado a dicho simbolo. Entonces,
+a un simbolo definido por define se le puede asociar tanto como sentencias de codigo como valores literales que el
+precompilador hara un reemplazo literal del mismo.

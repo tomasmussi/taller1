@@ -1,0 +1,3 @@
+3) Explique el funcionamiento de la sentencia de precompilación #undef.
+
+La secuencia de precompilacion #undef elimina la definicion previa de algun simbolo de precompilacion. Si no encuentra ningun simbolo con dicho nombre, no realiza nada.

@@ -1,0 +1,4 @@
+8)¿Qué función utiliza para encontrar la Dirección IP de un equipo del cual conoce su nombre/url?
+
+Se utiliza la funcion gethostbyname(char* nombre), donde nombre puede ser tanto una direccion IP como un nombre. Su
+devolucion es un struct hostent que contiene la informacion deseada.

@@ -1,0 +1,40 @@
+8)
+
+Declare una clase Ciudadano para encapsular el nombre, DNI y CUIT de una persona. Incluya al menos: Constructor default, Constructor con valores de inicialización y Constructor de Copia; Operador <, ==, =, int y >> (carga desde STDIN). Implemente el operador>>.
+
+// Dudo que esté bien esto:
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+class Ciudadano {
+	public:
+		Ciudadano();
+		Ciudadano(const std::string& nombre, long unsigned DNI, const std::string& CUIT);
+		Ciudadano(const Ciudadano& otro);
+		bool operator<(const Ciudadano& otro);
+		bool operator==(const Ciudadano& otro);
+		Ciudadano& operator=(const Ciudadano& otro);
+		operator int() const;
+		friend std::istream& operator>>(std::istream& input, Ciudadano& obj);
+	
+	private:
+		std::string nombre;
+		long unsigned DNI;
+		std::string CUIT; // no tengo idea cómo tratarlo
+};
+
+std::istream& operator>>(std::istream& input, Ciudadano& obj) {
+	obj.nombre.clear();	
+	obj.CUIT.clear();
+	std::cout << "Ingrese el nombre: " << std::flush;
+	input >> self.nombre;
+	std::cout << "Ingrese el DNI: " << std::flush;
+	input >> self.DNI;
+	std::cout << "Ingrese el CUIT: " << std::flush;
+	input >> self.CUIT;
+	
+	return input;
+}
+

@@ -1,0 +1,36 @@
+
+client:
+
+hints.ai_family = AF_INET;
+hints.ai_socktype = SOCK_STREAM;
+
+getaddrinfo(host, port, &hints, &ans)
+
+int skt = socket(ans->ai_family, ans->ai_socktype, ans->ai_protocol)
+
+connect(skt, ans->ai_addr, ans->ai_addrlen);
+
+freeaddrinfo(ans);
+
+send /recv (int skt, buffer, len, MSG_NOSIGNAL)
+
+shutdown(skt, SHUT_RDWR);
+close(skt);
+
+
+server:
+
+hints.ai_flags = AI_PASSIVE;
+getaddrinfo(NULL, port, hints, ans);
+
+int skt = socket(ans->ai_family, ans->ai_socktype, ans->ai_protocol);
+
+bind(skt, ans->ai_addr, ans->ai_addrlen);
+listen(skt, MAX_CONNECTIONS);
+int skt_peer = accept(skt, ans->ai_addr, ans->ai_addrlen);
+
+send/recv (skt_peer, buffer, len, MSG_NOSIGNAL);
+shutdown(skt_peer, SHUT_RDWR);
+shutdown(skt, SHUT_RDWR);
+close(skt_peer);
+close(skt);

@@ -1,0 +1,10 @@
+8) ¿Cómo se inicializan los miembros de una clase que no poseen contructores default? Ejemplifique.
+
+Se inicializan en el constructor, poniendo un : luego de la firma y antes del { inicial. Ejemplo
+
+class A {
+private:
+	int num;
+public:
+	A(int n): num(n) {}
+};
