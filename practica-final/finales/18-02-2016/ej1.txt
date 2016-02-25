@@ -1,0 +1,31 @@
+1) Explique el proposito del llamado a BIND y ACCEPT en una aplicacion servidor TCP/IP.
+
+bind: esta funcion se conoce como "nombramiento" del socket. Luego de abrir un socket y obtener
+un file descriptor, con bind se asocia ese socket a un puerto especifico.
+En el servidor indica que se escucharan conexiones en "x" puerto.
+
+Prototipo:
+int bind(int sockFD, struct sockaddr *address, struct sockaddrlen *len)
+
+Donde sockFD es el file descriptor del socket,
+struct sockaddr es la direccion y puerto y,
+struct sockaddrlen es el tamaño en bytes de lo que ocupa struct sockaddr
+
+Return:
+Devuelve 0 si estuvo todo bien, o -1 y errorno seteado con codigo de error
+
+
+accept: luego de hacer bind e iniciar el socket con listen para escuchar conexiones, la llamada
+accept bloquea el actual hilo de ejecucion hasta obtener una conexion entrante al socket.
+Devuelve un nuevo file descriptor socket con el cual se puede invocar a send y recv para
+enviar y recibir datos respectivamente.
+
+Prototipo:
+int accept(int sockFD, struct sockaddr *addr, struct sockaddrlen *len)
+Donde sockFD es el file descriptor del socket,
+struct sockaddr es un puntero al cual se llena con informacion de direccion y puerto del socket y,
+struct sockaddrlen es la longitud de la informacion de struct sockaddr.
+Si se invoca como accept(sockFD, NULL, NULL) no se llena nada de informacion
+
+Return:
+Devuelve un nuevo socket file descriptor, o -1 y errorno seteado con codigo de error.
