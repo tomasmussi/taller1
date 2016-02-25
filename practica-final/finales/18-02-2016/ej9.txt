@@ -1,0 +1,25 @@
+9) Explique el significado de la palabra static cuando es antepuesta a:
+
+a) una variable local de una funcion o metodo.
+b) una variable global.
+
+a)
+void foo() {
+	static int i = 0;
+	i++;
+}
+
+En este caso i es un entero que la primera vez que se llama a la funcion foo, valdra 0 y se incrementara su valor en 1.
+La siguiente llamada a la funcion, "i", mantiene el valor de la anterior llamada y pasara a valer 2.
+
+Es una variable que se aloja en el DATA SEGMENT, se inicia una vez en al ejecucion del programa.
+Solo es visible en el scope de la funcion foo.
+
+
+b)
+static int c;
+
+En este caso es una variable global y unicamente visible en el modulo en el cual esta declarada.
+Es decir, no se puede acceder a "c" desde otros modulos. Tambien se aloja en el DATA SEGMENT.
+
+

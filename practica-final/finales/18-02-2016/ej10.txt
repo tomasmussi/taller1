@@ -1,0 +1,27 @@
+10) ¿Que es un parametro constante? Ejemplifique
+
+
+
+Un parametro constante es un parametro al cual no se le puede modificar su estado, 
+solo se puede llamar a sus metodos const.
+
+class A {
+	public:
+		void este_si() const;
+		void este_no();
+	private:
+		int i_;
+};
+
+Desde afuera:
+
+void foo(const A &a) {
+	a.este_si(); // Compila
+	a.este_no(); // NO COMPILA
+}
+
+En adicion, en la definicion del metodo este_si() no se pueden hacer cosas como:
+
+void este_si() const {
+	i++; // NO COMPILA PORQUE MODIFICA EL ESTADO DEL OBJETO.
+}

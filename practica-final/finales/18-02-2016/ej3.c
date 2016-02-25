@@ -11,6 +11,8 @@
  * Donde pthread_t es la estructura de un thread y
  * arg es un puntero donde se puede almacenar informacion de finalizacion del
  * thread. Este argumento si es NULL se ignora.
+ * 
+ * Compilar: gcc -ansi -std=c99 -pthread -o prueba ej3.c
  * */
  
  #ifndef _POSIX_C_SOURCE

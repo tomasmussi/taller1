@@ -1,0 +1,24 @@
+4) ¿Como se evita que un .h sea compilado mas de una vez dentro de la misma unidad?
+¿Que instrucciones de precompilacion suelen utilizarse? Ejemplifique.
+
+Para evitar incluir una cabecera mas de una vez, se utiliza una directiva del
+preprocesador de compilacion condicional: #ifndef
+
+Ejemplo:
+
+Archivo: algo.h
+#ifndef _ALGO_H_
+#define _ALGO_H_
+
+// declaraciones de funciones
+
+#endif
+
+La primera vez que se incluye "algo.h", el simbolo "_ALGO_H_" no estara definido,
+entonces se define el simbolo "_ALGO_H_" y se procede a incluir las declaraciones.
+Con el #endif se indica que termina el if.
+
+Si se vuelve a incluir "algo.h", la pregunta #ifndef _ALGO_H_ sera false porque el
+simbolo ya se definio previamente, por lo que no se volveran a incluir las declaraciones
+del archivo de cabecera.
+
